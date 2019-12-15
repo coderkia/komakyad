@@ -29,13 +29,13 @@ namespace Kia.KomakYad.Api.Controllers
             _repo.Add<Collection>(collection);
 
             if (await _repo.SaveAll())
-                return CreatedAtRoute("GetCollection", new { id = collection.Id }, collection);
+                return CreatedAtRoute("GetCollection", new { collectionId = collection.Id }, collection);
 
             throw new System.Exception("Creation the collection failed on save");
         }
 
 
-        [HttpGet("{collectionId}")]
+        [HttpGet("{collectionId}", Name="GetCollection")]
         public async Task<IActionResult> GetCollection(int collectionId)
         {
             var collections = await _repo.GetCollection(collectionId);

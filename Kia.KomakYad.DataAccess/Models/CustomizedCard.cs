@@ -6,7 +6,7 @@ namespace Kia.KomakYad.DataAccess.Models
     public class CustomizedCard
     {
         public int Id { get; set; }
-        public Guid UniqueId { get; set; }
+        public Guid UniqueId { get; set; } = Guid.NewGuid();
 
         [Required]
         public string JsonData { get; set; }
