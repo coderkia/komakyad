@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Kia.KomakYad.DataAccess.Models
+namespace Kia.KomakYad.Api.Dtos
 {
-    public class Card
+    public class CardCreateDto
     {
         public int Id { get; set; }
+
         public Guid UniqueId { get; set; } = Guid.NewGuid();
 
         [Required]
@@ -15,11 +16,11 @@ namespace Kia.KomakYad.DataAccess.Models
         public string Question { get; set; }
 
         public string Example { get; set; }
+
         public string ExtraData { get; set; }
-        public Collection Collection { get; set; }
+
+        [Required]
+        [Range(1, int.MaxValue)]
         public int CollectionId { get; set; }
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public int? ModifiedBy { get; set; }
-        public DateTime? ModifiedOn { get; set; }
     }
 }

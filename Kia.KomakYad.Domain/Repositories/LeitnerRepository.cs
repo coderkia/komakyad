@@ -26,6 +26,10 @@ namespace Kia.KomakYad.Domain.Repositories
             _context.Remove(entity);
         }
 
+        public void Update<T>(T entity) where T : class
+        {
+            _context.Update(entity);
+        }
         public async Task<PagedList<Collection>> GetCollectionsAsync(CollectionParams collectionParams)
         {
             var collections = _context.UserCollections.Where(c => c.UserId == collectionParams.UserId)
@@ -38,7 +42,7 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             var query = _context.DueCards.Where(c => c.OwnerId == userId);
 
-            if (!deck.AllDeck())
+            if (!deck.IsAllDeckNeeded())
                 query.Where(c => c.CurrentDeck == deck);
 
             return query.Include(c => c.Card).Where(c => c.Card.CollectionId == collectionId);
@@ -53,7 +57,7 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             var query = GetDueCards(collectionId, userId, deck).Where(c => c.LastChanged > DateTime.Now.Date);
 
-            if (!deck.AllDeck())
+            if (!deck.IsAllDeckNeeded())
             {
                 query.Where(c => c.CurrentDeck == deck);
             }
@@ -95,5 +99,9 @@ namespace Kia.KomakYad.Domain.Repositories
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
+        public async Task<Card> GetCardById(int cardId)
+        {
+            return await _context.Cards.FirstOrDefaultAsync(c => c.Id == cardId);
+        }
     }
 }

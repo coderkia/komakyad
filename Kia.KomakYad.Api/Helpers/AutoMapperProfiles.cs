@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 
@@ -12,6 +13,9 @@ namespace Kia.KomakYad.Api.Helpers
             CreateMap<User, UserListDto>();
             CreateMap<UserForUpdateDto, User>();
             CreateMap<UserForRegisterDto, User>();
+            CreateMap<CardCreateDto, Card>();
+            CreateMap<Card, CardToReturnDto>();
+            CreateMap<Collection, CollectionToReturnDto>();
         }
     }
 }

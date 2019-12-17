@@ -7,6 +7,7 @@ namespace Kia.KomakYad.Domain.Repositories
 {
     public interface ILeitnerRepository
     {
+        void Update<T>(T entity) where T : class;
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<PagedList<Collection>> GetCollectionsAsync( CollectionParams collectionParams);
@@ -19,5 +20,6 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<Collection> GetCollection(int collectionId);
         Task<PagedList<User>> GetUsers(UserParams userParams);
         Task<User> GetUser(int id);
+        Task<Card> GetCardById(int cardId);
     }
 }

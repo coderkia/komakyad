@@ -2,7 +2,7 @@
 {
     public static class DeckExtensions
     {
-        public static bool AllDeck(this byte deck)
+        public static bool IsAllDeckNeeded(this byte deck)
         {
             return deck == byte.MaxValue;
         }
