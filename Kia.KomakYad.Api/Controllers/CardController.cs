@@ -56,8 +56,8 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
 
-        [HttpPost("/{cardId}/update")]
-        public async Task<IActionResult> UpdateCard(int cardId, CardCreateDto cardToCreate)
+        [HttpPut]
+        public async Task<IActionResult> UpdateCard(CardCreateDto cardToCreate)
         {
             var author = (await _repo.GetCollection(cardToCreate.CollectionId));
             if (author.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
@@ -65,7 +65,7 @@ namespace Kia.KomakYad.Api.Controllers
                 return Unauthorized();
             }
 
-            var card = await _repo.GetCardById(cardId);
+            var card = await _repo.GetCardById(cardToCreate.Id);
 
             _repo.Update<Card>(card);
 
