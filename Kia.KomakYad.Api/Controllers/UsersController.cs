@@ -31,7 +31,6 @@ namespace Kia.KomakYad.Api.Controllers
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var userFromRepo = await _repo.GetUser(currentUserId);
 
             userParams.UserId = currentUserId;
 
