@@ -6,6 +6,6 @@
         public int UserId { get; set; }
         public int CollectionId { get; set; }
         public Collection Collection { get; set; }
-        public int ReadPerDay { get; set; }
+        public byte ReadPerDay { get; set; }
     }
 }

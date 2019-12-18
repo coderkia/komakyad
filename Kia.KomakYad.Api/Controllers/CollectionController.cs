@@ -1,6 +1,7 @@
 ﻿
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
+using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
 
-        [HttpGet("{collectionId}", Name="GetCollection")]
+        [HttpGet("{collectionId}", Name = "GetCollection")]
         public async Task<IActionResult> GetCollection(int collectionId)
         {
             var collections = await _repo.GetCollection(collectionId);
@@ -47,11 +48,14 @@ namespace Kia.KomakYad.Api.Controllers
         public async Task<IActionResult> GetCollections([FromQuery] CollectionParams collectionParams)
         {
             if (collectionParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
                 return Unauthorized();
+            }
 
             var collections = await _repo.GetCollectionsAsync(collectionParams);
 
             return Ok(collections);
         }
+
     }
 }

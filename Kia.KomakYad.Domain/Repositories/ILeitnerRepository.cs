@@ -1,5 +1,6 @@
 ﻿using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
+using Kia.KomakYad.Domain.Dtos;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ namespace Kia.KomakYad.Domain.Repositories
         IQueryable<DueCard> GetReadCards(int collectionId, int userId, byte deck = byte.MaxValue);
         Task<bool> SaveAll();
         Task<Collection> GetCollection(int collectionId);
+        Task<bool> IsUserCollectionExistAsync(int collectionId, int userId);
         Task<PagedList<User>> GetUsers(UserParams userParams);
         Task<User> GetUser(int id);
         Task<Card> GetCardById(int cardId);

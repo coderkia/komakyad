@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kia.KomakYad.Common.Helpers;
+using Kia.KomakYad.Domain.Dtos;
 
 namespace Kia.KomakYad.Domain.Repositories
 {
@@ -67,12 +68,12 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<int> GetFailedCount(int collectionId, int userId, byte deck = byte.MaxValue)
         {
-            return await GetReadCards(collectionId, userId, deck).CountAsync(c => c.PreviouseDeck == c.CurrentDeck + 1);
+            return await GetReadCards(collectionId, userId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
         }
 
         public async Task<int> GeSucceedCount(int collectionId, int userId, byte deck = byte.MaxValue)
         {
-            return await GetReadCards(collectionId, userId, deck).CountAsync(c => c.PreviouseDeck == c.CurrentDeck - 1);
+            return await GetReadCards(collectionId, userId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
         }
 
         public async Task<bool> SaveAll()
@@ -102,6 +103,11 @@ namespace Kia.KomakYad.Domain.Repositories
         public async Task<Card> GetCardById(int cardId)
         {
             return await _context.Cards.FirstOrDefaultAsync(c => c.Id == cardId);
+        }
+
+        public async Task<bool> IsUserCollectionExistAsync(int collectionId, int userId)
+        {
+            return await _context.UserCollections.AnyAsync(c => c.CollectionId == collectionId && c.UserId == userId);
         }
     }
 }
