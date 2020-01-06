@@ -8,7 +8,7 @@ namespace Kia.KomakYad.DataAccess.Models
     {
         public int Id { get; set; }
         public Guid UniqueId { get; set; } = Guid.NewGuid();
-        public int AuthorId { get; set; }
+        public int AutherId { get; set; }
         public User Auther { get; set; }
 
         [Required]

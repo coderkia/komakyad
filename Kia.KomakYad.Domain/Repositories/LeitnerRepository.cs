@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kia.KomakYad.Common.Helpers;
-using Kia.KomakYad.Domain.Dtos;
 
 namespace Kia.KomakYad.Domain.Repositories
 {
@@ -31,12 +30,25 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             _context.Update(entity);
         }
-        public async Task<PagedList<Collection>> GetCollectionsAsync(CollectionParams collectionParams)
+
+        public async Task<PagedList<Collection>> GetUserCollections(int userId, CollectionParams filters)
         {
-            var collections = _context.UserCollections.Where(c => c.UserId == collectionParams.UserId)
+            var collections = _context.UserCollections.Where(c => c.UserId == userId)
                 .Include(m => m.Collection).Select(c => c.Collection);
 
-            return await PagedList<Collection>.CreateAsync(collections, collectionParams.PageNumber, collectionParams.PageSize);
+            return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
+        }
+
+        public async Task<PagedList<Collection>> GetCollections(CollectionParams filters)
+        {
+            var collections = _context.Collections.AsQueryable();
+
+            if (filters.UserId.HasValue)
+            {
+                collections.Where(c => c.AutherId == filters.UserId);
+            }
+
+            return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
         }
 
         public IQueryable<DueCard> GetDueCards(int collectionId, int userId, byte deck = byte.MaxValue)
@@ -91,13 +103,13 @@ namespace Kia.KomakYad.Domain.Repositories
             return user;
         }
 
-        public async Task<PagedList<User>> GetUsers(UserParams userParams)
+        public async Task<PagedList<User>> GetUsers(UserParams filters)
         {
             var users = _context.Users.AsQueryable();
 
-            users = users.Where(u => u.Id != userParams.UserId);
+            users = users.Where(u => u.Id != filters.UserId);
 
-            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
+            return await PagedList<User>.CreateAsync(users, filters.PageNumber, filters.PageSize);
         }
 
         public async Task<Card> GetCardById(int cardId)
@@ -108,6 +120,18 @@ namespace Kia.KomakYad.Domain.Repositories
         public async Task<bool> IsUserCollectionExistAsync(int collectionId, int userId)
         {
             return await _context.UserCollections.AnyAsync(c => c.CollectionId == collectionId && c.UserId == userId);
+        }
+
+        public async Task<PagedList<Card>> GetCards(CardParams filters)
+        {
+            var cards = _context.Cards.AsQueryable();
+
+            if (filters.CollectionId.HasValue)
+            {
+                cards = cards.Where(c => c.CollectionId == filters.CollectionId);
+            }
+
+            return await PagedList<Card>.CreateAsync(cards, filters.PageNumber, filters.PageSize);
         }
     }
 }

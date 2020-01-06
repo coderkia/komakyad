@@ -1,11 +1,12 @@
 ﻿namespace Kia.KomakYad.Common.Helpers
 {
-    public class CollectionParams
+    public class CardParams
     {
         private const int MaxPageSize = 50;
-        public int PageNumber { get; set; } = 1;
 
         private int pageSize = 10;
+        public int? CollectionId { get; set; }
+        public int PageNumber { get; set; } = 1;
         public int PageSize
         {
             get { return pageSize; }
@@ -15,6 +16,5 @@
             }
         }
         public string OrderBy { get; set; }
-        public int? UserId { get; set; }
     }
 }

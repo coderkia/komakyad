@@ -11,7 +11,8 @@ namespace Kia.KomakYad.Domain.Repositories
         void Update<T>(T entity) where T : class;
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
-        Task<PagedList<Collection>> GetCollectionsAsync( CollectionParams collectionParams);
+        Task<PagedList<Collection>> GetCollections( CollectionParams filters);
+        Task<PagedList<Collection>> GetUserCollections(int userId, CollectionParams filters);
         IQueryable<DueCard> GetDueCards(int collectionId, int userId, byte deck = byte.MaxValue);
         Task<int> GetDueCardCount(int collectionId, int userId, byte deck = byte.MaxValue);
         Task<int> GetFailedCount(int collectionId, int userId, byte deck = byte.MaxValue);
@@ -20,8 +21,9 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<bool> SaveAll();
         Task<Collection> GetCollection(int collectionId);
         Task<bool> IsUserCollectionExistAsync(int collectionId, int userId);
-        Task<PagedList<User>> GetUsers(UserParams userParams);
+        Task<PagedList<User>> GetUsers(UserParams filters);
         Task<User> GetUser(int id);
         Task<Card> GetCardById(int cardId);
+        Task<PagedList<Card>> GetCards(CardParams filters);
     }
 }

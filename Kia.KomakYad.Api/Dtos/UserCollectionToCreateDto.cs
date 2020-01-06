@@ -6,5 +6,7 @@ namespace Kia.KomakYad.Api.Dtos
     {
         [Range(1, 255)]
         public int ReadPerDay { get; set; } = 10;
+
+        public bool IsReversed { get; set; }
     }
 }

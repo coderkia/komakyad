@@ -1,10 +1,14 @@
 ﻿
+
+using AutoMapper;
+using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,9 +20,11 @@ namespace Kia.KomakYad.Api.Controllers
     public class CollectionController : ControllerBase
     {
         private readonly ILeitnerRepository _repo;
-        public CollectionController(ILeitnerRepository repo)
+        private readonly IMapper _mapper;
+        public CollectionController(ILeitnerRepository repo,IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -57,5 +63,20 @@ namespace Kia.KomakYad.Api.Controllers
             return Ok(collections);
         }
 
+        [HttpGet("{collectionId}/Cards", Name = "GetCards")]
+        public async Task<IActionResult> GetCards(int collectionId, [FromQuery]CardParams cardParams)
+        {
+            cardParams.CollectionId = collectionId;
+            var cards = await _repo.GetCards(cardParams);
+            if (cards == null)
+            {
+                return BadRequest();
+            }
+            var cardToReturnDtos = _mapper.Map<IEnumerable<CardToReturnDto>>(cards);
+
+            Response.AddPagination(cards.CurrentPage, cards.PageSize, cards.TotalCount, cards.TotalPages);
+
+            return Ok(cardToReturnDtos);
+        }
     }
 }

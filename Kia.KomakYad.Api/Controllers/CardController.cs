@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
+using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -43,7 +45,6 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpGet("{cardId}", Name = "GetCard")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetCard(int cardId)
         {
             var card = await _repo.GetCardById(cardId);
@@ -54,6 +55,7 @@ namespace Kia.KomakYad.Api.Controllers
             var cardToReturnDto = _mapper.Map<CardToReturnDto>(card);
             return Ok(cardToReturnDto);
         }
+
 
 
         [HttpPut]
