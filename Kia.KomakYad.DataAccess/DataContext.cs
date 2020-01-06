@@ -20,7 +20,7 @@ namespace Kia.KomakYad.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserCollection>()
-                .HasKey(k => new { k.CollectionId, k.UserId });
+                .HasKey(k => new { k.CollectionId, k.UserId, k.IsReversed });
 
             modelBuilder.Entity<DueCard>()
                 .HasKey(k => new { k.OwnerId, k.CardId });
