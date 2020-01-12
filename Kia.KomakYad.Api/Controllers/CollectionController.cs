@@ -58,7 +58,7 @@ namespace Kia.KomakYad.Api.Controllers
                 return Unauthorized();
             }
 
-            var collections = await _repo.GetCollectionsAsync(collectionParams);
+            var collections = await _repo.GetCollections(collectionParams);
 
             return Ok(collections);
         }

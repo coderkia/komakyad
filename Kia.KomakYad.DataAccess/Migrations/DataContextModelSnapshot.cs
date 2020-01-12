@@ -69,9 +69,6 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AutherId")
-                        .HasColumnType("int");
-
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
@@ -97,7 +94,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AutherId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Collections");
                 });
@@ -207,10 +204,16 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsReversed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
                     b.Property<byte>("ReadPerDay")
                         .HasColumnType("tinyint");
 
-                    b.HasKey("CollectionId", "UserId");
+                    b.HasKey("CollectionId", "UserId", "IsReversed");
 
                     b.HasIndex("UserId");
 
@@ -228,9 +231,11 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Collection", b =>
                 {
-                    b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Auther")
+                    b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AutherId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.CustomizedCard", b =>

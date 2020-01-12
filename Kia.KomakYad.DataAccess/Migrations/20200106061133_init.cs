@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kia.KomakYad.DataAccess.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,10 +37,8 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniqueId = table.Column<Guid>(nullable: false),
                     AuthorId = table.Column<int>(nullable: false),
-                    AutherId = table.Column<int>(nullable: true),
                     Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
@@ -49,11 +47,11 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Collections", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Collections_Users_AutherId",
-                        column: x => x.AutherId,
+                        name: "FK_Collections_Users_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,9 +61,11 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniqueId = table.Column<Guid>(nullable: false),
-                    JsonData = table.Column<string>(nullable: false),
+                    Answer = table.Column<string>(nullable: false),
+                    Question = table.Column<string>(nullable: false),
+                    Example = table.Column<string>(nullable: true),
+                    ExtraData = table.Column<string>(nullable: true),
                     CollectionId = table.Column<int>(nullable: false),
-                    CreatedBy = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
@@ -86,12 +86,14 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
+                    IsReversed = table.Column<bool>(nullable: false),
                     CollectionId = table.Column<int>(nullable: false),
-                    ReadPerDay = table.Column<int>(nullable: false)
+                    Priority = table.Column<int>(nullable: false),
+                    ReadPerDay = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserCollections", x => new { x.CollectionId, x.UserId });
+                    table.PrimaryKey("PK_UserCollections", x => new { x.CollectionId, x.UserId, x.IsReversed });
                     table.ForeignKey(
                         name: "FK_UserCollections_Collections_CollectionId",
                         column: x => x.CollectionId,
@@ -136,7 +138,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     CardId = table.Column<int>(nullable: false),
                     Due = table.Column<DateTime>(nullable: false),
                     CurrentDeck = table.Column<byte>(nullable: false),
-                    PreviouseDeck = table.Column<byte>(nullable: false),
+                    PreviousDeck = table.Column<byte>(nullable: false),
                     LastChanged = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -162,9 +164,9 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 column: "CollectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Collections_AutherId",
+                name: "IX_Collections_AuthorId",
                 table: "Collections",
-                column: "AutherId");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomizedCards_OriginalCardId",

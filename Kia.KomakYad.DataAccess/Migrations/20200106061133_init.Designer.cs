@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kia.KomakYad.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191215211701_deleteCreatedOn_in_card")]
-    partial class deleteCreatedOn_in_card
+    [Migration("20200106061133_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,14 +28,20 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("JsonData")
-                        .IsRequired()
+                    b.Property<string>("Example")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraData")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ModifiedBy")
@@ -43,6 +49,10 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UniqueId")
                         .HasColumnType("uniqueidentifier");
@@ -60,9 +70,6 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AutherId")
-                        .HasColumnType("int");
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
@@ -89,7 +96,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AutherId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Collections");
                 });
@@ -138,7 +145,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<DateTime>("LastChanged")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("PreviouseDeck")
+                    b.Property<byte>("PreviousDeck")
                         .HasColumnType("tinyint");
 
                     b.HasKey("OwnerId", "CardId");
@@ -199,10 +206,16 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReadPerDay")
+                    b.Property<bool>("IsReversed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.HasKey("CollectionId", "UserId");
+                    b.Property<byte>("ReadPerDay")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("CollectionId", "UserId", "IsReversed");
 
                     b.HasIndex("UserId");
 
@@ -220,9 +233,11 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Collection", b =>
                 {
-                    b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Auther")
+                    b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AutherId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.CustomizedCard", b =>

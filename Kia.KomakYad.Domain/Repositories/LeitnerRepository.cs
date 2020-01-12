@@ -45,7 +45,7 @@ namespace Kia.KomakYad.Domain.Repositories
 
             if (filters.UserId.HasValue)
             {
-                collections.Where(c => c.AutherId == filters.UserId);
+                collections.Where(c => c.AuthorId == filters.UserId);
             }
 
             return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
