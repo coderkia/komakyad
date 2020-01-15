@@ -21,7 +21,7 @@ namespace Kia.KomakYad.Api.Controllers
     {
         private readonly ILeitnerRepository _repo;
         private readonly IMapper _mapper;
-        public CollectionController(ILeitnerRepository repo,IMapper mapper)
+        public CollectionController(ILeitnerRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;

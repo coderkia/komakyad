@@ -2,10 +2,11 @@
 
 namespace Kia.KomakYad.DataAccess.Models
 {
-    public class UserCollection
+    public class ReadCollection
     {
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public int Id { get; set; }
+        public User Owner { get; set; }
+        public int OwnerId { get; set; }
         public bool IsReversed { get; set; }
         public int Priority { get; set; }
         public int CollectionId { get; set; }

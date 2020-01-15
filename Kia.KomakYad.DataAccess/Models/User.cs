@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Kia.KomakYad.DataAccess.Models
@@ -17,6 +18,5 @@ namespace Kia.KomakYad.DataAccess.Models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
-
     }
 }

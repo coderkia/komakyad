@@ -6,6 +6,7 @@
 
         private int pageSize = 10;
         public int? CollectionId { get; set; }
+        public int? Deck { get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize
         {

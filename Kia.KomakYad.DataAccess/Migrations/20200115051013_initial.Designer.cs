@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kia.KomakYad.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200106061133_init")]
-    partial class init
+    [Migration("20200115051013_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,37 +101,12 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.ToTable("Collections");
                 });
 
-            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.CustomizedCard", b =>
+            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCard", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("JsonData")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OriginalCardId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Owner")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UniqueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OriginalCardId");
-
-                    b.ToTable("CustomizedCards");
-                });
-
-            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.DueCard", b =>
-                {
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CardId")
                         .HasColumnType("int");
@@ -142,17 +117,61 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<DateTime>("Due")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("JsonData")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastChanged")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
 
                     b.Property<byte>("PreviousDeck")
                         .HasColumnType("tinyint");
 
-                    b.HasKey("OwnerId", "CardId");
+                    b.Property<int>("ReadCollectionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CardId");
 
-                    b.ToTable("DueCards");
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ReadCollectionId");
+
+                    b.ToTable("ReadCards");
+                });
+
+            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCollection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CollectionId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsReversed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("ReadPerDay")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("ReadCollections");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.User", b =>
@@ -198,30 +217,6 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.UserCollection", b =>
-                {
-                    b.Property<int>("CollectionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsReversed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("ReadPerDay")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("CollectionId", "UserId", "IsReversed");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserCollections");
-                });
-
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Card", b =>
                 {
                     b.HasOne("Kia.KomakYad.DataAccess.Models.Collection", "Collection")
@@ -240,16 +235,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.CustomizedCard", b =>
-                {
-                    b.HasOne("Kia.KomakYad.DataAccess.Models.Card", "OriginalCard")
-                        .WithMany()
-                        .HasForeignKey("OriginalCardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.DueCard", b =>
+            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCard", b =>
                 {
                     b.HasOne("Kia.KomakYad.DataAccess.Models.Card", "Card")
                         .WithMany()
@@ -262,9 +248,15 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Kia.KomakYad.DataAccess.Models.ReadCollection", "ReadCollection")
+                        .WithMany()
+                        .HasForeignKey("ReadCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.UserCollection", b =>
+            modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCollection", b =>
                 {
                     b.HasOne("Kia.KomakYad.DataAccess.Models.Collection", "Collection")
                         .WithMany()
@@ -272,9 +264,9 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Kia.KomakYad.DataAccess.Models.User", "User")
+                    b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Owner")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

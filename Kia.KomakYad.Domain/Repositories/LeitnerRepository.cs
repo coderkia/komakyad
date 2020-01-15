@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kia.KomakYad.Common.Helpers;
+using System.Collections.Generic;
 
 namespace Kia.KomakYad.Domain.Repositories
 {
@@ -31,9 +32,9 @@ namespace Kia.KomakYad.Domain.Repositories
             _context.Update(entity);
         }
 
-        public async Task<PagedList<Collection>> GetUserCollections(int userId, CollectionParams filters)
+        public async Task<PagedList<Collection>> GetUserCollections(int ownerId, CollectionParams filters)
         {
-            var collections = _context.UserCollections.Where(c => c.UserId == userId)
+            var collections = _context.ReadCollections.Where(c => c.OwnerId == ownerId)
                 .Include(m => m.Collection).Select(c => c.Collection);
 
             return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
@@ -51,9 +52,9 @@ namespace Kia.KomakYad.Domain.Repositories
             return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
         }
 
-        public IQueryable<DueCard> GetDueCards(int collectionId, int userId, byte deck = byte.MaxValue)
+        public IQueryable<ReadCard> GetDueCards(int collectionId, int ownerId, byte deck = byte.MaxValue)
         {
-            var query = _context.DueCards.Where(c => c.OwnerId == userId);
+            var query = _context.ReadCards.Where(c => c.OwnerId == ownerId);
 
             if (!deck.IsAllDeckNeeded())
                 query.Where(c => c.CurrentDeck == deck);
@@ -66,9 +67,9 @@ namespace Kia.KomakYad.Domain.Repositories
             return await GetDueCards(collectionId, userId, deck).CountAsync();
         }
 
-        public IQueryable<DueCard> GetReadCards(int collectionId, int userId, byte deck = byte.MaxValue)
+        public IQueryable<ReadCard> GetReadCards(int collectionId, int ownerId, byte deck = byte.MaxValue)
         {
-            var query = GetDueCards(collectionId, userId, deck).Where(c => c.LastChanged > DateTime.Now.Date);
+            var query = GetDueCards(collectionId, ownerId, deck).Where(c => c.LastChanged > DateTime.Now.Date);
 
             if (!deck.IsAllDeckNeeded())
             {
@@ -78,14 +79,14 @@ namespace Kia.KomakYad.Domain.Repositories
             return query;
         }
 
-        public async Task<int> GetFailedCount(int collectionId, int userId, byte deck = byte.MaxValue)
+        public async Task<int> GetFailedCount(int collectionId, int ownerId, byte deck = byte.MaxValue)
         {
-            return await GetReadCards(collectionId, userId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
+            return await GetReadCards(collectionId, ownerId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
         }
 
-        public async Task<int> GeSucceedCount(int collectionId, int userId, byte deck = byte.MaxValue)
+        public async Task<int> GeSucceedCount(int collectionId, int ownerId, byte deck = byte.MaxValue)
         {
-            return await GetReadCards(collectionId, userId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
+            return await GetReadCards(collectionId, ownerId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
         }
 
         public async Task<bool> SaveAll()
@@ -117,9 +118,9 @@ namespace Kia.KomakYad.Domain.Repositories
             return await _context.Cards.FirstOrDefaultAsync(c => c.Id == cardId);
         }
 
-        public async Task<bool> IsUserCollectionExistAsync(int collectionId, int userId)
+        public async Task<bool> IsUserCollectionExistAsync(int collectionId, int ownerId)
         {
-            return await _context.UserCollections.AnyAsync(c => c.CollectionId == collectionId && c.UserId == userId);
+            return await _context.ReadCollections.AnyAsync(c => c.CollectionId == collectionId && c.OwnerId == ownerId);
         }
 
         public async Task<PagedList<Card>> GetCards(CardParams filters)
@@ -132,6 +133,18 @@ namespace Kia.KomakYad.Domain.Repositories
             }
 
             return await PagedList<Card>.CreateAsync(cards, filters.PageNumber, filters.PageSize);
+        }
+
+        public Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, CardParams filters)
+        {
+            var query = _context.ReadCards.Where(c => c.Id == readCollectionId).AsQueryable();
+
+            return PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
+        }
+
+        public async Task<IEnumerable<Card>> GetCards(int collectionId)
+        {
+            return await _context.Cards.Where(c => c.CollectionId == collectionId).ToListAsync();
         }
     }
 }

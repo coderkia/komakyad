@@ -21,5 +21,7 @@ namespace Kia.KomakYad.DataAccess.Models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
+
+       
     }
 }

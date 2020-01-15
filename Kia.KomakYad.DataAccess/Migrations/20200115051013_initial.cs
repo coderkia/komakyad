@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kia.KomakYad.DataAccess.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,60 +82,44 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserCollections",
+                name: "ReadCollections",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OwnerId = table.Column<int>(nullable: false),
                     IsReversed = table.Column<bool>(nullable: false),
-                    CollectionId = table.Column<int>(nullable: false),
                     Priority = table.Column<int>(nullable: false),
+                    CollectionId = table.Column<int>(nullable: false),
                     ReadPerDay = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserCollections", x => new { x.CollectionId, x.UserId, x.IsReversed });
+                    table.PrimaryKey("PK_ReadCollections", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserCollections_Collections_CollectionId",
+                        name: "FK_ReadCollections_Collections_CollectionId",
                         column: x => x.CollectionId,
                         principalTable: "Collections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserCollections_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ReadCollections_Users_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomizedCards",
+                name: "ReadCards",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UniqueId = table.Column<Guid>(nullable: false),
-                    JsonData = table.Column<string>(nullable: false),
-                    OriginalCardId = table.Column<int>(nullable: false),
-                    Owner = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomizedCards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CustomizedCards_Cards_OriginalCardId",
-                        column: x => x.OriginalCardId,
-                        principalTable: "Cards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DueCards",
-                columns: table => new
-                {
                     OwnerId = table.Column<int>(nullable: false),
                     CardId = table.Column<int>(nullable: false),
+                    ReadCollectionId = table.Column<int>(nullable: false),
+                    JsonData = table.Column<string>(nullable: true),
                     Due = table.Column<DateTime>(nullable: false),
                     CurrentDeck = table.Column<byte>(nullable: false),
                     PreviousDeck = table.Column<byte>(nullable: false),
@@ -143,17 +127,23 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DueCards", x => new { x.OwnerId, x.CardId });
+                    table.PrimaryKey("PK_ReadCards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DueCards_Cards_CardId",
+                        name: "FK_ReadCards_Cards_CardId",
                         column: x => x.CardId,
                         principalTable: "Cards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DueCards_Users_OwnerId",
+                        name: "FK_ReadCards_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReadCards_ReadCollections_ReadCollectionId",
+                        column: x => x.ReadCollectionId,
+                        principalTable: "ReadCollections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -169,34 +159,41 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomizedCards_OriginalCardId",
-                table: "CustomizedCards",
-                column: "OriginalCardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DueCards_CardId",
-                table: "DueCards",
+                name: "IX_ReadCards_CardId",
+                table: "ReadCards",
                 column: "CardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserCollections_UserId",
-                table: "UserCollections",
-                column: "UserId");
+                name: "IX_ReadCards_OwnerId",
+                table: "ReadCards",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReadCards_ReadCollectionId",
+                table: "ReadCards",
+                column: "ReadCollectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReadCollections_CollectionId",
+                table: "ReadCollections",
+                column: "CollectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReadCollections_OwnerId",
+                table: "ReadCollections",
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CustomizedCards");
-
-            migrationBuilder.DropTable(
-                name: "DueCards");
-
-            migrationBuilder.DropTable(
-                name: "UserCollections");
+                name: "ReadCards");
 
             migrationBuilder.DropTable(
                 name: "Cards");
+
+            migrationBuilder.DropTable(
+                name: "ReadCollections");
 
             migrationBuilder.DropTable(
                 name: "Collections");
