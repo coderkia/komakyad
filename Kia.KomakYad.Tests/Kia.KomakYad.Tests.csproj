@@ -4,4 +4,24 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNet.Providers.Core" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kia.KomakYad.Api\Kia.KomakYad.Api.csproj" />
+    <ProjectReference Include="..\Kia.KomakYad.Common\Kia.KomakYad.Common.csproj" />
+    <ProjectReference Include="..\Kia.KomakYad.DataAccess\Kia.KomakYad.DataAccess.csproj" />
+    <ProjectReference Include="..\Kia.KomakYad.Domain\Kia.KomakYad.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
