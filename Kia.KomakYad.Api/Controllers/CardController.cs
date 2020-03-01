@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
-using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -68,6 +66,10 @@ namespace Kia.KomakYad.Api.Controllers
             }
 
             var card = await _repo.GetCardById(cardToCreate.Id);
+            if (card == null)
+            {
+                return BadRequest();
+            }
 
             _repo.Update<Card>(card);
 

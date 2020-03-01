@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Controllers;
+using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -8,9 +9,7 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
-using System.Web.Providers.Entities;
 
 namespace Kia.KomakYad.Tests.CardManagementTests
 {
@@ -52,6 +51,7 @@ namespace Kia.KomakYad.Tests.CardManagementTests
 
             Assert.AreEqual(typeof(UnauthorizedResult), result.GetType());
         }
+
 
         [Test]
         public void ShouldReturnCardDetailsAfterSuccessfullySaved()
@@ -95,7 +95,5 @@ namespace Kia.KomakYad.Tests.CardManagementTests
 
             Assert.AreEqual(typeof(CreatedAtRouteResult), result.GetType());
         }
-
-
     }
 }
