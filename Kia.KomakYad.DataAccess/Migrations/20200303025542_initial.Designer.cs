@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kia.KomakYad.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200115051013_initial")]
+    [Migration("20200303025542_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,8 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.Property<string>("Answer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
 
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
@@ -39,20 +40,19 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Example")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
 
                     b.Property<string>("ExtraData")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Question")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
 
                     b.Property<Guid>("UniqueId")
                         .HasColumnType("uniqueidentifier");
@@ -79,17 +79,16 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ModifiedBy")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
 
                     b.Property<Guid>("UniqueId")
                         .HasColumnType("uniqueidentifier");
@@ -185,13 +184,15 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<bool>("IsEmailConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
@@ -210,7 +211,8 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 
@@ -240,13 +242,13 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.HasOne("Kia.KomakYad.DataAccess.Models.Card", "Card")
                         .WithMany()
                         .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Kia.KomakYad.DataAccess.Models.ReadCollection", "ReadCollection")
@@ -261,13 +263,13 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.HasOne("Kia.KomakYad.DataAccess.Models.Collection", "Collection")
                         .WithMany()
                         .HasForeignKey("CollectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Kia.KomakYad.DataAccess.Models.User", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

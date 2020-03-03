@@ -28,12 +28,14 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Collection collection)
+        public async Task<IActionResult> Create(CollectionCreateDto collectionToCreate)
         {
-            if (collection.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (collectionToCreate.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
-            _repo.Add<Collection>(collection);
+            var collection = _mapper.Map<Collection>(collectionToCreate);
+
+            _repo.Add(collection);
 
             if (await _repo.SaveAll())
                 return CreatedAtRoute("GetCollection", new { collectionId = collection.Id }, collection);
@@ -41,12 +43,32 @@ namespace Kia.KomakYad.Api.Controllers
             throw new System.Exception("Creation the collection failed on save");
         }
 
+        [HttpPut("{collectionId}")]
+        public async Task<IActionResult> Update(int collectionId, CollectionToUpdateDto collectionToUpdate)
+        {
+            var collection = await _repo.GetCollection(collectionId);
+
+            if (collection.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            collectionToUpdate.Map(collection);
+
+            _repo.Update(collection);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new System.Exception("Updating the collection failed on save");
+        }
 
         [HttpGet("{collectionId}", Name = "GetCollection")]
         public async Task<IActionResult> GetCollection(int collectionId)
         {
             var collections = await _repo.GetCollection(collectionId);
-
+            if (collections == null)
+            {
+                return BadRequest();
+            }
             return Ok(collections);
         }
 

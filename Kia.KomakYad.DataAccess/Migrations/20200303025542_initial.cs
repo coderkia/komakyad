@@ -13,12 +13,12 @@ namespace Kia.KomakYad.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(nullable: false),
+                    Username = table.Column<string>(maxLength: 200, nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
                     UniqueId = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(maxLength: 250, nullable: true),
+                    LastName = table.Column<string>(maxLength: 250, nullable: true),
                     IsEmailConfirmed = table.Column<bool>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: true),
@@ -37,10 +37,9 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniqueId = table.Column<Guid>(nullable: false),
                     AuthorId = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(maxLength: 450, nullable: false),
+                    Description = table.Column<string>(maxLength: 2000, nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -61,13 +60,12 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniqueId = table.Column<Guid>(nullable: false),
-                    Answer = table.Column<string>(nullable: false),
-                    Question = table.Column<string>(nullable: false),
-                    Example = table.Column<string>(nullable: true),
+                    Answer = table.Column<string>(maxLength: 2000, nullable: false),
+                    Question = table.Column<string>(maxLength: 2000, nullable: false),
+                    Example = table.Column<string>(maxLength: 2000, nullable: true),
                     ExtraData = table.Column<string>(nullable: true),
                     CollectionId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedBy = table.Column<int>(nullable: true),
                     ModifiedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -100,14 +98,12 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         name: "FK_ReadCollections_Collections_CollectionId",
                         column: x => x.CollectionId,
                         principalTable: "Collections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ReadCollections_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -132,14 +128,12 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         name: "FK_ReadCards_Cards_CardId",
                         column: x => x.CardId,
                         principalTable: "Cards",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ReadCards_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ReadCards_ReadCollections_ReadCollectionId",
                         column: x => x.ReadCollectionId,

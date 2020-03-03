@@ -49,8 +49,7 @@ namespace Kia.KomakYad.Tests.CardManagementTests
             };
             var sut = new CardController(repo.Object, mapper.Object);
 
-            repo.Setup(t => t.GetCardById(cardId))
-                .Returns(Task.FromResult((Card)null));
+            repo.Setup(t => t.GetCardById(cardId)).Returns(Task.FromResult((Card)null));
             
             var result = sut.GetCard(cardId).GetAwaiter().GetResult();
 

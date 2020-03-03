@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kia.KomakYad.DataAccess
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options)
            : base(options)
@@ -18,8 +18,28 @@ namespace Kia.KomakYad.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ReadCollection>()
+               .HasOne<User>(c => c.Owner)
+               .WithMany()
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReadCollection>()
+               .HasOne<Collection>(c => c.Collection)
+               .WithMany()
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReadCard>()
+               .HasOne<User>(c => c.Owner)
+               .WithMany()
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReadCard>()
+               .HasOne<Card>(c => c.Card)
+               .WithMany()
+               .OnDelete(DeleteBehavior.NoAction);
+
             base.OnModelCreating(modelBuilder);
         }
-        
+
     }
 }

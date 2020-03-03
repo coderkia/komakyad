@@ -9,17 +9,21 @@ namespace Kia.KomakYad.DataAccess.Models
         public Guid UniqueId { get; set; } = Guid.NewGuid();
 
         [Required]
+        [StringLength(2000)]
         public string Answer { get; set; }
 
         [Required]
+        [StringLength(2000)]
         public string Question { get; set; }
 
+        [StringLength(2000)]
         public string Example { get; set; }
+
         public string ExtraData { get; set; }
+
         public Collection Collection { get; set; }
         public int CollectionId { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
 
        
