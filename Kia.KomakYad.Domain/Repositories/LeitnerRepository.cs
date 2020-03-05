@@ -127,11 +127,25 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             var cards = _context.Cards.AsQueryable();
 
-            if (filters.CollectionId.HasValue)
+            cards = cards.Where(c => c.CollectionId == filters.CollectionId);
+            if (!string.IsNullOrWhiteSpace(filters.Answer))
             {
-                cards = cards.Where(c => c.CollectionId == filters.CollectionId);
+                cards = cards.Where(c => c.Answer.Contains(filters.Answer));
             }
-
+            if (!string.IsNullOrWhiteSpace(filters.Question))
+            {
+                cards = cards.Where(c => c.Question.Contains(filters.Question));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Example))
+            {
+                cards = cards.Where(c => c.Example.Contains(filters.Example));
+            }
+            switch (filters.OrderBy?.ToLower())
+            {
+                case "id":
+                    cards = cards.OrderByDescending(c => c.Id);
+                    break;
+            }
             return await PagedList<Card>.CreateAsync(cards, filters.PageNumber, filters.PageSize);
         }
 
@@ -142,7 +156,7 @@ namespace Kia.KomakYad.Domain.Repositories
             return PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
         }
 
-        public async Task<IEnumerable<Card>> GetCards(int collectionId)
+        public async Task<IEnumerable<Card>> GetCard(int collectionId)
         {
             return await _context.Cards.Where(c => c.CollectionId == collectionId).ToListAsync();
         }

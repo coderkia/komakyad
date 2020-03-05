@@ -21,6 +21,7 @@ namespace Kia.KomakYad.DataAccess.Models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime? ModifiedOn { get; set; }
         public ICollection<Card> Cards { get; set; }
+        public bool IsPrivate { get; set; }
 
     }
 }

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
+using Kia.KomakYad.Api.Helpers;
+using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -79,6 +82,25 @@ namespace Kia.KomakYad.Api.Controllers
                 return CreatedAtRoute("GetCard", new { cardId = card.Id }, cardToReturn);
             }
             throw new System.Exception("Card save process failed");
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> Search(CardParams cardParams)
+        {
+            var author = (await _repo.GetCollection(cardParams.CollectionId));
+            //todo admin can search another users
+            if (author.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var cards = await _repo.GetCards(cardParams);
+
+            var cardToReturnDto = _mapper.Map<IEnumerable<CardToSearchReturnDto>>(cards);
+
+            Response.AddPagination(cards);
+
+            return Ok(cardToReturnDto);
         }
     }
 }

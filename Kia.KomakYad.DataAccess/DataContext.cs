@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kia.KomakYad.DataAccess
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IDataContext
     {
         public DataContext(DbContextOptions<DataContext> options)
            : base(options)

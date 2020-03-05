@@ -27,6 +27,6 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<Card> GetCardById(int cardId);
         Task<PagedList<Card>> GetCards(CardParams filters);
         Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, CardParams filters);
-        Task<IEnumerable<Card>> GetCards(int collectionId);
+        Task<IEnumerable<Card>> GetCard(int collectionId);
     }
 }

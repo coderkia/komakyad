@@ -52,7 +52,7 @@ namespace Kia.KomakYad.Api.Controllers
                 throw new Exception("Unable to save data.");
             }
 
-            var cards = await _repo.GetCards(collectionId);
+            var cards = await _repo.GetCard(collectionId);
             var readCards = _mapper.Map<IEnumerable<ReadCard>>(cards);
 
             readCards.Map(c =>
