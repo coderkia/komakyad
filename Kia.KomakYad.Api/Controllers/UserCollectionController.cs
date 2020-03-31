@@ -9,6 +9,7 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -52,14 +53,14 @@ namespace Kia.KomakYad.Api.Controllers
                 throw new Exception("Unable to save data.");
             }
 
-            var cards = await _repo.GetCard(collectionId);
+            var cards = await _repo.GetCards(collectionId);
             var readCards = _mapper.Map<IEnumerable<ReadCard>>(cards);
 
             readCards.Map(c =>
             {
                 c.OwnerId = ownerId;
                 c.ReadCollectionId = readCollection.Id;
-            });
+            }).ToList();
 
             _repo.Add(readCards);
 

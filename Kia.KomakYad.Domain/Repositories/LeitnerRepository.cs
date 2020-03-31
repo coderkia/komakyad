@@ -156,7 +156,7 @@ namespace Kia.KomakYad.Domain.Repositories
             return PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
         }
 
-        public async Task<IEnumerable<Card>> GetCard(int collectionId)
+        public async Task<IEnumerable<Card>> GetCards(int collectionId)
         {
             return await _context.Cards.Where(c => c.CollectionId == collectionId).ToListAsync();
         }
