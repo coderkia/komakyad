@@ -11,6 +11,7 @@ namespace Kia.KomakYad.Domain.Repositories
     {
         void Update<T>(T entity) where T : class;
         void Add<T>(T entity) where T : class;
+        void AddRange<T>(IEnumerable<T> entities) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<PagedList<Collection>> GetCollections(CollectionParams filters);
         Task<PagedList<Collection>> GetUserCollections(int ownerId, CollectionParams filters);
@@ -26,7 +27,8 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<User> GetUser(int id);
         Task<Card> GetCardById(int cardId);
         Task<PagedList<Card>> GetCards(CardParams filters);
-        Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, CardParams filters);
+        Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, ReadCardParams filters);
         Task<IEnumerable<Card>> GetCards(int collectionId);
+        Task<ReadCollection> GetReadCollection(int readCollectionId);
     }
 }

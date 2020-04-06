@@ -21,7 +21,10 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             _context.Add(entity);
         }
-
+        public void AddRange<T>(IEnumerable<T> entities) where T : class
+        {
+            _context.AddRange(entities);
+        }
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
@@ -149,16 +152,21 @@ namespace Kia.KomakYad.Domain.Repositories
             return await PagedList<Card>.CreateAsync(cards, filters.PageNumber, filters.PageSize);
         }
 
-        public Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, CardParams filters)
+        public Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, ReadCardParams filters)
         {
-            var query = _context.ReadCards.Where(c => c.Id == readCollectionId).AsQueryable();
-
+            var query = _context.ReadCards.Where(c => c.ReadCollectionId == readCollectionId).AsQueryable();
+            query = query.Include(c=>c.Card);
             return PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
         }
 
         public async Task<IEnumerable<Card>> GetCards(int collectionId)
         {
             return await _context.Cards.Where(c => c.CollectionId == collectionId).ToListAsync();
+        }
+
+        public async Task<ReadCollection> GetReadCollection(int readCollectionId)
+        {
+            return await _context.ReadCollections.FirstOrDefaultAsync(c => c.Id  == readCollectionId);
         }
     }
 }

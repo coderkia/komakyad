@@ -11,6 +11,7 @@ namespace Kia.KomakYad.DataAccess.Models
         public int Priority { get; set; }
         public int CollectionId { get; set; }
         public Collection Collection { get; set; }
+
         [Range(1, 100)]
         public byte ReadPerDay { get; set; }
     }

@@ -29,20 +29,20 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUserCollection(int collectionId, int ownerId, UserCollectionToCreateDto userCollectionToCreate)
+        public async Task<IActionResult> AddUserCollection(int collectionId, int userId, UserCollectionToCreateDto userCollectionToCreate)
         {
-            if (ownerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
             }
-            if (await _repo.IsUserCollectionExistAsync(collectionId, ownerId))
+            if (await _repo.IsUserCollectionExistAsync(collectionId, userId))
             {
                 return BadRequest("The collection is already in this user's collections");
             }
             var readCollection = new ReadCollection
             {
                 CollectionId = collectionId,
-                OwnerId = ownerId,
+                OwnerId = userId,
                 ReadPerDay = (byte)userCollectionToCreate.ReadPerDay,
             };
 
@@ -58,15 +58,16 @@ namespace Kia.KomakYad.Api.Controllers
 
             readCards.Map(c =>
             {
-                c.OwnerId = ownerId;
+                c.Id = 0;
+                c.OwnerId = userId;
                 c.ReadCollectionId = readCollection.Id;
             }).ToList();
 
-            _repo.Add(readCards);
+            _repo.AddRange(readCards);
 
             if (await _repo.SaveAll())
             {
-                return NoContent();
+                return Ok(readCollection);
             }
             throw new Exception("Unable to transfer cards.");
         }

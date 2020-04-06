@@ -76,7 +76,7 @@ namespace Kia.KomakYad.Tests.RepoTests
         [Test]
         public void GetCards_FilterCardsByCollectionId()
         {
-            var cardParams = new CardParams
+            var cardParams = new ReadCardParams
             {
                 CollectionId = 1
             };
@@ -89,7 +89,7 @@ namespace Kia.KomakYad.Tests.RepoTests
         [Test]
         public void GetCards_FilterCardsByAnswer()
         {
-            var cardParams = new CardParams
+            var cardParams = new ReadCardParams
             {
                 CollectionId = 1,
                 Answer = "3"
@@ -103,7 +103,7 @@ namespace Kia.KomakYad.Tests.RepoTests
         [Test]
         public void GetCards_FilterCardsByQuestion()
         {
-            var cardParams = new CardParams
+            var cardParams = new ReadCardParams
             {
                 CollectionId = 1,
                 Question = "3"
@@ -117,7 +117,7 @@ namespace Kia.KomakYad.Tests.RepoTests
         [Test]
         public void GetCards_FilterCardsByExample()
         {
-            var cardParams = new CardParams
+            var cardParams = new ReadCardParams
             {
                 CollectionId = 1,
                 Example = "3"
@@ -130,7 +130,7 @@ namespace Kia.KomakYad.Tests.RepoTests
         [Test]
         public void GetCards_OrderByIdIsWorking()
         {
-            var cardParams = new CardParams
+            var cardParams = new ReadCardParams
             {
                 CollectionId = 1,
                 OrderBy = "Id"
@@ -144,7 +144,7 @@ namespace Kia.KomakYad.Tests.RepoTests
         [Test]
         public void GetCards_FilterCardsConditionsIsAnd()
         {
-            var cardParams = new CardParams
+            var cardParams = new ReadCardParams
             {
                 CollectionId = 2,
                 Answer = "3"
