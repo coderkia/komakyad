@@ -39,5 +39,29 @@ namespace Kia.KomakYad.Api.Helpers
 
             return age;
         }
+
+        public static DateTime GetDue(this byte deck)
+        {
+            switch (deck)
+            {
+                case 0:
+                    return DateTime.Now;
+                case 1:
+                    return DateTime.Now.AddHours(8);
+                case 2:
+                    return DateTime.Now.AddDays(1);
+                case 3:
+                    return DateTime.Now.AddDays(3);
+                case 4:
+                    return DateTime.Now.AddDays(7);
+                case 5:
+                    return DateTime.Now.AddDays(14);
+                case 6:
+                    return DateTime.Now.AddDays(28);
+                default:
+                    throw new NotImplementedException($"Deck {deck} is not defined.");
+
+            }
+        }
     }
 }

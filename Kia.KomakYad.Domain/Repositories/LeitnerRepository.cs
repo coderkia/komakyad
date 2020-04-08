@@ -55,41 +55,27 @@ namespace Kia.KomakYad.Domain.Repositories
             return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
         }
 
-        public IQueryable<ReadCard> GetDueCards(int collectionId, int ownerId, byte deck = byte.MaxValue)
+        public async Task<int> GetDueCardCount(int readCollectionId, ReadCardParams filters)
         {
-            var query = _context.ReadCards.Where(c => c.OwnerId == ownerId);
-
-            if (!deck.IsAllDeckNeeded())
-                query.Where(c => c.CurrentDeck == deck);
-
-            return query.Include(c => c.Card).Where(c => c.Card.CollectionId == collectionId);
+            filters.OnlyDued = true;
+            var query = GetReadCardsQuery(readCollectionId, filters);
+            return await query.CountAsync();
         }
 
-        public async Task<int> GetDueCardCount(int collectionId, int userId, byte deck = byte.MaxValue)
+        public async Task<int> GetFailedCount(int readCollectionId, ReadCardParams filters)
         {
-            return await GetDueCards(collectionId, userId, deck).CountAsync();
+            filters.OnlyDued = false;
+            var query = GetReadCardsQuery(readCollectionId, filters);
+            query.Where(c => c.LastChanged > DateTime.Now.Date);
+            return await query.CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
         }
 
-        public IQueryable<ReadCard> GetReadCards(int collectionId, int ownerId, byte deck = byte.MaxValue)
+        public async Task<int> GeSucceedCount(int readCollectionId, ReadCardParams filters)
         {
-            var query = GetDueCards(collectionId, ownerId, deck).Where(c => c.LastChanged > DateTime.Now.Date);
-
-            if (!deck.IsAllDeckNeeded())
-            {
-                query.Where(c => c.CurrentDeck == deck);
-            }
-
-            return query;
-        }
-
-        public async Task<int> GetFailedCount(int collectionId, int ownerId, byte deck = byte.MaxValue)
-        {
-            return await GetReadCards(collectionId, ownerId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
-        }
-
-        public async Task<int> GeSucceedCount(int collectionId, int ownerId, byte deck = byte.MaxValue)
-        {
-            return await GetReadCards(collectionId, ownerId, deck).CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
+            filters.OnlyDued = false;
+            var query = GetReadCardsQuery(readCollectionId, filters);
+            query.Where(c => c.LastChanged > DateTime.Now.Date);
+            return await query.CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
         }
 
         public async Task<bool> SaveAll()
@@ -152,11 +138,38 @@ namespace Kia.KomakYad.Domain.Repositories
             return await PagedList<Card>.CreateAsync(cards, filters.PageNumber, filters.PageSize);
         }
 
-        public Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, ReadCardParams filters)
+        private IQueryable<ReadCard> GetReadCardsQuery(int readCollectionId, ReadCardParams filters)
         {
             var query = _context.ReadCards.Where(c => c.ReadCollectionId == readCollectionId).AsQueryable();
-            query = query.Include(c=>c.Card);
-            return PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
+            query = query.Include(c => c.Card);
+            if (filters.Deck.HasValue)
+            {
+                query = query.Where(c => c.CurrentDeck == filters.Deck);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Answer))
+            {
+                query = query.Where(c => c.Card.Answer.Contains(filters.Answer));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Question))
+            {
+                query = query.Where(c => c.Card.Question.Contains(filters.Question));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Example))
+            {
+                query = query.Where(c => c.Card.Example.Contains(filters.Example));
+            }
+            if (filters.OnlyDued)
+            {
+                query = query.Where(c => c.Due < DateTime.Now);
+            }
+
+            return query;
+        }
+
+        public async Task<PagedList<ReadCard>> GetReadCards(int readCollectionId, ReadCardParams filters)
+        {
+            var query = GetReadCardsQuery(readCollectionId, filters);
+            return await PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
         }
 
         public async Task<IEnumerable<Card>> GetCards(int collectionId)
@@ -166,7 +179,12 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<ReadCollection> GetReadCollection(int readCollectionId)
         {
-            return await _context.ReadCollections.FirstOrDefaultAsync(c => c.Id  == readCollectionId);
+            return await _context.ReadCollections.FirstOrDefaultAsync(c => c.Id == readCollectionId);
+        }
+
+        public async Task<ReadCard> GetReadCard(int readcardId)
+        {
+            return await _context.ReadCards.FirstOrDefaultAsync(c => c.Id == readcardId);
         }
     }
 }

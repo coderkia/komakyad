@@ -6,6 +6,7 @@ using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Extensions;
 using Kia.KomakYad.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,20 +16,21 @@ using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Api.Controllers
 {
-    [Route("api/collection/{collectionId}/user/{userId}")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class UserCollectionController : ControllerBase
+    [Authorize]
+    public class ReadCollectionController : ControllerBase
     {
         private readonly ILeitnerRepository _repo;
         private readonly IMapper _mapper;
 
-        public UserCollectionController(ILeitnerRepository repo, IMapper mapper)
+        public ReadCollectionController(ILeitnerRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("Collection({collectionId})/User({userId})")]
         public async Task<IActionResult> AddUserCollection(int collectionId, int userId, UserCollectionToCreateDto userCollectionToCreate)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
@@ -72,35 +74,38 @@ namespace Kia.KomakYad.Api.Controllers
             throw new Exception("Unable to transfer cards.");
         }
 
-        [HttpGet("overview/{deck:int?}")]
-        public async Task<IActionResult> GetTodayCardOverview(int collectionId, int userId, byte deck = byte.MaxValue)
+        [HttpGet("{readCollectionId}/User({userId})/overview")]
+        public async Task<IActionResult> GetTodayCardOverview(int readCollectionId, int userId, [FromQuery]byte? deck)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
             }
-            if (!deck.IsAllDeckNeeded() && deck > 6)
+            if (deck > 6)
             {
                 return BadRequest("the deck is not valid");
             }
             var overview = new TodayOverview
             {
-                Deck = deck,
-                CollectionId = collectionId,
+                Deck = deck ,
+                CollectionId = readCollectionId,
                 OwnerId = userId
             };
-
-            overview.DueCount = await _repo.GetDueCardCount(collectionId, userId, deck);
-            overview.DownCount = await _repo.GetFailedCount(collectionId, userId, deck);
-            overview.UpCount = await _repo.GeSucceedCount(collectionId, userId, deck);
+            var filters = new ReadCardParams
+            {
+                Deck = deck
+            };
+            overview.DueCount = await _repo.GetDueCardCount(readCollectionId, filters);
+            overview.DownCount = await _repo.GetFailedCount(readCollectionId, filters);
+            overview.UpCount = await _repo.GeSucceedCount(readCollectionId, filters);
 
             return Ok(overview);
         }
 
         [HttpGet("Cards")]
-        public async Task<IActionResult> GetCards(int collectionId, [FromQuery]CardParams cardParams)
+        public async Task<IActionResult> GetCards(int readCollectionId, [FromQuery]CardParams cardParams)
         {
-            cardParams.CollectionId = collectionId;
+            cardParams.CollectionId = readCollectionId;
             var cards = await _repo.GetCards(cardParams);
             if (cards == null)
             {

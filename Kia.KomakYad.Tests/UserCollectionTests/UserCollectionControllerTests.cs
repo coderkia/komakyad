@@ -33,7 +33,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
 
-            var sut = new UserCollectionController(repo.Object, mapper.Object);
+            var sut = new ReadCollectionController(repo.Object, mapper.Object);
 
             sut.ControllerContext = new ControllerContext
             {
@@ -67,7 +67,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var identity = new ClaimsIdentity(claims, "Test");
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
-            var sut = new UserCollectionController(repo.Object, mapper.Object);
+            var sut = new ReadCollectionController(repo.Object, mapper.Object);
 
             sut.ControllerContext = new ControllerContext
             {
@@ -105,7 +105,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var identity = new ClaimsIdentity(claims, "Test");
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
-            var sut = new UserCollectionController(repo.Object, mapper.Object);
+            var sut = new ReadCollectionController(repo.Object, mapper.Object);
 
             sut.ControllerContext = new ControllerContext
             {

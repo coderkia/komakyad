@@ -15,11 +15,9 @@ namespace Kia.KomakYad.Domain.Repositories
         void Delete<T>(T entity) where T : class;
         Task<PagedList<Collection>> GetCollections(CollectionParams filters);
         Task<PagedList<Collection>> GetUserCollections(int ownerId, CollectionParams filters);
-        IQueryable<ReadCard> GetDueCards(int collectionId, int ownerId, byte deck = byte.MaxValue);
-        Task<int> GetDueCardCount(int collectionId, int ownerId, byte deck = byte.MaxValue);
-        Task<int> GetFailedCount(int collectionId, int ownerId, byte deck = byte.MaxValue);
-        Task<int> GeSucceedCount(int collectionId, int ownerId, byte deck = byte.MaxValue);
-        IQueryable<ReadCard> GetReadCards(int collectionId, int ownerId, byte deck = byte.MaxValue);
+        Task<int> GetDueCardCount(int readCollectionId, ReadCardParams filters);
+        Task<int> GetFailedCount(int readCollectionId, ReadCardParams filters);
+        Task<int> GeSucceedCount(int readCollectionId, ReadCardParams filters);
         Task<bool> SaveAll();
         Task<Collection> GetCollection(int collectionId);
         Task<bool> IsUserCollectionExistAsync(int collectionId, int userId);
@@ -27,8 +25,9 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<User> GetUser(int id);
         Task<Card> GetCardById(int cardId);
         Task<PagedList<Card>> GetCards(CardParams filters);
-        Task<PagedList<ReadCard>> GetCardsToRead(int readCollectionId, ReadCardParams filters);
+        Task<PagedList<ReadCard>> GetReadCards(int readCollectionId, ReadCardParams filters);
         Task<IEnumerable<Card>> GetCards(int collectionId);
         Task<ReadCollection> GetReadCollection(int readCollectionId);
+        Task<ReadCard> GetReadCard(int readcardId);
     }
 }

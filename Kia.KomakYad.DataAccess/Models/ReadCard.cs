@@ -17,11 +17,11 @@ namespace Kia.KomakYad.DataAccess.Models
 
         [Required]
         [Range(0, 6)]
-        public byte CurrentDeck { get; set; }
+        public int CurrentDeck { get; set; }
 
         [Required]
         [Range(0, 6)]
-        public byte PreviousDeck { get; set; }
+        public int PreviousDeck { get; set; }
         public DateTime LastChanged { get; set; } = DateTime.Now;
 
     }
