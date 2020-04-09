@@ -1,10 +1,7 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
-using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

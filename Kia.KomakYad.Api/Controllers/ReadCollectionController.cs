@@ -4,7 +4,6 @@ using Kia.KomakYad.Api.Helpers;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
-using Kia.KomakYad.Domain.Extensions;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +115,54 @@ namespace Kia.KomakYad.Api.Controllers
             Response.AddPagination(cards.CurrentPage, cards.PageSize, cards.TotalCount, cards.TotalPages);
 
             return Ok(cardToReturnDtos);
+        }
+
+        [HttpPatch("Remove({readCollectionId})")]
+        public async Task<IActionResult> Remove(int readCollectionId)
+        {
+            var readCollection = await _repo.GetReadCollection(readCollectionId);
+            if(readCollection.OwnerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            readCollection.Deleted = true;
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+            throw new Exception("Unable to remove read collection.");
+        }
+
+        [HttpPatch("Restore({readCollectionId})")]
+        public async Task<IActionResult> Restore(int readCollectionId)
+        {
+            var readCollection = await _repo.GetReadCollection(readCollectionId);
+            if (readCollection.OwnerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            readCollection.Deleted = false;
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+            throw new Exception("Unable to restore read collection.");
+        }
+        
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll([FromQuery]ReadCollectionParams readCollectionParams)
+        {
+            var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var readCollections = await _repo.GetReadCollections(readCollectionParams);
+
+            var readCollectionsToReturn = _mapper.Map<IEnumerable<ReadCollectionToReturnDto>>(readCollections);
+            Response.AddPagination(readCollections.CurrentPage, readCollections.PageSize, readCollections.TotalCount, readCollections.TotalPages);
+
+            return Ok(readCollectionsToReturn);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.DataAccess;
-using Kia.KomakYad.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -185,6 +184,21 @@ namespace Kia.KomakYad.Domain.Repositories
         public async Task<ReadCard> GetReadCard(int readcardId)
         {
             return await _context.ReadCards.FirstOrDefaultAsync(c => c.Id == readcardId);
+        }
+
+        public async Task<PagedList<ReadCollection>> GetReadCollections(ReadCollectionParams filters)
+        {
+            var query = _context.ReadCollections.AsQueryable();
+            if (!filters.IncludingDeleted)
+            {
+                query = query.Where(c => c.Deleted != true);
+            }
+            if (filters.OwnerId.HasValue)
+            {
+                query = query.Where(c => c.OwnerId == filters.OwnerId);
+            }
+
+            return await PagedList<ReadCollection>.CreateAsync(query, filters.PageNumber, filters.PageSize);
         }
     }
 }

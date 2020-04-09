@@ -22,6 +22,7 @@ namespace Kia.KomakYad.Api.Helpers
             CreateMap<CollectionCreateDto, Collection>();
             CreateMap<CollectionCreateDto, Collection>();
             CreateMap<ReadCard, ReadCardToReturnDto>();
+            CreateMap<ReadCollection, ReadCollectionToReturnDto>();
         }
     }
 }

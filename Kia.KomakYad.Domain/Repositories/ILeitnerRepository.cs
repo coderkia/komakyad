@@ -1,8 +1,6 @@
 ﻿using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
-using Kia.KomakYad.Domain.Dtos;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Domain.Repositories
@@ -29,5 +27,6 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<IEnumerable<Card>> GetCards(int collectionId);
         Task<ReadCollection> GetReadCollection(int readCollectionId);
         Task<ReadCard> GetReadCard(int readcardId);
+        Task<PagedList<ReadCollection>> GetReadCollections(ReadCollectionParams filters);
     }
 }

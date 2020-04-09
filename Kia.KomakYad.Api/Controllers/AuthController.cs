@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +7,6 @@ using AutoMapper;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
