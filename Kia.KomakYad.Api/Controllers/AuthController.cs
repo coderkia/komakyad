@@ -7,6 +7,7 @@ using AutoMapper;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +16,7 @@ namespace Kia.KomakYad.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
@@ -27,6 +29,7 @@ namespace Kia.KomakYad.Api.Controllers
             _config = config;
             _repo = repo;
         }
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
@@ -56,7 +59,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             var claims = new[]{
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name,userFromRepo.Username),
+                new Claim(ClaimTypes.Name,userFromRepo.UserName),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));

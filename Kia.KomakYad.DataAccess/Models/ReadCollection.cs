@@ -14,6 +14,6 @@ namespace Kia.KomakYad.DataAccess.Models
 
         [Range(1, 100)]
         public byte ReadPerDay { get; set; }
-        public bool? Deleted { get; set; }
+        public bool Deleted { get; set; }
     }
 }

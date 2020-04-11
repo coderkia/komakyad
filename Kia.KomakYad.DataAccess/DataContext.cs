@@ -1,23 +1,44 @@
 ﻿using Kia.KomakYad.DataAccess.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kia.KomakYad.DataAccess
 {
-    public class DataContext : DbContext, IDataContext
+    public class DataContext : IdentityDbContext<User, Role, int,
+        IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>,
+        IDataContext
     {
         public DataContext(DbContextOptions<DataContext> options)
            : base(options)
         {
 
         }
+
         public DbSet<Card> Cards { get; set; }
         public DbSet<Collection> Collections { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<ReadCollection> ReadCollections { get; set; }
         public DbSet<ReadCard> ReadCards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserRole>(userRole =>
+            {
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                userRole.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+
+                userRole.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+
             modelBuilder.Entity<ReadCollection>()
                .HasOne<User>(c => c.Owner)
                .WithMany()
@@ -38,7 +59,6 @@ namespace Kia.KomakYad.DataAccess
                .WithMany()
                .OnDelete(DeleteBehavior.NoAction);
 
-            base.OnModelCreating(modelBuilder);
         }
 
     }
