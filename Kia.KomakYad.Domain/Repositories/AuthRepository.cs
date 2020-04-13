@@ -1,6 +1,7 @@
-﻿using Kia.KomakYad.DataAccess;
-using Kia.KomakYad.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Kia.KomakYad.Common.Helpers;
+using Kia.KomakYad.DataAccess;
+using Kia.KomakYad.Domain.Dtos;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Domain.Repositories
@@ -13,55 +14,24 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             _context = context;
         }
-        public async Task<User> Login(string username, string password)
+
+        public async Task<PagedList<UserWithRolesDto>> GetUsersWithRoles(UserWithRolesParams filters)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
-            if (user == null)
-                return null;
-            
+            var userList = (from user in _context.Users
+                                  orderby user.UserName
+                                  select new UserWithRolesDto
+                                  {
+                                      Id = user.Id,
+                                      UserName = user.UserName,
+                                      Roles = (from userRole in user.UserRoles
+                                               join role in _context.Roles
+                                               on userRole.RoleId
+                                               equals role.Id
+                                               select role.Name).ToList()
+                                  }).AsQueryable();
 
-            return user;
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != passwordHash[i])
-                        return false;
-                }
-            }
-            return true;
-        }
-
-        public async Task<User> Register(User user, string password)
-        {
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-
-            return user;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        public async Task<bool> UserExists(string username)
-        {
-            if (await _context.Users.AnyAsync(x => x.UserName == username))
-                return true;
-
-            return false;
+            return await PagedList<UserWithRolesDto>.CreateAsync(userList, filters.PageNumber, filters.PageSize);
+                                
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿using Kia.KomakYad.DataAccess.Models;
+﻿using Kia.KomakYad.Common.Helpers;
+using Kia.KomakYad.Domain.Dtos;
 using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Domain.Repositories
 {
     public interface IAuthRepository
     {
-        Task<User> Register(User user, string password);
-        Task<User> Login(string username, string password);
-        Task<bool> UserExists(string username);
+        Task<PagedList<UserWithRolesDto>> GetUsersWithRoles(UserWithRolesParams filters);
     }
 }

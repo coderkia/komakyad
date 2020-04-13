@@ -9,5 +9,8 @@ namespace Kia.KomakYad.DataAccess
         DbSet<Collection> Collections { get; set; }
         DbSet<ReadCollection> ReadCollections { get; set; }
         DbSet<ReadCard> ReadCards { get; set; }
+        DbSet<User> Users { get; set; }
+        DbSet<Role> Roles { get; set; }
+        DbSet<UserRole> UserRoles { get; set; }
     }
 }

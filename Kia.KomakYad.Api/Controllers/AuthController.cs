@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +9,7 @@ using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -19,49 +21,75 @@ namespace Kia.KomakYad.Api.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
+        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _mapper = mapper;
+            _userManager = userManager;
+            _signInManager = signInManager;
             _config = config;
-            _repo = repo;
         }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
-            userForRegister.Username = userForRegister.Username.ToLower();
-
-            if (await _repo.UserExists(userForRegister.Username))
-            {
-                return BadRequest("Username already exists");
-            }
-
             var userToCreate = _mapper.Map<User>(userForRegister);
 
-            var createdUser = await _repo.Register(userToCreate, userForRegister.Password);
+            var result = await _userManager.CreateAsync(userToCreate, userForRegister.Password);
 
-            var userToReturn = _mapper.Map<UserDetailedDto>(createdUser);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
 
-            return CreatedAtRoute("GetUser", new { controller = "Users", id = createdUser.Id }, userToReturn);
+            var userToReturn = _mapper.Map<UserDetailedDto>(userToCreate);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
         {
-            var userFromRepo = await _repo.Login(userForLogin.Username.ToLower(), userForLogin.Password);
+            var user = await _userManager.FindByNameAsync(userForLogin.Username);
 
-            if (userFromRepo == null)
+            if(user == null)
+            {
                 return Unauthorized();
+            }
 
-            var claims = new[]{
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name,userFromRepo.UserName),
+            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLogin.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized();
+            }
+
+            var userDto = _mapper.Map<UserListDto>(user);
+            return Ok(new
+            {
+                token = await GenetrateToken(user),
+                user = userDto
+            });
+        }
+
+        private async Task<string> GenetrateToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
             };
 
+            var roles = await _userManager.GetRolesAsync(user);
+
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
@@ -77,12 +105,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var user = _mapper.Map<UserListDto>(userFromRepo);
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token),
-                user
-            });
+            return tokenHandler.WriteToken(token);
         }
 
     }

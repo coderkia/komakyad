@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
+using Kia.KomakYad.Api.Helpers;
 
 namespace Kia.KomakYad.Api
 {
@@ -41,7 +42,7 @@ namespace Kia.KomakYad.Api
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
-            builder.AddRoleValidator <RoleValidator<Role>>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
 
@@ -55,10 +56,15 @@ namespace Kia.KomakYad.Api
                     ValidateAudience = false,
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthHelper.AdminPolicy, policy => policy.RequireRole(AuthHelper.AdminRole));
+                options.AddPolicy(AuthHelper.ReadPolicy, policy => policy.RequireRole(AuthHelper.AdminRole, AuthHelper.MemberRole, AuthHelper.ModeratorRole, AuthHelper.ReporterRole));
+            });
+
             services.AddCors();
             services.AddDbContext<DataContext>(c => c.UseSqlServer(Configuration.GetConnectionString("DefaultConnections")));
             services.AddAutoMapper(typeof(LeitnerRepository).Assembly, typeof(Program).Assembly, typeof(User).Assembly);
-            services.AddTransient<ILeitnerRepository, LeitnerRepository>();
             services.AddTransient<ILeitnerRepository, LeitnerRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
 
