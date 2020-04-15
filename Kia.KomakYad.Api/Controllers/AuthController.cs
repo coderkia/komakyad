@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Kia.KomakYad.Api.Models;
 
 namespace Kia.KomakYad.Api.Controllers
 {
@@ -74,6 +75,34 @@ namespace Kia.KomakYad.Api.Controllers
                 token = await GenetrateToken(user),
                 user = userDto
             });
+        }
+
+        [HttpPost("Restore({userName})")]
+        public async Task<IActionResult> Restore(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+                return NotFound();
+
+            var emailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            //send email
+
+            return NoContent();
+        }
+
+        [HttpPost("ResetPass({token})")]
+        public async Task<IActionResult> ResetPass(string token, ResetPasswordModel resetPasswordModel)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordModel.NewPassword);
+
+            if (result.Succeeded)
+                return NoContent();
+
+            return BadRequest(result.Errors);
         }
 
         private async Task<string> GenetrateToken(User user)
