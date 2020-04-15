@@ -77,7 +77,7 @@ namespace Kia.KomakYad.Api.Controllers
             });
         }
 
-        [HttpPost("Restore({userName})")]
+        [HttpPost("RestorePass({userName})")]
         public async Task<IActionResult> Restore(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
@@ -87,7 +87,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             var emailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            //send email
+            //todo send email
 
             return NoContent();
         }
@@ -103,6 +103,22 @@ namespace Kia.KomakYad.Api.Controllers
                 return NoContent();
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpPost("ChangePass")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userManager.FindByIdAsync<int>(userId);
+
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+
+            if (result.Succeeded)
+                return NoContent();
+
+            return BadRequest(result.Errors);
+
         }
 
         private async Task<string> GenetrateToken(User user)
