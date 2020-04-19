@@ -52,6 +52,34 @@ namespace Kia.KomakYad.Api.Controllers
             return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
         }
 
+        [HttpPost("ConfirmEmail({email})/token({token})")]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return Unauthorized();
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+                return NoContent();
+
+            return BadRequest(result.Errors);
+        }
+
+        [HttpPost("GetEmailConfirmationToken({email})")]
+        [Authorize]
+        public async Task<IActionResult> GetEmailConfirmationToken(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return Unauthorized();
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            return Ok(new { token });
+        }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
         {
@@ -109,8 +137,8 @@ namespace Kia.KomakYad.Api.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _userManager.FindByIdAsync<int>(userId);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userManager.FindByIdAsync(userId);
 
             var result = await _userManager.ChangePasswordAsync(user, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
 
