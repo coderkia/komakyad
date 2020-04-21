@@ -52,6 +52,8 @@ namespace Kia.KomakYad.Api.Controllers
 
             var userToReturn = _mapper.Map<UserDetailedDto>(userToCreate);
 
+            await GetEmailConfirmationToken(userToCreate.Email);
+
             return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
         }
 
