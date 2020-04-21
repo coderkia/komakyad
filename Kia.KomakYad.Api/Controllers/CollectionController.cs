@@ -13,7 +13,7 @@ namespace Kia.KomakYad.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Policy = AuthHelper.ReadPolicy)]
     public class CollectionController : ControllerBase
     {
         private readonly ILeitnerRepository _repo;

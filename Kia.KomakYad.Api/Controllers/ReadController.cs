@@ -14,7 +14,7 @@ namespace Kia.KomakYad.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = AuthHelper.ReadPolicy)]
     public class ReadController : ControllerBase
     {
         private readonly IMapper _mapper;

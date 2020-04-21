@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Kia.KomakYad.Api.Helpers;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
@@ -12,7 +13,7 @@ namespace Kia.KomakYad.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = AuthHelper.AdminPolicy)]
     public class UsersController : ControllerBase
     {
         private readonly ILeitnerRepository _repo;
