@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Kia.KomakYad.Api.Models;
+using Kia.KomakYad.Common.Services;
 
 namespace Kia.KomakYad.Api.Controllers
 {
@@ -26,12 +27,14 @@ namespace Kia.KomakYad.Api.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly EmailService _emailService;
 
-        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService)
         {
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
             _config = config;
         }
 
@@ -52,10 +55,10 @@ namespace Kia.KomakYad.Api.Controllers
             return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
         }
 
-        [HttpPost("ConfirmEmail({email})/token({token})")]
-        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        [HttpGet("ConfirmEmail/{userId}/token/{token}", Name ="ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string userName, string token)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
                 return Unauthorized();
 
@@ -77,7 +80,12 @@ namespace Kia.KomakYad.Api.Controllers
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            return Ok(new { token });
+            var confirmationLink = $"{Request.Scheme}://{Request.Host}" + Url.Action("ConfirmEmail", new { token, userName = user.UserName });
+
+            var message = $"Hi {user.FirstName}\r\n Confirm your email address by clicking on following link.\r\n{confirmationLink}";
+            await _emailService.SendAsync(message, "Confirm your email address", email, false);
+
+            return NoContent();
         }
 
         [HttpPost("Login")]
@@ -85,7 +93,7 @@ namespace Kia.KomakYad.Api.Controllers
         {
             var user = await _userManager.FindByNameAsync(userForLogin.Username);
 
-            if(user == null)
+            if (user == null)
             {
                 return Unauthorized();
             }
@@ -159,7 +167,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            foreach(var role in roles)
+            foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
