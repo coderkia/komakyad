@@ -5,6 +5,7 @@ using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -19,10 +20,13 @@ namespace Kia.KomakYad.Api.Controllers
     {
         private ILeitnerRepository _repo;
         private readonly IMapper _mapper;
-        public CardController(ILeitnerRepository repo, IMapper mapper)
+        private readonly UserManager<User> _userManager;
+
+        public CardController(ILeitnerRepository repo, IMapper mapper, UserManager<User> userManager)
         {
             _repo = repo;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -87,11 +91,11 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpGet("Search")]
         public async Task<IActionResult> Search(CardParams cardParams)
         {
-            var author = (await _repo.GetCollection(cardParams.CollectionId));
-            //todo admin can search another users
-            if (author.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (!User.IsInRole(AuthHelper.AdminRole))
             {
-                return Unauthorized();
+                var collection = (await _repo.GetCollection(cardParams.CollectionId));
+                if (collection.IsPrivate && collection.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                    return Unauthorized();
             }
 
             var cards = await _repo.GetCards(cardParams);
