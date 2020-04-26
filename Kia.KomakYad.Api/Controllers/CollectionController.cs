@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
+using Kia.KomakYad.Api.Helpers;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
@@ -69,33 +70,21 @@ namespace Kia.KomakYad.Api.Controllers
             return Ok(collections);
         }
 
-        [HttpGet("User/{userId}")]
+        [HttpGet]
         public async Task<IActionResult> GetCollections([FromQuery] CollectionParams collectionParams)
         {
-            if (collectionParams.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            collectionParams.IncludePrivateCollections = true;
+            if (!User.IsInRole(AuthHelper.AdminRole))
             {
-                return Unauthorized();
+                if (collectionParams.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                    collectionParams.IncludePrivateCollections = false;
             }
 
             var collections = await _repo.GetCollections(collectionParams);
 
+            Response.AddPagination(collections);
+
             return Ok(collections);
-        }
-
-        [HttpGet("{collectionId}/Cards", Name = "GetCards")]
-        public async Task<IActionResult> GetCards(int collectionId, [FromQuery]CardParams cardParams)
-        {
-            cardParams.CollectionId = collectionId;
-            var cards = await _repo.GetCards(cardParams);
-            if (cards == null)
-            {
-                return BadRequest();
-            }
-            var cardToReturnDtos = _mapper.Map<IEnumerable<CardToReturnDto>>(cards);
-
-            Response.AddPagination(cards.CurrentPage, cards.PageSize, cards.TotalCount, cards.TotalPages);
-
-            return Ok(cardToReturnDtos);
         }
     }
 }

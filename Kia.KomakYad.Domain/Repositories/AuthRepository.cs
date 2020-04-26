@@ -30,7 +30,7 @@ namespace Kia.KomakYad.Domain.Repositories
                                                select role.Name).ToList()
                                   }).AsQueryable();
 
-            return await PagedList<UserWithRolesDto>.CreateAsync(userList, filters.PageNumber, filters.PageSize);
+            return await PagedList<UserWithRolesDto>.CreateAsync(userList, filters);
                                 
         }
     }

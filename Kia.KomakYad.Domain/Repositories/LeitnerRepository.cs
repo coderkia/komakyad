@@ -39,19 +39,20 @@ namespace Kia.KomakYad.Domain.Repositories
             var collections = _context.ReadCollections.Where(c => c.OwnerId == ownerId)
                 .Include(m => m.Collection).Select(c => c.Collection);
 
-            return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
+            return await PagedList<Collection>.CreateAsync(collections, filters);
         }
 
         public async Task<PagedList<Collection>> GetCollections(CollectionParams filters)
         {
             var collections = _context.Collections.AsQueryable();
 
-            if (filters.UserId.HasValue)
-            {
-                collections.Where(c => c.AuthorId == filters.UserId);
-            }
+            if (filters.AuthorId.HasValue)
+                collections.Where(c => c.AuthorId == filters.AuthorId);
 
-            return await PagedList<Collection>.CreateAsync(collections, filters.PageNumber, filters.PageSize);
+            if(string.IsNullOrWhiteSpace(filters.Title))
+                collections.Where(c => c.Title.Contains(filters.Title));
+
+            return await PagedList<Collection>.CreateAsync(collections, filters);
         }
 
         public async Task<int> GetDueCardCount(int readCollectionId, ReadCardParams filters)
@@ -98,7 +99,7 @@ namespace Kia.KomakYad.Domain.Repositories
 
             users = users.Where(u => u.Id != filters.UserId);
 
-            return await PagedList<User>.CreateAsync(users, filters.PageNumber, filters.PageSize);
+            return await PagedList<User>.CreateAsync(users, filters);
         }
 
         public async Task<Card> GetCardById(int cardId)
@@ -134,7 +135,7 @@ namespace Kia.KomakYad.Domain.Repositories
                     cards = cards.OrderByDescending(c => c.Id);
                     break;
             }
-            return await PagedList<Card>.CreateAsync(cards, filters.PageNumber, filters.PageSize);
+            return await PagedList<Card>.CreateAsync(cards, filters);
         }
 
         private IQueryable<ReadCard> GetReadCardsQuery(int readCollectionId, ReadCardParams filters)
@@ -168,7 +169,7 @@ namespace Kia.KomakYad.Domain.Repositories
         public async Task<PagedList<ReadCard>> GetReadCards(int readCollectionId, ReadCardParams filters)
         {
             var query = GetReadCardsQuery(readCollectionId, filters);
-            return await PagedList<ReadCard>.CreateAsync(query, filters.PageNumber, filters.PageSize);
+            return await PagedList<ReadCard>.CreateAsync(query, filters);
         }
 
         public async Task<IEnumerable<Card>> GetCards(int collectionId)
@@ -198,7 +199,7 @@ namespace Kia.KomakYad.Domain.Repositories
                 query = query.Where(c => c.OwnerId == filters.OwnerId);
             }
 
-            return await PagedList<ReadCollection>.CreateAsync(query, filters.PageNumber, filters.PageSize);
+            return await PagedList<ReadCollection>.CreateAsync(query, filters);
         }
     }
 }

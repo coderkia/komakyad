@@ -27,11 +27,20 @@ namespace Kia.KomakYad.Common.Helpers
             this.AddRange(items);
         }
 
-        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
+        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, SearchBaseParams searchParams)
         {
             var count = await source.CountAsync();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+           
+            if(!string.IsNullOrWhiteSpace(searchParams.OrderBy))
+                source = source.OrderBy(searchParams.OrderBy);
+
+            if (!string.IsNullOrWhiteSpace(searchParams.OrderByDesc))
+                source = source.OrderByDescending(searchParams.OrderByDesc);
+
+            var items = await source.Skip((searchParams.PageNumber - 1) * searchParams.PageSize).Take(searchParams.PageSize).ToListAsync();
+            return new PagedList<T>(items, count, searchParams.PageNumber, searchParams.PageSize);
         }
+
+
     }
 }

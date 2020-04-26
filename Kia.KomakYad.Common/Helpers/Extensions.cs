@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Kia.KomakYad.Common.Helpers
 {
@@ -72,6 +75,66 @@ namespace Kia.KomakYad.Common.Helpers
                     throw new NotImplementedException($"Deck {deck} is not defined.");
 
             }
+        }
+
+        public static IQueryable<TSource> OrderBy<TSource>(this IQueryable<TSource> query, string propertyName)
+        {
+            var entityType = typeof(TSource);
+
+            //Create x=>x.PropName
+            var propertyInfo = entityType.GetProperty(propertyName);
+            if (propertyInfo == null)
+                return query;
+
+            ParameterExpression arg = Expression.Parameter(entityType, "x");
+            MemberExpression property = Expression.Property(arg, propertyName);
+            var selector = Expression.Lambda(property, new ParameterExpression[] { arg });
+
+            var enumarableType = typeof(System.Linq.Queryable);
+            var method = enumarableType.GetMethods()
+                 .Where(m => m.Name == "OrderBy" && m.IsGenericMethodDefinition)
+                 .Where(m =>
+                 {
+                     var parameters = m.GetParameters().ToList();             
+                     return parameters.Count == 2;
+                 }).Single();
+
+            MethodInfo genericMethod = method
+                 .MakeGenericMethod(entityType, propertyInfo.PropertyType);
+
+            var newQuery = (IOrderedQueryable<TSource>)genericMethod
+                 .Invoke(genericMethod, new object[] { query, selector });
+            return newQuery;
+        }
+
+        public static IQueryable<TSource> OrderByDescending<TSource>(this IQueryable<TSource> query, string propertyName)
+        {
+            var entityType = typeof(TSource);
+
+            var propertyInfo = entityType.GetProperty(propertyName);
+            if (propertyInfo == null)
+                return query;
+
+            ParameterExpression arg = Expression.Parameter(entityType, "x");
+            MemberExpression property = Expression.Property(arg, propertyName);
+            var selector = Expression.Lambda(property, new ParameterExpression[] { arg });
+
+            var enumarableType = typeof(System.Linq.Queryable);
+            var method = enumarableType.GetMethods()
+                 .Where(m => m.Name == "OrderByDescending" && m.IsGenericMethodDefinition)
+                 .Where(m =>
+                 {
+                     var parameters = m.GetParameters().ToList();
+                     
+                     return parameters.Count == 2;
+                 }).Single();
+
+            MethodInfo genericMethod = method
+                 .MakeGenericMethod(entityType, propertyInfo.PropertyType);
+
+            var newQuery = (IOrderedQueryable<TSource>)genericMethod
+                 .Invoke(genericMethod, new object[] { query, selector });
+            return newQuery;
         }
     }
 }

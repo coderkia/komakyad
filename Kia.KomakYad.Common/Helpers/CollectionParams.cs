@@ -1,20 +1,9 @@
 ﻿namespace Kia.KomakYad.Common.Helpers
 {
-    public class CollectionParams
+    public class CollectionParams : SearchBaseParams
     {
-        private const int MaxPageSize = 50;
-        public int PageNumber { get; set; } = 1;
-
-        private int pageSize = 10;
-        public int PageSize
-        {
-            get { return pageSize; }
-            set
-            {
-                pageSize = value > MaxPageSize ? MaxPageSize : value;
-            }
-        }
-        public string OrderBy { get; set; }
-        public int? UserId { get; set; }
+        public int? AuthorId { get; set; }
+        public string Title { get; set; }
+        public bool IncludePrivateCollections { get; set; }
     }
 }
