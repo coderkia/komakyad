@@ -20,13 +20,11 @@ namespace Kia.KomakYad.Api.Controllers
     {
         private ILeitnerRepository _repo;
         private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
 
-        public CardController(ILeitnerRepository repo, IMapper mapper, UserManager<User> userManager)
+        public CardController(ILeitnerRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
-            _userManager = userManager;
         }
 
         [HttpPost]
