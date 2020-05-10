@@ -16,12 +16,12 @@
       </li>
     </ul>
 
-    <div class="dropdown">
+    <div *ngIf="loggedIn()" class="dropdown">
       <a class="dropdown-toggle text-light" >
         Welcome User
       </a>
     
-      <div *ngIf="loggedIn()" class="dropdown-menu" >
+      <div class="dropdown-menu" >
         <a class="dropdown-item" href="#">
           <i class="fa fa-user"></i> Edit Profile
         </a>
