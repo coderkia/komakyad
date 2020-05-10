@@ -19,6 +19,9 @@ using Newtonsoft.Json;
 using Kia.KomakYad.Api.Helpers;
 using Kia.KomakYad.Common.Services;
 using Kia.KomakYad.Common.Configurations;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace Kia.KomakYad.Api
 {
@@ -88,6 +91,19 @@ namespace Kia.KomakYad.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(builder => builder.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if(error != null)
+                    {
+                        context.Response.AddApplicationError(error.Error.Message);
+                        await context.Response.WriteAsync(error.Error.Message);
+                    }
+                }));
             }
 
             //app.UseHttpsRedirection();
