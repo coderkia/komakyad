@@ -10,6 +10,11 @@ import { ReadCardComponent } from './ReadCard/ReadCard.component';
 import { CollectionManagementComponent } from './CollectionManagement/CollectionManagement.component';
 import { CardExploringComponent } from './CardExploring/CardExploring.component';
 import { ResetPassComponent } from './ResetPass/ResetPass.component';
+import { NavComponent } from './nav/nav.component';
+import {FormsModule} from '@angular/forms';
+import { AuthService } from './_services/auth.service';
+import { RegisterComponent } from './Auth/register/register.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
    declarations: [
@@ -20,13 +25,19 @@ import { ResetPassComponent } from './ResetPass/ResetPass.component';
       ReadCardComponent,
       CollectionManagementComponent,
       CardExploringComponent,
-      ResetPassComponent
+      ResetPassComponent,
+      NavComponent,
+      RegisterComponent,
+      HomeComponent
    ],
    imports: [
       BrowserModule,
-      HttpClientModule
+      HttpClientModule,
+      FormsModule
    ],
-   providers: [],
+   providers: [
+      AuthService
+   ],
    bootstrap: [
       AppComponent
    ]

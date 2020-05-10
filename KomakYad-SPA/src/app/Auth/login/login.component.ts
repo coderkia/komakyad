@@ -15,10 +15,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.http.post('').subscribe(response => {
-      this.loginResponse = response;
-    }, error =>{
-      console.log(error);
-    });
+    // this.http.post('').subscribe(response => {
+    //   this.loginResponse = response;
+    // }, error =>{
+    //   console.log(error);
+    // });
   }
 }
