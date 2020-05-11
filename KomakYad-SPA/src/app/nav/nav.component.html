@@ -34,7 +34,7 @@
     </div>
 
     <form *ngIf="!loggedIn()" #lginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()"> 
-      <input name="username" required class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username" spellcheck="false" data-ms-editor="true" [(ngModel)]="model.username">
+      <input name="username" required class="form-control mr-sm-2" type="text" placeholder="Username, or email" aria-label="Username" spellcheck="false" data-ms-editor="true" [(ngModel)]="model.username">
       <input name="password" required class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password" spellcheck="false" data-ms-editor="true" [(ngModel)]="model.password">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="!lginForm.valid">Login</button>
     </form>

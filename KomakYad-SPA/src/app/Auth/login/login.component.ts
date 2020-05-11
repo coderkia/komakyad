@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/_services/auth.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-login',
@@ -7,18 +8,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  model: any;
   loginResponse: any;
-  constructor(private http: HttpClient) { }
+  constructor(private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
 
+
   login() {
-    // this.http.post('').subscribe(response => {
-    //   this.loginResponse = response;
-    // }, error =>{
-    //   console.log(error);
-    // });
+    this.authService.login(this.model).subscribe(response => {
+      this.alertify.success('Logged in successfully');
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }
