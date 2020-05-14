@@ -19,6 +19,7 @@ export class AuthService {
           const user = response;
           if (user) {
             localStorage.setItem('token', user.token);
+            localStorage.setItem('user', user.user);
           }
         })
       );
@@ -28,7 +29,7 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'register', model);
   }
 
-  loggedIn(){
+  loggedIn() {
     const token = localStorage.getItem('token');
     return this.jwtHelper.isTokenExpired(token);
   }
