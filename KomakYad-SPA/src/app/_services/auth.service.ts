@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
   baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
+  currentUser;
   constructor(private http: HttpClient) { }
 
   login(model: any) {
@@ -19,8 +20,10 @@ export class AuthService {
           const user = response;
           if (user) {
             localStorage.setItem('token', user.token);
-            localStorage.setItem('user', user.user);
+            localStorage.setItem('user', JSON.stringify(user.user));
           }
+          const decodedToken = this.jwtHelper.decodeToken(user.token);
+          this.currentUser = user.user;
         })
       );
   }
@@ -31,6 +34,6 @@ export class AuthService {
 
   loggedIn() {
     const token = localStorage.getItem('token');
-    return this.jwtHelper.isTokenExpired(token);
+    return !this.jwtHelper.isTokenExpired(token);
   }
 }

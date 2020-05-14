@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
@@ -16,6 +17,7 @@ import { AuthService } from './_services/auth.service';
 import { RegisterComponent } from './Auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvider } from './_services/error.intercptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
    declarations: [
@@ -34,7 +36,9 @@ import { ErrorInterceptorProvider } from './_services/error.intercptor';
    imports: [
       BrowserModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      BrowserAnimationsModule,
+      BsDropdownModule.forRoot()
    ],
    providers: [
       AuthService,
