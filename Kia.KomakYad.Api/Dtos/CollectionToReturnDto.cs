@@ -7,7 +7,7 @@ namespace Kia.KomakYad.Api.Dtos
     {
         public int Id { get; set; }
         public Guid UniqueId { get; set; }
-        public UserDetailedDto Auther { get; set; }
+        public UserDetailedDto Author { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }
