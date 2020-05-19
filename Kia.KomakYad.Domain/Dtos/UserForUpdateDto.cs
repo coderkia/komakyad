@@ -4,10 +4,10 @@ namespace Kia.KomakYad.Domain.Dtos
 {
     public class UserForUpdateDto
     {
-        [Required]
+        [StringLength(250)]
         public string FirstName { get; set; }
 
-        [Required]
+        [StringLength(250)]
         public string LastName { get; set; }
     }
 }

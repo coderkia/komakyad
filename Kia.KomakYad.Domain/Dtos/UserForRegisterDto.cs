@@ -15,10 +15,10 @@ namespace Kia.KomakYad.Domain.Dtos
         [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8 character.")]
         public string Password { get; set; }
 
-        [Required]
+        [StringLength(250)]
         public string FirstName { get; set; }
 
-        [Required]
+        [StringLength(250)]
         public string LastName { get; set; }
 
     }
