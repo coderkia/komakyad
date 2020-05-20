@@ -1,30 +1,125 @@
-<form #registerForm="ngForm" (ngSubmit)="register()">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
   <h2 class="text-center text-primary">Sign Up</h2>
-  <hr>
-
+  <hr />
   <div class="form-group">
-    <input type="text" class="form-control" name="username" placeholder="Username" [(ngModel)]="model.username">
+    <input
+      type="email"
+      [ngClass]="{
+        'is-invalid':
+          registerForm.get('email').errors && registerForm.get('email').touched
+      }"
+      class="form-control"
+      formControlName="email"
+      placeholder="Email"
+    />
+    <div class="invalid-feedback">The Email field is required.</div>
   </div>
 
   <div class="form-group">
-    <input type="email" class="form-control" name="email" placeholder="Email" [(ngModel)]="model.email">
+    <input
+      type="text"
+      [ngClass]="{
+        'is-invalid':
+          registerForm.get('username').errors &&
+          registerForm.get('username').touched
+      }"
+      class="form-control"
+      formControlName="username"
+      placeholder="Username"
+    />
+    <div class="invalid-feedback">The Username field is required.</div>
   </div>
 
   <div class="form-group">
-    <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="model.password">
-  </div>
-  
-  <div class="form-group">
-    <input type="text" class="form-control" name="firstname" placeholder="First Name" [(ngModel)]="model.firstname">
+    <input
+      type="password"
+      [ngClass]="{
+        'is-invalid':
+          registerForm.get('password').errors &&
+          registerForm.get('password').touched
+      }"
+      class="form-control"
+      formControlName="password"
+      placeholder="Password"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registerForm.get('password').hasError('required') &&
+        registerForm.get('password').touched
+      "
+    >
+      The Password field is required.
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registerForm.get('password').hasError('minlength') &&
+        registerForm.get('password').touched
+      "
+    >
+      Password must be at least 6 characters
+    </div>
   </div>
 
   <div class="form-group">
-    <input type="text" class="form-control" name="lastname" placeholder="Last Name" [(ngModel)]="model.lastname">
+    <input
+      type="password"
+      [ngClass]="{
+        'is-invalid':
+          (registerForm.get('confirmPassword').errors &&
+            registerForm.get('confirmPassword').touched) ||
+          (registerForm.get('confirmPassword').touched &&
+            registerForm.hasError('mismatch'))
+      }"
+      class="form-control"
+      formControlName="confirmPassword"
+      placeholder="Confirm Password"
+    />
+
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        registerForm.get('confirmPassword').hasError('required') &&
+        registerForm.get('confirmPassword').touched
+      "
+    >
+      Password is required
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        !registerForm.get('confirmPassword').hasError('required') &&
+        registerForm.hasError('mismatch') &&
+        registerForm.get('confirmPassword').touched
+      "
+    >
+      Password must match
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      formControlName="firstName"
+      placeholder="First Name"
+    />
+  </div>
+
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      formControlName="lastName"
+      placeholder="Last Name"
+    />
   </div>
 
   <div class="form-group text-center">
-    <button class="btn btn-success" type="submit">Register</button>
-    <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+    <button class="btn btn-success" [disabled]="!registerForm.valid" type="submit">Register</button>
+    <button class="btn btn-default" type="button" (click)="cancel()">
+      Cancel
+    </button>
   </div>
-  
 </form>

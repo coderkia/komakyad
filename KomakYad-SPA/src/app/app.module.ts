@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
@@ -13,12 +15,11 @@ import { CollectionManagementComponent } from './CollectionManagement/Collection
 import { CardExploringComponent } from './CardExploring/CardExploring.component';
 import { ResetPassComponent } from './ResetPass/ResetPass.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
 import { RegisterComponent } from './Auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvider } from './_services/error.intercptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appRoutes } from './routes';
 
 @NgModule({
@@ -39,8 +40,11 @@ import { appRoutes } from './routes';
       BrowserModule,
       HttpClientModule,
       FormsModule,
+      ReactiveFormsModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
+      BsDatepickerModule.forRoot(),
+      BrowserAnimationsModule,
       RouterModule.forRoot(appRoutes)
    ],
    providers: [
