@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-header">
+    Search in Collections
+  </div>
+  <div class="card-body">
+    <form [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" formControlName="title" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="author">Author</label>
+          <input type="text" class="form-control" formControlName="author" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <button class="btn btn-light" type="reset">Reset</button>
+          <button class="btn btn-success ml-1" type="submit">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

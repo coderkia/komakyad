@@ -21,6 +21,8 @@ import { RegisterComponent } from './Auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvider } from './_services/error.intercptor';
 import { appRoutes } from './routes';
+import { CollectionsComponent } from './Collections/Collections.component';
+import { CollectionSearchComponent } from './Collections/CollectionSearch/CollectionSearch.component';
 
 @NgModule({
    declarations: [
@@ -34,7 +36,9 @@ import { appRoutes } from './routes';
       ResetPassComponent,
       NavComponent,
       RegisterComponent,
-      HomeComponent
+      HomeComponent,
+      CollectionsComponent,
+      CollectionSearchComponent
    ],
    imports: [
       BrowserModule,
