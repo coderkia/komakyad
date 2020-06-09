@@ -1,11 +1,30 @@
 <div class="card">
   <div class="card-body">
     <div class="card-title">
-      {{ model.title }}
+        {{ model.title }}
     </div>
     <p class="card-text">
       {{ model.description }}
     </p>
+    <div class="btn-group" dropdown [dropup]="true">
+      <button id="button-dropup" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+              aria-controls="dropdown-dropup">
+        Options <span class="caret"></span>
+      </button>
+      <ul id="dropdown-dropup" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-dropup">
+        <li role="menuitem"><a class="dropdown-item" href="#">Preview</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Add to reads</a>
+        </li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Search Cards</a></li>
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Edit</a>
+          <li role="menuitem"><a class="dropdown-item" href="#">New Card</a>
+            <li role="menuitem"><a class="dropdown-item" href="#">Make Private</a>
+              <li role="menuitem"><a class="dropdown-item" href="#">Make Public</a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="card-footer">
     Author: {{ model.author.firstName || "" + model.author.lastName || "" }}

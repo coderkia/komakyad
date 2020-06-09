@@ -23,3 +23,10 @@
     </form>
   </div>
 </div>
+<hr />
+<pagination
+  [totalItems]="pagination.totalItems"
+  [(ngModel)]="pagination.currentPage"
+  [itemsPerPage]="pagination.itemsPerPage"
+  (pageChanged)="pageChanged($event)"
+></pagination>

@@ -12,7 +12,7 @@ export class CollectionManagementComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   getCollections() {
 
   }
