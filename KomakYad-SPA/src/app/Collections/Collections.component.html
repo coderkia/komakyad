@@ -1,8 +1,10 @@
 <div class="container">
-
-  <app-collection-search
-    (collectionList)="getSearchResult($event)"
-  >
-</app-collection-search>
-
+  <app-collection-search (collectionList)="getSearchResult($event)">
+  </app-collection-search>
+  <hr />
+  <div class="row">
+    <div class="col col-md-4" *ngFor="let item of collectionList">
+      <app-CollectionItem [model]="item"> </app-CollectionItem>
+    </div>
+  </div>
 </div>

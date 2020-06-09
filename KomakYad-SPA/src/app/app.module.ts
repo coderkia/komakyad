@@ -23,6 +23,7 @@ import { ErrorInterceptorProvider } from './_services/error.intercptor';
 import { appRoutes } from './routes';
 import { CollectionsComponent } from './Collections/Collections.component';
 import { CollectionSearchComponent } from './Collections/CollectionSearch/CollectionSearch.component';
+import { CollectionItemComponent } from './Collections/CollectionItem/CollectionItem.component';
 
 @NgModule({
    declarations: [
@@ -38,7 +39,8 @@ import { CollectionSearchComponent } from './Collections/CollectionSearch/Collec
       RegisterComponent,
       HomeComponent,
       CollectionsComponent,
-      CollectionSearchComponent
+      CollectionSearchComponent,
+      CollectionItemComponent
    ],
    imports: [
       BrowserModule,

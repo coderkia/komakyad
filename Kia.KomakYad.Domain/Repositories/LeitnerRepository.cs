@@ -44,12 +44,12 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<PagedList<Collection>> GetCollections(CollectionParams filters)
         {
-            var collections = _context.Collections.AsQueryable();
+            var collections = _context.Collections.Include(c => c.Author).AsQueryable();
 
             if (filters.AuthorId.HasValue)
                 collections.Where(c => c.AuthorId == filters.AuthorId);
 
-            if(string.IsNullOrWhiteSpace(filters.Title))
+            if (string.IsNullOrWhiteSpace(filters.Title))
                 collections.Where(c => c.Title.Contains(filters.Title));
 
             return await PagedList<Collection>.CreateAsync(collections, filters);

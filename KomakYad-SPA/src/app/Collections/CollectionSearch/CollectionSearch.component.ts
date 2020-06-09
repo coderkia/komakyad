@@ -37,6 +37,8 @@ export class CollectionSearchComponent implements OnInit {
 
   search() {
     this.collectionService.getCollections(1, 10, this.searchForm.value).subscribe(response => {
+      console.log('ia');
+      console.log(response);
       this.collectionList.emit(response);
     }, error => {
       this.alertify.error(error);

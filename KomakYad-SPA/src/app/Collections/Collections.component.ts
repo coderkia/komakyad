@@ -19,7 +19,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   getSearchResult(result: any) {
-    this.collectionList = result.collectionList;
+    this.collectionList = result.result;
     this.pagination = result.pagination;
     console.log(this.pagination);
     console.log(this.collectionList);
