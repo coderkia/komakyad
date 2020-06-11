@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CollectionResponse } from 'src/app/_models/collectionResponse';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-CollectionItem',
@@ -8,7 +9,8 @@ import { CollectionResponse } from 'src/app/_models/collectionResponse';
 })
 export class CollectionItemComponent implements OnInit {
   @Input() model: CollectionResponse;
-  constructor() { }
+
+  constructor(public authService: AuthService) { }
 
 
   ngOnInit() {

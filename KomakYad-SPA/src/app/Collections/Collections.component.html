@@ -1,9 +1,23 @@
 <div class="container">
-  <app-collection-search (collectionList)="getSearchResult($event)">
-  </app-collection-search>
-  <div class="row">
-    <div class="col col-md-4" *ngFor="let item of collectionList">
-      <app-CollectionItem [model]="item"> </app-CollectionItem>
+  <div class="alert alert-info mt-3">
+    Can't find a collection suits you? No worries, <a href="/collections/create"> create a new collection here!</a>
+  </div>
+
+  <app-collection-search
+    (collectionList)="getSearchResult($event)"
+    (loading)="getLoadingStatus($event)"
+  >
+  </app-collection-search>  
+  <hr/>
+  <div style="position: relative;">
+    <div class="loader-container {{ isLoading ? '' : 'hide' }}">
+      <div class="loader"></div>
+    </div>
+    
+    <div class="row">
+      <div class="col col-md-4" *ngFor="let item of collectionList">
+        <app-CollectionItem [model]="item"> </app-CollectionItem>
+      </div>
     </div>
   </div>
 </div>

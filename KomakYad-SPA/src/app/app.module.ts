@@ -25,6 +25,9 @@ import { appRoutes } from './routes';
 import { CollectionsComponent } from './Collections/Collections.component';
 import { CollectionSearchComponent } from './Collections/CollectionSearch/CollectionSearch.component';
 import { CollectionItemComponent } from './Collections/CollectionItem/CollectionItem.component';
+import { CollectionEditComponent } from './Collections/CollectionEdit/CollectionEdit.component';
+import { CollectionResolver } from './_resolvers/collection.resolver';
+import { CollectionCreateComponent } from './Collections/CollectionCreate/CollectionCreate.component';
 
 @NgModule({
    declarations: [
@@ -41,7 +44,9 @@ import { CollectionItemComponent } from './Collections/CollectionItem/Collection
       HomeComponent,
       CollectionsComponent,
       CollectionSearchComponent,
-      CollectionItemComponent
+      CollectionItemComponent,
+      CollectionEditComponent,
+      CollectionCreateComponent
    ],
    imports: [
       BrowserModule,
@@ -57,7 +62,8 @@ import { CollectionItemComponent } from './Collections/CollectionItem/Collection
    ],
    providers: [
       AuthService,
-      ErrorInterceptorProvider
+      ErrorInterceptorProvider,
+      CollectionResolver
    ],
    bootstrap: [
       AppComponent

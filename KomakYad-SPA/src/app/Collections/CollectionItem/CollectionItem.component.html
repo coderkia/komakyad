@@ -1,27 +1,66 @@
 <div class="card">
   <div class="card-body">
     <div class="card-title">
-        {{ model.title }}
+      {{ model.title }}
     </div>
     <p class="card-text">
       {{ model.description }}
     </p>
     <div class="btn-group" dropdown [dropup]="true">
-      <button id="button-dropup" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-              aria-controls="dropdown-dropup">
+      <button
+        id="button-dropup"
+        dropdownToggle
+        type="button"
+        class="btn btn-primary dropdown-toggle"
+        aria-controls="dropdown-dropup"
+      >
         Options <span class="caret"></span>
       </button>
-      <ul id="dropdown-dropup" *dropdownMenu class="dropdown-menu"
-          role="menu" aria-labelledby="button-dropup">
+      <ul
+        id="dropdown-dropup"
+        *dropdownMenu
+        class="dropdown-menu"
+        role="menu"
+        aria-labelledby="button-dropup"
+      >
         <li role="menuitem"><a class="dropdown-item" href="#">Preview</a></li>
-        <li role="menuitem"><a class="dropdown-item" href="#">Add to reads</a>
+        <li role="menuitem">
+          <a class="dropdown-item" href="#">Add to reads</a>
         </li>
-        <li role="menuitem"><a class="dropdown-item" href="#">Search Cards</a></li>
-        <li class="divider dropdown-divider"></li>
-        <li role="menuitem"><a class="dropdown-item" href="#">Edit</a>
-          <li role="menuitem"><a class="dropdown-item" href="#">New Card</a>
-            <li role="menuitem"><a class="dropdown-item" href="#">Make Private</a>
-              <li role="menuitem"><a class="dropdown-item" href="#">Make Public</a>
+        <li role="menuitem">
+          <a class="dropdown-item" href="#">Search Cards</a>
+        </li>
+        <li
+          class="divider dropdown-divider"
+          *ngIf="model.author.id == authService.currentUser.id"
+        ></li>
+        <li
+          role="menuitem"
+          *ngIf="model.author.id == authService.currentUser.id"
+        >
+          <a class="dropdown-item" href="/collections/{{ model.id }}/update"
+            >Edit</a
+          >
+        </li>
+        <li
+          role="menuitem"
+          *ngIf="model.author.id == authService.currentUser.id"
+        >
+          <a class="dropdown-item" href="/collections/{{ model.id }}/cards"
+            >New Card</a
+          >
+        </li>
+        <li
+          role="menuitem"
+          *ngIf="model.author.id == authService.currentUser.id"
+        >
+          <a class="dropdown-item" href="#">Make Private</a>
+        </li>
+        <li
+          role="menuitem"
+          *ngIf="model.author.id == authService.currentUser.id"
+        >
+          <a class="dropdown-item" href="#">Make Public</a>
         </li>
       </ul>
     </div>

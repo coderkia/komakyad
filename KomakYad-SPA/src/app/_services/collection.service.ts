@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { CollectionResponse } from '../_models/collectionResponse';
 import { PaginatedResult } from '../_models/filters/pagination';
+import { CollectionRequest } from '../_models/collectionRequest';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,6 +18,15 @@ const httpOptions = {
 export class CollectionService {
   baseUrl = environment.apiUrl + 'collection';
   constructor(private http: HttpClient) { }
+
+  getCollectionById(id: number): Observable<CollectionResponse> {
+    return this.http.get<CollectionResponse>(this.baseUrl + '/' + id, { observe: 'response', headers: httpOptions.headers })
+      .pipe(
+        map(response => {
+          return response.body;
+        })
+      );
+  }
 
   getCollections(page?, itemPerPage?, collectionParams?: any): Observable<PaginatedResult<CollectionResponse[]>> {
     const paginatedResult: PaginatedResult<CollectionResponse[]> = new PaginatedResult<CollectionResponse[]>();
@@ -34,7 +44,7 @@ export class CollectionService {
       if (collectionParams.title != null) {
         params = params.append('title', collectionParams.title);
       }
-      if (collectionParams.title != null) {
+      if (collectionParams.includePrivateCollections != null) {
         params = params.append('includePrivateCollections', collectionParams.includePrivateCollections);
       }
     }
@@ -49,5 +59,12 @@ export class CollectionService {
           return paginatedResult;
         })
       );
+  }
+
+  update(id: number, collectionRequest: CollectionRequest) {
+    return this.http.put(this.baseUrl + '/' + id, collectionRequest, { observe: 'response', headers: httpOptions.headers });
+  }
+  create(collectionRequest: CollectionRequest) {
+    return this.http.post(this.baseUrl, collectionRequest, { observe: 'response', headers: httpOptions.headers });
   }
 }

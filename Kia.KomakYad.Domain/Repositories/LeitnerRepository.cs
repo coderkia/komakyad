@@ -47,10 +47,10 @@ namespace Kia.KomakYad.Domain.Repositories
             var collections = _context.Collections.Include(c => c.Author).AsQueryable();
 
             if (filters.AuthorId.HasValue)
-                collections.Where(c => c.AuthorId == filters.AuthorId);
+                collections = collections.Where(c => c.AuthorId == filters.AuthorId);
 
-            if (string.IsNullOrWhiteSpace(filters.Title))
-                collections.Where(c => c.Title.Contains(filters.Title));
+            if (!string.IsNullOrWhiteSpace(filters.Title))
+                collections = collections.Where(c => c.Title.Contains(filters.Title));
 
             return await PagedList<Collection>.CreateAsync(collections, filters);
         }
@@ -66,7 +66,7 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             filters.OnlyDued = false;
             var query = GetReadCardsQuery(readCollectionId, filters);
-            query.Where(c => c.LastChanged > DateTime.Now.Date);
+            query = query.Where(c => c.LastChanged > DateTime.Now.Date);
             return await query.CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
         }
 
@@ -74,7 +74,7 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             filters.OnlyDued = false;
             var query = GetReadCardsQuery(readCollectionId, filters);
-            query.Where(c => c.LastChanged > DateTime.Now.Date);
+            query = query.Where(c => c.LastChanged > DateTime.Now.Date);
             return await query.CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
         }
 

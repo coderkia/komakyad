@@ -12,6 +12,8 @@ import { Pagination } from 'src/app/_models/filters/pagination';
 })
 export class CollectionSearchComponent implements OnInit {
   @Output() collectionList = new EventEmitter();
+  @Output() loading = new EventEmitter();
+  isLoading: boolean;
   pagination: Pagination = new Pagination();
   baseUrl = environment.apiUrl + 'collection/search';
   searchForm: FormGroup;
@@ -39,16 +41,22 @@ export class CollectionSearchComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
-    this.search();
+    this.search(this.pagination.currentPage);
   }
 
-  search() {
-    this.collectionService.getCollections(this.pagination.currentPage, this.pagination.itemsPerPage, this.searchForm.value)
-      .subscribe(response => {
+  search(currentPage?: number) {
+    this.isLoading = true;
+    this.loading.emit(this.isLoading);
+    this.collectionService.getCollections(currentPage ?? 1, this.pagination.itemsPerPage,
+      this.searchForm.value).subscribe(response => {
         this.pagination = response.pagination;
         this.collectionList.emit(response);
+        this.isLoading = false;
+        this.loading.emit(false);
       }, error => {
         this.alertify.error(error);
+        this.isLoading = false;
+        this.loading.emit(false);
       });
   }
 

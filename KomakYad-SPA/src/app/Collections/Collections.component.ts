@@ -9,13 +9,16 @@ import { Pagination } from '../_models/filters/pagination';
   styleUrls: ['./Collections.component.css']
 })
 export class CollectionsComponent implements OnInit {
-
+  isLoading: boolean;
   collectionList: Array<CollectionResponse>;
   constructor(private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
 
+  getLoadingStatus(isLoading: boolean) {
+    this.isLoading = isLoading;
+  }
 
   getSearchResult(result: any) {
     this.collectionList = result.result;

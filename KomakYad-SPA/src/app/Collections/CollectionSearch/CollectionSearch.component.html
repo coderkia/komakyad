@@ -1,32 +1,33 @@
-<div class="card">
-  <div class="card-header">
-    Search in Collections
-  </div>
-  <div class="card-body">
-    <form [formGroup]="searchForm" (ngSubmit)="search()">
-      <div class="row">
-        <div class="form-group col-md-6">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" formControlName="title" />
-        </div>
-        <div class="form-group col-md-6">
-          <label for="author">Author</label>
-          <input type="text" class="form-control" formControlName="authorId" />
-        </div>
+<div class="row">
+  <div class="col-md-8 mt-3">
+    <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="form-group px-2">
+        <label for="title">Title: </label>
+        <input type="text" class="form-control" formControlName="title" />
       </div>
-      <div class="row">
-        <div class="form-group col-md-6">
-          <button class="btn btn-light" type="reset">Reset</button>
-          <button class="btn btn-success ml-1" type="submit">Search</button>
-        </div>
+      <div class="form-group px-2">
+        <label for="authorId">Author: </label>
+        <input
+          type="text"
+          class="form-control author"
+          formControlName="authorId"
+        />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary ml-1" type="submit">
+          Filter
+        </button>
       </div>
     </form>
   </div>
+  <div class="col-md-4 mt-3">
+    <pagination
+      style="float: right;"
+      [disabled]="isLoading"
+      [totalItems]="pagination.totalItems"
+      [(ngModel)]="pagination.currentPage"
+      [itemsPerPage]="pagination.itemsPerPage"
+      (pageChanged)="pageChanged($event)"
+    ></pagination>
+  </div>
 </div>
-<hr />
-<pagination
-  [totalItems]="pagination.totalItems"
-  [(ngModel)]="pagination.currentPage"
-  [itemsPerPage]="pagination.itemsPerPage"
-  (pageChanged)="pageChanged($event)"
-></pagination>
