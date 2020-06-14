@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionResponse } from 'src/app/_models/collectionResponse';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CollectionService } from 'src/app/_services/collection.service';
-import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-collectionedit',

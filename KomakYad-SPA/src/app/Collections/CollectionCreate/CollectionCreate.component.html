@@ -1,3 +1,67 @@
-<p>
-  CollectionCreate works!
-</p>
+<div class="container">
+  <form [formGroup]="collectionForm" (ngSubmit)="save()">
+    <h2 class="text-center text-primary">Create a New Collection</h2>
+    <hr />
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        type="text"
+        [ngClass]="{
+          'is-invalid':
+            collectionForm.get('title').errors &&
+            collectionForm.get('title').touched
+        }"
+        class="form-control"
+        formControlName="title"
+        placeholder="Title"
+      />
+      <div class="invalid-feedback">The Title field is required.</div>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          collectionForm.get('title').hasError('maxlength') &&
+          collectionForm.get('title').touched
+        "
+      >
+        Title length must be less than 450 characters
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        rows="4"
+        cols="50"
+        [ngClass]="{
+          'is-invalid':
+            collectionForm.get('description').errors &&
+            collectionForm.get('description').touched
+        }"
+        class="form-control"
+        formControlName="description"
+        placeholder="Description"
+      ></textarea>
+      <div class="invalid-feedback">The Description field is required.</div>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          collectionForm.get('description').hasError('maxlength') &&
+          collectionForm.get('description').touched
+        "
+      >
+        Description length must be less than 2000 characters
+      </div>
+    </div>
+    <div class="form-group text-center">
+      <button
+        class="btn btn-success"
+        [disabled]="!collectionForm.dirty || !collectionForm.valid"
+        type="submit"
+      >
+        Create
+      </button>
+      <button class="btn btn-default" type="button" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

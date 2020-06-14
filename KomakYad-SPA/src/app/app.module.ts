@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
 import { CardManagementComponent } from './CardManagement/CardManagement.component';
 import { ReadCardComponent } from './ReadCard/ReadCard.component';
-import { CollectionManagementComponent } from './CollectionManagement/CollectionManagement.component';
 import { CardExploringComponent } from './CardExploring/CardExploring.component';
 import { ResetPassComponent } from './ResetPass/ResetPass.component';
 import { NavComponent } from './nav/nav.component';
@@ -36,7 +35,6 @@ import { CollectionCreateComponent } from './Collections/CollectionCreate/Collec
       DashboardComponent,
       CardManagementComponent,
       ReadCardComponent,
-      CollectionManagementComponent,
       CardExploringComponent,
       ResetPassComponent,
       NavComponent,

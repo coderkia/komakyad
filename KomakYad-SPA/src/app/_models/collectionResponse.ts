@@ -6,4 +6,5 @@ export interface CollectionResponse {
     author: User;
     title: string;
     description: string;
+    isPrivate: boolean;
 }
