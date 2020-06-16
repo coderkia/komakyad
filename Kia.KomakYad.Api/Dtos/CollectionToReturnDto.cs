@@ -10,5 +10,6 @@ namespace Kia.KomakYad.Api.Dtos
         public UserDetailedDto Author { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public bool IsPrivate { get; set; }
     }
 }

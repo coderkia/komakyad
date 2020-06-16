@@ -7,6 +7,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
@@ -27,6 +28,11 @@ import { CollectionItemComponent } from './Collections/CollectionItem/Collection
 import { CollectionEditComponent } from './Collections/CollectionEdit/CollectionEdit.component';
 import { CollectionResolver } from './_resolvers/collection.resolver';
 import { CollectionCreateComponent } from './Collections/CollectionCreate/CollectionCreate.component';
+import { SwitchButtonComponent } from './switchButton/switchButton.component';
+
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -44,7 +50,8 @@ import { CollectionCreateComponent } from './Collections/CollectionCreate/Collec
       CollectionSearchComponent,
       CollectionItemComponent,
       CollectionEditComponent,
-      CollectionCreateComponent
+      CollectionCreateComponent,
+      SwitchButtonComponent
    ],
    imports: [
       BrowserModule,
@@ -56,7 +63,14 @@ import { CollectionCreateComponent } from './Collections/CollectionCreate/Collec
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
       BrowserAnimationsModule,
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      JwtModule.forRoot({
+         config: {
+            tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+         }
+      })
    ],
    providers: [
       AuthService,

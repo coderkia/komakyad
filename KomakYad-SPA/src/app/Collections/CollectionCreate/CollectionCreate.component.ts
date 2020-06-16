@@ -15,6 +15,8 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class CollectionCreateComponent implements OnInit {
   collection: CollectionResponse;
   collectionForm: FormGroup;
+  isPrivate: boolean;
+
   constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
               private router: Router, private collectionService: CollectionService, private authService: AuthService) { }
 
@@ -25,7 +27,8 @@ export class CollectionCreateComponent implements OnInit {
     console.log(this.collection);
     this.collectionForm = this.formbuilder.group({
       title: ['', [Validators.required, Validators.maxLength(450)]],
-      description: ['', [Validators.required, Validators.maxLength(2000)]]
+      description: ['', [Validators.required, Validators.maxLength(2000)]],
+      isPrivate: [true, [Validators.required, Validators.maxLength(2000)]]
     });
   }
 
@@ -33,7 +36,8 @@ export class CollectionCreateComponent implements OnInit {
     const collectionRequest: CollectionRequest = {
       authorId : this.authService.currentUser.id,
       description : this.collectionForm.value.description,
-      title : this.collectionForm.value.title
+      title : this.collectionForm.value.title,
+      isPrivate: this.collectionForm.value.isPrivate
     };
     this.collectionService.create(collectionRequest).subscribe(response => {
       this.alertify.success('Collection created.');

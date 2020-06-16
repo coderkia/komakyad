@@ -7,11 +7,6 @@ import { CollectionResponse } from '../_models/collectionResponse';
 import { PaginatedResult } from '../_models/filters/pagination';
 import { CollectionRequest } from '../_models/collectionRequest';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    Authorization: 'Bearer ' + localStorage.getItem('token')
-  })
-};
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +44,7 @@ export class CollectionService {
       }
     }
 
-    return this.http.get<CollectionResponse[]>(this.baseUrl, { observe: 'response', params, headers: httpOptions.headers })
+    return this.http.get<CollectionResponse[]>(this.baseUrl, { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -62,9 +57,9 @@ export class CollectionService {
   }
 
   update(id: number, collectionRequest: CollectionRequest) {
-    return this.http.put(this.baseUrl + '/' + id, collectionRequest, { observe: 'response', headers: httpOptions.headers });
+    return this.http.put(this.baseUrl + '/' + id, collectionRequest, { observe: 'response' });
   }
   create(collectionRequest: CollectionRequest) {
-    return this.http.post(this.baseUrl, collectionRequest, { observe: 'response', headers: httpOptions.headers });
+    return this.http.post(this.baseUrl, collectionRequest, { observe: 'response' });
   }
 }

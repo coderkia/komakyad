@@ -52,13 +52,13 @@
         </li>
         <li
           role="menuitem"
-          *ngIf="model.author.id == authService.currentUser.id"
+          *ngIf="model.author.id == authService.currentUser.id && !model.isPrivate"
         >
           <a class="dropdown-item" href="#">Make Private</a>
         </li>
         <li
           role="menuitem"
-          *ngIf="model.author.id == authService.currentUser.id"
+          *ngIf="model.author.id == authService.currentUser.id && model.isPrivate"
         >
           <a class="dropdown-item" href="#">Make Public</a>
         </li>

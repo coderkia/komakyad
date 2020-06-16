@@ -14,5 +14,7 @@ namespace Kia.KomakYad.Api.Dtos
         [Required]
         [StringLength(2000)]
         public string Description { get; set; }
+
+        public bool IsPrivate { get; set; }
     }
 }

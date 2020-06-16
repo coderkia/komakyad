@@ -56,7 +56,35 @@ namespace Kia.KomakYad.Api.Controllers
             if (await _repo.SaveAll())
                 return NoContent();
 
-            throw new System.Exception("Updating the collection failed on save");
+            throw new System.Exception($"Updating the collection {collection.Id}  failed on save");
+        }
+
+        [HttpPatch("{collectionId}/policy/{policy}")]
+        public async Task<IActionResult> ChangeAccessPolicy(int collectionId, string policy)
+        {
+            var collection = await _repo.GetCollection(collectionId);
+            if (collection == null)
+                return NotFound();
+
+            if (collection.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            switch (policy.ToLower())
+            {
+                case "private":
+                    collection.IsPrivate = true;
+                    break;
+                case "public":
+                    collection.IsPrivate = false;
+                    break;
+                default:
+                    return BadRequest("Unkown Policy");
+            }
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new System.Exception($"Changing policy of the collection {collection.Id} failed on save");
         }
 
         [HttpGet("{collectionId}", Name = "GetCollection")]
