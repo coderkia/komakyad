@@ -3,7 +3,8 @@ import { CollectionResponse } from 'src/app/_models/collectionResponse';
 import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
-  selector: 'app-CollectionItem',
+
+  selector: 'app-collection-item',
   templateUrl: './CollectionItem.component.html',
   styleUrls: ['./CollectionItem.component.css']
 })

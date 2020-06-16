@@ -15,7 +15,7 @@ export class CollectionService {
   constructor(private http: HttpClient) { }
 
   getCollectionById(id: number): Observable<CollectionResponse> {
-    return this.http.get<CollectionResponse>(this.baseUrl + '/' + id, { observe: 'response', headers: httpOptions.headers })
+    return this.http.get<CollectionResponse>(this.baseUrl + '/' + id, { observe: 'response' })
       .pipe(
         map(response => {
           return response.body;
