@@ -11,7 +11,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
-import { CardManagementComponent } from './CardManagement/CardManagement.component';
 import { ReadCardComponent } from './ReadCard/ReadCard.component';
 import { CardExploringComponent } from './CardExploring/CardExploring.component';
 import { ResetPassComponent } from './ResetPass/ResetPass.component';
@@ -31,6 +30,7 @@ import { CollectionCreateComponent } from './Collections/CollectionCreate/Collec
 import { CollectionAddToReadsComponent } from './Collections/CollectionAddToReads/CollectionAddToReads.component';
 import { SwitchButtonComponent } from './switchButton/switchButton.component';
 import { CardsComponent } from './Cards/Cards.component';
+import { CardCreateComponent } from './Cards/cardCreate/cardCreate.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -41,7 +41,6 @@ export function tokenGetter() {
       AppComponent,
       LoginComponent,
       DashboardComponent,
-      CardManagementComponent,
       ReadCardComponent,
       CardExploringComponent,
       ResetPassComponent,
@@ -55,7 +54,8 @@ export function tokenGetter() {
       CollectionCreateComponent,
       CollectionAddToReadsComponent,
       SwitchButtonComponent,
-      CardsComponent
+      CardsComponent,
+      CardCreateComponent,
    ],
    imports: [
       BrowserModule,
