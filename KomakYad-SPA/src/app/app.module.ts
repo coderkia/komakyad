@@ -28,7 +28,9 @@ import { CollectionItemComponent } from './Collections/CollectionItem/Collection
 import { CollectionEditComponent } from './Collections/CollectionEdit/CollectionEdit.component';
 import { CollectionResolver } from './_resolvers/collection.resolver';
 import { CollectionCreateComponent } from './Collections/CollectionCreate/CollectionCreate.component';
+import { CollectionAddToReadsComponent } from './Collections/CollectionAddToReads/CollectionAddToReads.component';
 import { SwitchButtonComponent } from './switchButton/switchButton.component';
+import { CardsComponent } from './Cards/Cards.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -51,7 +53,9 @@ export function tokenGetter() {
       CollectionItemComponent,
       CollectionEditComponent,
       CollectionCreateComponent,
-      SwitchButtonComponent
+      CollectionAddToReadsComponent,
+      SwitchButtonComponent,
+      CardsComponent
    ],
    imports: [
       BrowserModule,

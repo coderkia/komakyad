@@ -23,4 +23,5 @@ export class CollectionsComponent implements OnInit {
   getSearchResult(result: any) {
     this.collectionList = result.result;
   }
+
 }

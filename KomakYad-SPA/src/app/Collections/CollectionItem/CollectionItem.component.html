@@ -3,10 +3,17 @@
     <div class="card-title">
       {{ model.title }}
     </div>
-    <p class="card-text">
+    <div style="text-align: right;" *ngIf="!showAddToReads">
+      <span class="badge badge-warning ml-1" *ngIf="model.isPrivate">Private</span>
+      <span class="badge badge-danger ml-1" *ngIf="!model.isPrivate">Public</span>
+      <span class="badge badge-info ml-1">In read collections</span>
+    </div>
+    <hr />
+    <app-collection-add-reads *ngIf="showAddToReads" (cancelAddToReads)="cancelAddReadMode($event)" [collectionId]="model.id"></app-collection-add-reads>
+    <p class="card-text" *ngIf="!showAddToReads">
       {{ model.description }}
     </p>
-    <div class="btn-group" dropdown [dropup]="true">
+    <div class="btn-group" dropdown [dropup]="true" *ngIf="!showAddToReads">
       <button
         id="button-dropup"
         dropdownToggle
@@ -25,7 +32,7 @@
       >
         <li role="menuitem"><a class="dropdown-item" href="#">Preview</a></li>
         <li role="menuitem">
-          <a class="dropdown-item" href="#">Add to reads</a>
+          <a class="dropdown-item" (click)="showAddToReads = true">Add to reads</a>
         </li>
         <li role="menuitem">
           <a class="dropdown-item" href="#">Search Cards</a>
@@ -52,15 +59,23 @@
         </li>
         <li
           role="menuitem"
-          *ngIf="model.author.id == authService.currentUser.id && !model.isPrivate"
+          *ngIf="
+            model.author.id == authService.currentUser.id && !model.isPrivate
+          "
         >
-          <a class="dropdown-item" href="#">Make Private</a>
+          <a class="dropdown-item" (click)="changePolicy('private')"
+            >Make Private</a
+          >
         </li>
         <li
           role="menuitem"
-          *ngIf="model.author.id == authService.currentUser.id && model.isPrivate"
+          *ngIf="
+            model.author.id == authService.currentUser.id && model.isPrivate
+          "
         >
-          <a class="dropdown-item" href="#">Make Public</a>
+          <a class="dropdown-item" (click)="changePolicy('public')"
+            >Make Public</a
+          >
         </li>
       </ul>
     </div>

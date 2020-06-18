@@ -24,7 +24,6 @@ export class CollectionCreateComponent implements OnInit {
     this.createcollectionForm();
   }
   createcollectionForm() {
-    console.log(this.collection);
     this.collectionForm = this.formbuilder.group({
       title: ['', [Validators.required, Validators.maxLength(450)]],
       description: ['', [Validators.required, Validators.maxLength(2000)]],

@@ -62,4 +62,10 @@ export class CollectionService {
   create(collectionRequest: CollectionRequest) {
     return this.http.post(this.baseUrl, collectionRequest, { observe: 'response' });
   }
+
+  changePolicy(id: number, policy: string) {
+    return this.http.patch(this.baseUrl + '/' + id + '/policy/' + policy, {});
+  }
+
+
 }
