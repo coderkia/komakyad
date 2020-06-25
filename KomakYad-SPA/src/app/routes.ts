@@ -20,8 +20,14 @@ export const appRoutes: Routes = [
             { path: 'collections', component: CollectionsComponent, canActivate: [AuthGuard] },
             { path: 'collections/create', component: CollectionCreateComponent, canActivate: [AuthGuard] },
             { path: 'collections/:id/update', component: CollectionEditComponent, resolve: { collection: CollectionResolver } },
-            { path: 'collections/:id/cards', component: CardsComponent, canActivate: [AuthGuard] },
-            { path: 'collections/:id/card', component: CardCreateComponent, canActivate: [AuthGuard] },
+            {
+                path: 'collections/:id/cards', component: CardsComponent, canActivate: [AuthGuard],
+                resolve: { collection: CollectionResolver }
+            },
+            {
+                path: 'collections/:id/card', component: CardCreateComponent, canActivate: [AuthGuard],
+                resolve: { collection: CollectionResolver }
+            },
         ]
     },
     { path: '**', redirectTo: '', pathMatch: 'full' },

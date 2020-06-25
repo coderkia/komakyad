@@ -1,3 +1,93 @@
-<p>
-  cardCreate works!
-</p>
+<div class="container">
+  <h3>{{ this.collection.title }}</h3>
+  <hr />
+  <h4>Add New Card</h4>
+  <hr />
+  <form [formGroup]="cardForm" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="answer">Question</label>
+      <textarea
+        rows="4"
+        cols="50"
+        [ngClass]="{
+          'is-invalid':
+            cardForm.get('question').errors && cardForm.get('question').touched
+        }"
+        class="form-control"
+        formControlName="question"
+        placeholder="Question"
+      ></textarea>
+      <div class="invalid-feedback">The Question field is required.</div>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          cardForm.get('question').hasError('maxlength') &&
+          cardForm.get('question').touched
+        "
+      >
+        Question length must be less than 2000 characters
+      </div>
+    </div>
+    <!--end of form-group-->
+    <div class="form-group">
+      <label for="answer">Answer</label>
+      <textarea
+        rows="4"
+        cols="50"
+        [ngClass]="{
+          'is-invalid':
+            cardForm.get('answer').errors && cardForm.get('answer').touched
+        }"
+        class="form-control"
+        formControlName="answer"
+        placeholder="Answer"
+      ></textarea>
+      <div class="invalid-feedback">The Answer field is required.</div>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          cardForm.get('answer').hasError('maxlength') &&
+          cardForm.get('answer').touched
+        "
+      >
+        Answer length must be less than 2000 characters
+      </div>
+    </div>
+    <!--end of form-group-->
+    <div class="form-group">
+      <label for="answer">Example</label>
+      <textarea
+        rows="4"
+        cols="50"
+        [ngClass]="{
+          'is-invalid':
+            cardForm.get('example').errors && cardForm.get('example').touched
+        }"
+        class="form-control"
+        formControlName="example"
+        placeholder="Example"
+      ></textarea>
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          cardForm.get('example').hasError('maxlength') &&
+          cardForm.get('example').touched
+        "
+      >
+        Example length must be less than 2000 characters
+      </div>
+    </div>
+    <div class="form-group text-center">
+      <button
+        class="btn btn-success"
+        [disabled]="!cardForm.dirty || !cardForm.valid"
+        type="submit"
+      >
+        Add
+      </button>
+      <button class="btn btn-default" type="button" (click)="cancel()">
+        Back to Collections
+      </button>
+    </div>
+  </form>
+</div>

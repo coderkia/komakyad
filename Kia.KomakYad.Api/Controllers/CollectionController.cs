@@ -90,12 +90,15 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpGet("{collectionId}", Name = "GetCollection")]
         public async Task<IActionResult> GetCollection(int collectionId)
         {
-            var collections = await _repo.GetCollection(collectionId);
-            if (collections == null)
+            var collection = await _repo.GetCollection(collectionId);
+            if (collection == null)
             {
                 return BadRequest();
             }
-            return Ok(collections);
+            var collectionToReturn = _mapper.Map<CollectionToReturnDto>(collection);
+            collectionToReturn.CardsCount = await _repo.GetCardsCount(collection.Id);
+            collectionToReturn.InReadsCount = await _repo.GetInReadCount(collection.Id);
+            return Ok(collectionToReturn);
         }
 
         [HttpGet]
@@ -110,9 +113,16 @@ namespace Kia.KomakYad.Api.Controllers
 
             var collections = await _repo.GetCollections(collectionParams);
 
+            var collectionToReturns = _mapper.Map<IEnumerable<CollectionToReturnDto>>(collections);
+
+            foreach (var collection in collectionToReturns)
+            {
+                collection.CardsCount = await _repo.GetCardsCount(collection.Id);
+                collection.InReadsCount = await _repo.GetInReadCount(collection.Id);
+            }
             Response.AddPagination(collections);
 
-            return Ok(collections);
+            return Ok(collectionToReturns);
         }
     }
 }

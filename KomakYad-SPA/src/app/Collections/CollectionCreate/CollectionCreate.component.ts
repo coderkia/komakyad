@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionResponse } from 'src/app/_models/collectionResponse';
 import { CollectionRequest } from 'src/app/_models/collectionRequest';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CollectionService } from 'src/app/_services/collection.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-collection-create',
@@ -17,8 +17,8 @@ export class CollectionCreateComponent implements OnInit {
   collectionForm: FormGroup;
   isPrivate: boolean;
 
-  constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
-              private router: Router, private collectionService: CollectionService, private authService: AuthService) { }
+  constructor(private alertify: AlertifyService, private formbuilder: FormBuilder,
+    private router: Router, private collectionService: CollectionService, private authService: AuthService) { }
 
   ngOnInit() {
     this.createcollectionForm();
@@ -33,14 +33,16 @@ export class CollectionCreateComponent implements OnInit {
 
   save() {
     const collectionRequest: CollectionRequest = {
-      authorId : this.authService.currentUser.id,
-      description : this.collectionForm.value.description,
-      title : this.collectionForm.value.title,
+      authorId: this.authService.currentUser.id,
+      description: this.collectionForm.value.description,
+      title: this.collectionForm.value.title,
       isPrivate: this.collectionForm.value.isPrivate
     };
     this.collectionService.create(collectionRequest).subscribe(response => {
       this.alertify.success('Collection created.');
-      this.router.navigate(['/collections']);
+      console.log(response);
+      console.log();
+      this.router.navigate(['/collections/' + response.body.id + '/card']);
     }, error => {
       this.alertify.error(error);
     });

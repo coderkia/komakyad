@@ -201,5 +201,15 @@ namespace Kia.KomakYad.Domain.Repositories
 
             return await PagedList<ReadCollection>.CreateAsync(query, filters);
         }
+
+        public async Task<int> GetCardsCount(int collectionId)
+        {
+            return await _context.Cards.CountAsync(c => c.CollectionId == collectionId);
+        }
+
+        public async Task<int> GetInReadCount(int collectionId)
+        {
+            return await _context.ReadCollections.CountAsync(c => c.CollectionId == collectionId);
+        }
     }
 }

@@ -28,7 +28,7 @@ export class CollectionSearchComponent implements OnInit {
 
   resetFilters() {
     this.pagination.currentPage = 1;
-    this.pagination.itemsPerPage = 2;
+    this.pagination.itemsPerPage = 10;
   }
 
   createSearchForm() {

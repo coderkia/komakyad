@@ -20,7 +20,6 @@ namespace Kia.KomakYad.Api.Helpers
                 .ForMember(m => m.CardId, opt => opt.MapFrom(u => u.Id));
             CreateMap<Collection, CollectionToReturnDto>();
             CreateMap<CollectionCreateDto, Collection>();
-            CreateMap<CollectionCreateDto, Collection>();
             CreateMap<ReadCard, ReadCardToReturnDto>();
             CreateMap<ReadCollection, ReadCollectionToReturnDto>();
         }

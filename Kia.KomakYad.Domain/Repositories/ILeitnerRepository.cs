@@ -28,5 +28,7 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<ReadCollection> GetReadCollection(int readCollectionId);
         Task<ReadCard> GetReadCard(int readcardId);
         Task<PagedList<ReadCollection>> GetReadCollections(ReadCollectionParams filters);
+        Task<int> GetCardsCount(int id);
+        Task<int> GetInReadCount(int id);
     }
 }

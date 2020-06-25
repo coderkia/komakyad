@@ -7,4 +7,6 @@ export interface CollectionResponse {
     title: string;
     description: string;
     isPrivate: boolean;
+    cardsCount: number;
+    inReadCount: number;
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -60,7 +60,7 @@ export class CollectionService {
     return this.http.put(this.baseUrl + '/' + id, collectionRequest, { observe: 'response' });
   }
   create(collectionRequest: CollectionRequest) {
-    return this.http.post(this.baseUrl, collectionRequest, { observe: 'response' });
+    return this.http.post<CollectionResponse>(this.baseUrl, collectionRequest, { observe: 'response' });
   }
 
   changePolicy(id: number, policy: string) {
