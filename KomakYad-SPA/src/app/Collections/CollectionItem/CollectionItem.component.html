@@ -24,9 +24,9 @@
     <hr />
     <div>
       <span class="badge badge-info mr-1">Cards Count: {{ model.cardsCount }}</span>
-      <span class="badge badge-success" *ngIf="model.cardsCount === 1">One person is reading it.</span>
-      <span class="badge badge-success" *ngIf="model.cardsCount > 1">{{ model.cardsCount }} people are reading it.</span>
-      <span class="badge badge-success" *ngIf="model.cardsCount === 0">Be the first one who reads it.</span>
+      <span class="badge badge-success" *ngIf="model.inReadCount === 1">One person is reading this.</span>
+      <span class="badge badge-success" *ngIf="model.inReadCount > 1">{{ model.inReadCount }} people are reading this.</span>
+      <span class="badge badge-success" *ngIf="model.inReadCount === 0">Be the first one who reads it.</span>
     </div>
     <div class="btn-group" dropdown [dropup]="true" *ngIf="!showAddToReads">
       <button
