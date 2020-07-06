@@ -44,6 +44,7 @@ export class CollectionService {
       }
     }
 
+    console.log(params.getAll('pageNumber'));
     return this.http.get<CollectionResponse[]>(this.baseUrl, { observe: 'response', params })
       .pipe(
         map(response => {

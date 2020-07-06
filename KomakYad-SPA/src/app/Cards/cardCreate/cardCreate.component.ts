@@ -18,7 +18,7 @@ export class CardCreateComponent implements OnInit {
   collection: CollectionResponse;
 
   constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
-    private router: Router, private cardService: CardService, private authService: AuthService) { }
+    private router: Router, private cardService: CardService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {

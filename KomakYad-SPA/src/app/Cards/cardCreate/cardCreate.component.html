@@ -1,28 +1,5 @@
 <div class="container">
-  <div class="card mb-4">
-    <div class="card-header">Collection Details</div>
-    <div class="card-body">
-      <div class="form-group">
-        <strong>{{ collection.title }}</strong>
-      </div>
-      <div class="form-group">{{ collection.description }}</div>
-      <div class="badge badge-warning mr-1">
-        {{ collection.isPrivate ? "Private" : "Public" }} Collection
-      </div>
-      <div class="badge badge-info mr-1">
-        There are {{ collection.cardsCount }} cards in this collection.
-      </div>
-      <div class="badge badge-success" *ngIf="collection.inReadCount === 1">
-        One person is reading this.
-      </div>
-      <div class="badge badge-success" *ngIf="collection.inReadCount > 1">
-        {{ collection.inReadCount }} people are reading this.
-      </div>
-      <div class="badge badge-success" *ngIf="collection.inReadCount === 0">
-        Be the first one who reads it.
-      </div>
-    </div>
-  </div>
+  <app-collectionDetails [collection]="collection"></app-collectionDetails>
   <h4>Add New Card</h4>
   <hr />
   <form [formGroup]="cardForm" (ngSubmit)="save()">

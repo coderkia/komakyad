@@ -86,8 +86,8 @@ namespace Kia.KomakYad.Api.Controllers
             throw new System.Exception("Card save process failed");
         }
 
-        [HttpGet("Search")]
-        public async Task<IActionResult> Search(CardParams cardParams)
+        [HttpGet]
+        public async Task<IActionResult> Search([FromQuery]CardParams cardParams)
         {
             if (!User.IsInRole(AuthHelper.AdminRole))
             {

@@ -31,6 +31,8 @@ import { CollectionAddToReadsComponent } from './Collections/CollectionAddToRead
 import { SwitchButtonComponent } from './switchButton/switchButton.component';
 import { CardsComponent } from './Cards/Cards.component';
 import { CardCreateComponent } from './Cards/cardCreate/cardCreate.component';
+import { CollectionDetailsComponent } from './Cards/collectionDetails/collectionDetails.component';
+import { CardItemComponent } from './Cards/cardItem/cardItem.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -56,6 +58,8 @@ export function tokenGetter() {
       SwitchButtonComponent,
       CardsComponent,
       CardCreateComponent,
+      CollectionDetailsComponent,
+      CardItemComponent
    ],
    imports: [
       BrowserModule,
