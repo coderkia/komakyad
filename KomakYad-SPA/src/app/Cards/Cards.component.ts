@@ -30,8 +30,14 @@ export class CardsComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.collection = data.collection;
     });
+    this.resetFilters();
     this.createSearchForm();
     this.search();
+  }
+
+  resetFilters() {
+    this.pagination.currentPage = 1;
+    this.pagination.itemsPerPage = 9;
   }
 
   createSearchForm() {
@@ -42,11 +48,21 @@ export class CardsComponent implements OnInit {
     });
   }
 
-  search() {
-    this.cardService.search(this.collection.id, this.pagination.currentPage, this.searchForm.value.answer, this.searchForm.value.question)
+  search(currentPage?: number) {
+    this.isLoading = true;
+    this.cardService.search(this.collection.id, currentPage, this.pagination.itemsPerPage, this.searchForm.value.answer, this.searchForm.value.question)
       .subscribe(response => {
         this.cards = response.result;
         this.pagination = response.pagination;
+        this.isLoading = false;
+      }, error => {
+        this.alertify.error(error);
+        this.isLoading = false;
       });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.search(this.pagination.currentPage);
   }
 }

@@ -5,6 +5,7 @@ import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -59,7 +60,7 @@ export function tokenGetter() {
       CardsComponent,
       CardCreateComponent,
       CollectionDetailsComponent,
-      CardItemComponent
+      CardItemComponent,
    ],
    imports: [
       BrowserModule,
@@ -78,7 +79,8 @@ export function tokenGetter() {
             whitelistedDomains: ['localhost:5000'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
-      })
+      }),
+      TabsModule.forRoot(),
    ],
    providers: [
       AuthService,

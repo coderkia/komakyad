@@ -18,11 +18,14 @@ export class CardService {
     return this.http.post(this.baseUrl, card);
   }
 
-  search(collectionId: any, currentPage, answer: string, question: string) {
+  search(collectionId: any, currentPage, itemPerPage, answer: string, question: string) {
     let params = new HttpParams();
 
     if (currentPage != null) {
       params = params.append('pageNumber', currentPage);
+    }
+    if (itemPerPage != null) {
+      params = params.append('pageSize', itemPerPage);
     }
 
     const paginatedResult: PaginatedResult<CardResponse[]> = new PaginatedResult<CardResponse[]>();

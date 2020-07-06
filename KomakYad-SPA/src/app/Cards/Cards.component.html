@@ -1,25 +1,39 @@
 <div class="container">
   <app-collectionDetails [collection]="collection"></app-collectionDetails>
   <hr />
-  <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
-    <div class="form-group px-2">
-      <label for="title">Question: </label>
-      <input type="text" class="form-control" formControlName="question" />
+  <div class="row">
+    <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="form-group px-2">
+        <label for="title">Question: </label>
+        <input type="text" class="form-control" formControlName="question" />
+      </div>
+      <div class="form-group px-2">
+        <label for="authorId">Answer: </label>
+        <input type="text" class="form-control" formControlName="answer" />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary ml-1" type="submit">
+          Filter
+        </button>
+      </div>
+    </form>
+    <pagination
+      style="float: right;"
+      [disabled]="isLoading"
+      [totalItems]="pagination.totalItems"
+      [(ngModel)]="pagination.currentPage"
+      [itemsPerPage]="pagination.itemsPerPage"
+      (pageChanged)="pageChanged($event)"
+    ></pagination>
+  </div>
+  <div style="position: relative;">
+    <div class="loader-container {{ isLoading ? '' : 'hide' }}">
+      <div class="loader"></div>
     </div>
-    <div class="form-group px-2">
-      <label for="authorId">Answer: </label>
-      <input type="text" class="form-control" formControlName="answer" />
-    </div>
-    <div class="form-group">
-      <button class="btn btn-primary ml-1" type="submit">
-        Filter
-      </button>
-    </div>
-  </form>
-
-  <div class="row mt-3">
-    <div *ngFor="let item of cards" class="col col-md-4 mb-2">
-      <app-cardItem [card]="item"></app-cardItem>
+    <div class="row mt-3">
+      <div *ngFor="let item of cards" class="col col-md-4 mb-2">
+        <app-cardItem [card]="item"></app-cardItem>
+      </div>
     </div>
   </div>
 </div>
