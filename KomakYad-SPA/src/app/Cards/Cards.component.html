@@ -2,36 +2,73 @@
   <app-collectionDetails [collection]="collection"></app-collectionDetails>
   <hr />
   <div class="row">
-    <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
-      <div class="form-group px-2">
-        <label for="title">Question: </label>
-        <input type="text" class="form-control" formControlName="question" />
-      </div>
-      <div class="form-group px-2">
-        <label for="authorId">Answer: </label>
-        <input type="text" class="form-control" formControlName="answer" />
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary ml-1" type="submit">
-          Filter
-        </button>
-      </div>
-    </form>
-    <pagination
-      style="float: right;"
-      [disabled]="isLoading"
-      [totalItems]="pagination.totalItems"
-      [(ngModel)]="pagination.currentPage"
-      [itemsPerPage]="pagination.itemsPerPage"
-      (pageChanged)="pageChanged($event)"
-    ></pagination>
+    <div class="col-lg-8 col-12 mt-3">
+      <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
+        <div class="form-group px-2">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="btn-group" dropdown>
+                <button
+                  id="button-dropup"
+                  dropdownToggle
+                  type="button"
+                  class="btn btn-light dropdown-toggle"
+                  aria-controls="dropdown-dropup"
+                >
+                  {{ filterInput === "answer" ? "Answer" : "Question" }}
+                  <span class="caret"></span>
+                </button>
+                <ul
+                  id="dropdown-dropup"
+                  *dropdownMenu
+                  class="dropdown-menu"
+                  role="menu"
+                  aria-labelledby="button-dropup"
+                >
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="filterInput = 'question'"
+                      >Question</a
+                    >
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="filterInput = 'answer'"
+                      >Answer</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="searchInput"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">
+                Filter
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-4 col-12 mt-3">
+      <pagination
+        style="float: right;"
+        [disabled]="isLoading"
+        [totalItems]="pagination.totalItems"
+        [(ngModel)]="pagination.currentPage"
+        [itemsPerPage]="pagination.itemsPerPage"
+        (pageChanged)="pageChanged($event)"
+      ></pagination>
+    </div>
   </div>
   <div style="position: relative;">
     <div class="loader-container {{ isLoading ? '' : 'hide' }}">
       <div class="loader"></div>
     </div>
     <div class="row mt-3">
-      <div *ngFor="let item of cards" class="col col-md-4 mb-2">
+      <div *ngFor="let item of cards" class="col col-lg-4 col-md-6 col-12 mb-2">
         <app-cardItem [card]="item"></app-cardItem>
       </div>
     </div>

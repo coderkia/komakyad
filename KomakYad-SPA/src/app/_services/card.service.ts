@@ -33,7 +33,7 @@ export class CardService {
       params = params.append('answer', answer);
     }
     if (question) {
-      params = params.append('answer', question);
+      params = params.append('question', question);
     }
     params = params.append('collectionId', collectionId);
     return this.http.get<CardResponse[]>(this.baseUrl, { observe: 'response', params })

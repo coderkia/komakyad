@@ -37,8 +37,8 @@ export class CardCreateComponent implements OnInit {
   save() {
     const card = {
       answer: this.cardForm.value.answer,
-      question: this.cardForm.value.answer,
-      example: this.cardForm.value.answer,
+      question: this.cardForm.value.question,
+      example: this.cardForm.value.example,
       collectionId: this.collection.id,
     };
     this.cardService.create(card).subscribe(response => {

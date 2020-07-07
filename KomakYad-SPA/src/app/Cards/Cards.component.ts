@@ -8,6 +8,7 @@ import { CollectionResponse } from '../_models/collectionResponse';
 import { Pagination, PaginatedResult } from '../_models/filters/pagination';
 import { environment } from 'src/environments/environment';
 import { CardResponse } from '../_models/cardResponse';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-cards',
@@ -22,6 +23,7 @@ export class CardsComponent implements OnInit {
   pagination: Pagination = new Pagination();
   baseUrl = environment.apiUrl + 'collection/search';
   searchForm: FormGroup;
+  filterInput: string;
 
   constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
     private router: Router, private cardService: CardService, private authService: AuthService) { }
@@ -42,15 +44,24 @@ export class CardsComponent implements OnInit {
 
   createSearchForm() {
     this.searchForm = this.formbuilder.group({
-      answer: [''],
-      question: [''],
+      searchInput: [''],
       orderBy: ['newest']
     });
   }
 
   search(currentPage?: number) {
     this.isLoading = true;
-    this.cardService.search(this.collection.id, currentPage, this.pagination.itemsPerPage, this.searchForm.value.answer, this.searchForm.value.question)
+    let answer: string;
+    let question: string;
+    if (this.filterInput === 'answer') {
+      answer = this.searchForm.value.searchInput;
+    } else {
+      question = this.searchForm.value.searchInput;
+    }
+    console.log('answer:' + answer);
+    console.log('question:' + question);
+    console.log('filterInput:' + this.filterInput);
+    this.cardService.search(this.collection.id, currentPage, this.pagination.itemsPerPage, answer, question)
       .subscribe(response => {
         this.cards = response.result;
         this.pagination = response.pagination;
