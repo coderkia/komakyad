@@ -1,7 +1,10 @@
 <div class="container">
   <app-collectionDetails [collection]="collection"></app-collectionDetails>
   <hr />
-  <div class="row">
+  <div class="row" *ngIf="this.showCardEdit">
+    <app-card-edit [card]="cardForEdit" [collectionId]="collection.id" (done)="closeEdit()" ></app-card-edit>
+  </div>
+  <div class="row" *ngIf="this.showCardsList">
     <div class="col-lg-8 col-12 mt-3">
       <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
         <div class="form-group px-2">
@@ -63,13 +66,13 @@
       ></pagination>
     </div>
   </div>
-  <div style="position: relative;">
+  <div style="position: relative;" *ngIf="this.showCardsList">
     <div class="loader-container {{ isLoading ? '' : 'hide' }}">
       <div class="loader"></div>
     </div>
-    <div class="row mt-3">
+    <div class="row mt-3" *ngIf="this.showCardsList">
       <div *ngFor="let item of cards" class="col col-lg-4 col-md-6 col-12 mb-2">
-        <app-cardItem [card]="item"></app-cardItem>
+        <app-cardItem [card]="item" (edit)="editCard($event)"></app-cardItem>
       </div>
     </div>
   </div>

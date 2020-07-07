@@ -16,7 +16,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   styleUrls: ['./Cards.component.css']
 })
 export class CardsComponent implements OnInit {
-
+  cardForEdit: CardResponse;
   collection: CollectionResponse;
   cards: CardResponse[];
   isLoading: boolean;
@@ -24,6 +24,8 @@ export class CardsComponent implements OnInit {
   baseUrl = environment.apiUrl + 'collection/search';
   searchForm: FormGroup;
   filterInput: string;
+  showCardsList = true;
+  showCardEdit = false;
 
   constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
     private router: Router, private cardService: CardService, private authService: AuthService) { }
@@ -74,4 +76,18 @@ export class CardsComponent implements OnInit {
     this.pagination.currentPage = event.page;
     this.search(this.pagination.currentPage);
   }
+
+  editCard(card: CardResponse) {
+    this.cardForEdit = card;
+    this.showCardsList = false;
+    this.showCardEdit = true;
+    console.log(this.showCardsList);
+  }
+
+  closeEdit() {
+    this.showCardsList = true;
+    this.showCardEdit = false;
+    console.log('closeEdit');
+  }
+
 }

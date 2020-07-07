@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CardResponse } from 'src/app/_models/cardResponse';
 
 @Component({
@@ -7,7 +7,8 @@ import { CardResponse } from 'src/app/_models/cardResponse';
   styleUrls: ['./cardItem.component.css']
 })
 export class CardItemComponent implements OnInit {
-
+  @Output() edit = new EventEmitter();
+  @Output() delete = new EventEmitter();
   @Input() card: CardResponse;
 
   constructor() { }
@@ -15,4 +16,11 @@ export class CardItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  editCard() {
+    this.edit.emit(this.card);
+  }
+
+  deleteCard() {
+    this.delete.emit(this.card);
+  }
 }

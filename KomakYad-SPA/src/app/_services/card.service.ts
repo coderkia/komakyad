@@ -18,6 +18,10 @@ export class CardService {
     return this.http.post(this.baseUrl, card);
   }
 
+  update(card: CardRequest) {
+    return this.http.put(this.baseUrl, card);
+  }
+
   search(collectionId: any, currentPage, itemPerPage, answer: string, question: string) {
     let params = new HttpParams();
 

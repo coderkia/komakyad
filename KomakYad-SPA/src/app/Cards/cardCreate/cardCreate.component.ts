@@ -1,10 +1,9 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CardRequest } from 'src/app/_models/cardRequest';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from 'src/app/_services/card.service';
-import { AuthService } from 'src/app/_services/auth.service';
 import { CollectionResponse } from 'src/app/_models/collectionResponse';
 
 @Component({
@@ -13,7 +12,6 @@ import { CollectionResponse } from 'src/app/_models/collectionResponse';
   styleUrls: ['./cardCreate.component.css']
 })
 export class CardCreateComponent implements OnInit {
-  createdCards: CardRequest[];
   cardForm: FormGroup;
   collection: CollectionResponse;
 
@@ -36,6 +34,7 @@ export class CardCreateComponent implements OnInit {
   }
   save() {
     const card = {
+      id: 0,
       answer: this.cardForm.value.answer,
       question: this.cardForm.value.question,
       example: this.cardForm.value.example,
