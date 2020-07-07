@@ -58,9 +58,6 @@ export class CardsComponent implements OnInit {
     } else {
       question = this.searchForm.value.searchInput;
     }
-    console.log('answer:' + answer);
-    console.log('question:' + question);
-    console.log('filterInput:' + this.filterInput);
     this.cardService.search(this.collection.id, currentPage, this.pagination.itemsPerPage, answer, question)
       .subscribe(response => {
         this.cards = response.result;
