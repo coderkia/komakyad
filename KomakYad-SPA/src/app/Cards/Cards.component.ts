@@ -29,6 +29,7 @@ export class CardsComponent implements OnInit {
     private router: Router, private cardService: CardService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.filterInput = 'Question';
     this.route.data.subscribe(data => {
       this.collection = data.collection;
     });
@@ -53,7 +54,7 @@ export class CardsComponent implements OnInit {
     this.isLoading = true;
     let answer: string;
     let question: string;
-    if (this.filterInput === 'answer') {
+    if (this.filterInput === 'Answer') {
       answer = this.searchForm.value.searchInput;
     } else {
       question = this.searchForm.value.searchInput;

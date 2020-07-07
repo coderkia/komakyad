@@ -15,7 +15,7 @@
                   class="btn btn-light dropdown-toggle"
                   aria-controls="dropdown-dropup"
                 >
-                  {{ filterInput === "answer" ? "Answer" : "Question" }}
+                  {{ filterInput }}
                   <span class="caret"></span>
                 </button>
                 <ul
@@ -26,12 +26,12 @@
                   aria-labelledby="button-dropup"
                 >
                   <li role="menuitem">
-                    <a class="dropdown-item" (click)="filterInput = 'question'"
+                    <a class="dropdown-item" (click)="filterInput = 'Question'"
                       >Question</a
                     >
                   </li>
                   <li role="menuitem">
-                    <a class="dropdown-item" (click)="filterInput = 'answer'"
+                    <a class="dropdown-item" (click)="filterInput = 'Answer'"
                       >Answer</a
                     >
                   </li>
