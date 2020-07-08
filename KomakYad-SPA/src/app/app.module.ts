@@ -35,6 +35,7 @@ import { CardCreateComponent } from './Cards/cardCreate/cardCreate.component';
 import { CollectionDetailsComponent } from './Cards/collectionDetails/collectionDetails.component';
 import { CardItemComponent } from './Cards/cardItem/cardItem.component';
 import { CardEditComponent } from './Cards/cardEdit/cardEdit.component';
+import { CardDeleteComponent } from './Cards/cardDelete/cardDelete.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -62,7 +63,8 @@ export function tokenGetter() {
       CardCreateComponent,
       CollectionDetailsComponent,
       CardItemComponent,
-      CardEditComponent
+      CardEditComponent,
+      CardDeleteComponent,
    ],
    imports: [
       BrowserModule,

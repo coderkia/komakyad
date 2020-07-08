@@ -26,9 +26,9 @@ export class CardsComponent implements OnInit {
   filterInput: string;
   showCardsList = true;
   showCardEdit = false;
-
   constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
-    private router: Router, private cardService: CardService, private authService: AuthService) { }
+    private router: Router, private cardService: CardService, public authService: AuthService) { }
+
 
   ngOnInit() {
     this.filterInput = 'Question';

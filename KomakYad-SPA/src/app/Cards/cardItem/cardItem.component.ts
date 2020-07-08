@@ -10,6 +10,8 @@ export class CardItemComponent implements OnInit {
   @Output() edit = new EventEmitter();
   @Output() delete = new EventEmitter();
   @Input() card: CardResponse;
+  @Input() itIsOwnerCard = false;
+  showDeleteForm = false;
 
   constructor() { }
 
@@ -20,7 +22,10 @@ export class CardItemComponent implements OnInit {
     this.edit.emit(this.card);
   }
 
-  deleteCard() {
-    this.delete.emit(this.card);
+  deleteCard(response: boolean) {
+    if (response) {
+
+    }
+    this.showDeleteForm = false;
   }
 }

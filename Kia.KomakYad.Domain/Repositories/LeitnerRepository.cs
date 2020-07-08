@@ -85,7 +85,7 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<Collection> GetCollection(int collectionId)
         {
-            return await _context.Collections.FirstOrDefaultAsync(c => c.Id == collectionId);
+            return await _context.Collections.Include(c => c.Author).FirstOrDefaultAsync(c => c.Id == collectionId);
         }
         public async Task<User> GetUser(int id)
         {

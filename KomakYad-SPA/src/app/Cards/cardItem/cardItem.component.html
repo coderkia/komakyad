@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <tabset>
+    <tabset *ngIf="!showDeleteForm">
       <tab heading="Question">
         <p style="height: 100px;">{{ card.question }}</p>
       </tab>
@@ -11,8 +11,9 @@
         <p style="height: 100px;">{{ card.example }}</p>
       </tab>
     </tabset>
-  <div class="form-group">
-    <button class="btn btn-info ml-1" (click)="editCard()">Edit</button>
-    <button class="btn btn-danger ml-1" (click)="deleteCard()">Delete</button>
+  <div class="form-group" *ngIf="itIsOwnerCard && !showDeleteForm" >
+    <button class="btn btn-info" (click)="editCard()">Edit</button>
+    <button class="btn btn-danger ml-1" (click)="showDeleteForm = true;">Delete</button>
   </div>
+  <app-card-delete *ngIf="showDeleteForm" (response)="deleteCard($event)"></app-card-delete>
 </div>
