@@ -97,7 +97,7 @@ namespace Kia.KomakYad.Api.Controllers
             }
             var collectionToReturn = _mapper.Map<CollectionToReturnDto>(collection);
             collectionToReturn.CardsCount = await _repo.GetCardsCount(collection.Id);
-            collectionToReturn.InReadsCount = await _repo.GetInReadCount(collection.Id);
+            collectionToReturn.FollowersCount = await _repo.GetFollowersCount(collection.Id);
             return Ok(collectionToReturn);
         }
 
@@ -118,7 +118,7 @@ namespace Kia.KomakYad.Api.Controllers
             foreach (var collection in collectionToReturns)
             {
                 collection.CardsCount = await _repo.GetCardsCount(collection.Id);
-                collection.InReadsCount = await _repo.GetInReadCount(collection.Id);
+                collection.FollowersCount = await _repo.GetFollowersCount(collection.Id);
             }
             Response.AddPagination(collections);
 

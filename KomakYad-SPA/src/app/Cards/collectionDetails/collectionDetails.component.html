@@ -11,13 +11,13 @@
     <div class="badge badge-info mr-1">
       There are {{ collection.cardsCount }} cards in this collection.
     </div>
-    <div class="badge badge-success" *ngIf="collection.inReadCount === 1">
+    <div class="badge badge-success" *ngIf="collection.followersCount === 1">
       One person is reading this.
     </div>
-    <div class="badge badge-success" *ngIf="collection.inReadCount > 1">
-      {{ collection.inReadCount }} people are reading this.
+    <div class="badge badge-success" *ngIf="collection.followersCount > 1">
+      {{ collection.followersCount }} people are reading this.
     </div>
-    <div class="badge badge-success" *ngIf="collection.inReadCount === 0">
+    <div class="badge badge-success" *ngIf="collection.followersCount === 0">
       Be the first one who reads it.
     </div>
   </div>

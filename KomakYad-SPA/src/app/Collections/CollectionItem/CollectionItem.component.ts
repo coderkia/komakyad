@@ -13,7 +13,7 @@ import { CollectionService } from 'src/app/_services/collection.service';
 })
 export class CollectionItemComponent implements OnInit {
   @Input() model: CollectionResponse;
-  showAddToReads: boolean;
+  showFollowForm: boolean;
   constructor(public authService: AuthService, private collectionService: CollectionService, private alertifyService: AlertifyService) { }
 
 
@@ -29,7 +29,7 @@ export class CollectionItemComponent implements OnInit {
     });
   }
 
-  cancelAddReadMode(showAddToReads: boolean) {
-    this.showAddToReads = showAddToReads;
+  cancelAddReadMode(showFollowForm: boolean) {
+    this.showFollowForm = showFollowForm;
   }
 }

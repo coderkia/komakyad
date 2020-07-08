@@ -8,5 +8,5 @@ export interface CollectionResponse {
     description: string;
     isPrivate: boolean;
     cardsCount: number;
-    inReadCount: number;
+    followersCount: number;
 }

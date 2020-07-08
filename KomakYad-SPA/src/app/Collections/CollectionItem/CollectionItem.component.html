@@ -3,32 +3,32 @@
     <div class="card-title">
       {{ model.title }}
     </div>
-    <div style="text-align: right;" *ngIf="!showAddToReads">
-      <span class="badge badge-warning ml-1" *ngIf="model.isPrivate"
+    <div style="text-align: right;" *ngIf="!showFollowForm">
+      <span class="badge badge-warning ml-1" *ngIf="model.author.id == authService.currentUser.id && model.isPrivate"
         >Private</span
       >
-      <span class="badge badge-danger ml-1" *ngIf="!model.isPrivate"
+      <span class="badge badge-danger ml-1" *ngIf="model.author.id == authService.currentUser.id && !model.isPrivate"
         >Public</span
       >
-      <span class="badge badge-info ml-1">In read collections</span>
+      <span class="badge badge-info ml-1">Following</span>
     </div>
     <hr />
     <app-collection-add-reads
-      *ngIf="showAddToReads"
+      *ngIf="showFollowForm"
       (cancelAddToReads)="cancelAddReadMode($event)"
       [collectionId]="model.id"
     ></app-collection-add-reads>
-    <p class="card-text" *ngIf="!showAddToReads">
+    <p class="card-text" *ngIf="!showFollowForm">
       {{ model.description }}
     </p>
     <hr />
-    <div>
+    <div *ngIf="!showFollowForm">
       <span class="badge badge-info mr-1">Cards Count: {{ model.cardsCount }}</span>
-      <span class="badge badge-success" *ngIf="model.inReadCount === 1">One person is reading this.</span>
-      <span class="badge badge-success" *ngIf="model.inReadCount > 1">{{ model.inReadCount }} people are reading this.</span>
-      <span class="badge badge-success" *ngIf="model.inReadCount === 0">Be the first one who reads it.</span>
+      <span class="badge badge-success" *ngIf="model.followersCount === 1">One person is reading this.</span>
+      <span class="badge badge-success" *ngIf="model.followersCount > 1">{{ model.followersCount }} people are reading this.</span>
+      <span class="badge badge-success" *ngIf="model.followersCount === 0">Be the first one who reads it.</span>
     </div>
-    <div class="btn-group" dropdown [dropup]="true" *ngIf="!showAddToReads">
+    <div class="btn-group  mr-1" dropdown [dropup]="true" *ngIf="!showFollowForm && model.author.id == authService.currentUser.id">
       <button
         id="button-dropup"
         dropdownToggle
@@ -36,7 +36,7 @@
         class="btn btn-primary dropdown-toggle"
         aria-controls="dropdown-dropup"
       >
-        Options <span class="caret"></span>
+        Owner Options <span class="caret"></span>
       </button>
       <ul
         id="dropdown-dropup"
@@ -45,22 +45,11 @@
         role="menu"
         aria-labelledby="button-dropup"
       >
-        <li role="menuitem"><a class="dropdown-item" href="#">Preview</a></li>
         <li role="menuitem">
-          <a class="dropdown-item" (click)="showAddToReads = true"
-            >Add to reads</a
-          >
+          <a class="dropdown-item" href="/collections/{{ model.id }}/cards">See Cards</a>
         </li>
-        <li role="menuitem">
-          <a class="dropdown-item" href="/collections/{{ model.id }}/cards">Search Cards</a>
-        </li>
-        <li
-          class="divider dropdown-divider"
-          *ngIf="model.author.id == authService.currentUser.id"
-        ></li>
         <li
           role="menuitem"
-          *ngIf="model.author.id == authService.currentUser.id"
         >
           <a class="dropdown-item" href="/collections/{{ model.id }}/update"
             >Edit</a
@@ -68,7 +57,6 @@
         </li>
         <li
           role="menuitem"
-          *ngIf="model.author.id == authService.currentUser.id"
         >
           <a class="dropdown-item" href="/collections/{{ model.id }}/card"
             >New Card</a
@@ -77,7 +65,7 @@
         <li
           role="menuitem"
           *ngIf="
-            model.author.id == authService.currentUser.id && !model.isPrivate
+            !model.isPrivate
           "
         >
           <a class="dropdown-item" (click)="changePolicy('private')"
@@ -87,7 +75,7 @@
         <li
           role="menuitem"
           *ngIf="
-            model.author.id == authService.currentUser.id && model.isPrivate
+            model.isPrivate
           "
         >
           <a class="dropdown-item" (click)="changePolicy('public')"
@@ -96,6 +84,21 @@
         </li>
       </ul>
     </div>
+      <a
+      *ngIf="!showFollowForm && model.author.id != authService.currentUser.id"
+          class="btn btn-primary"
+          href="/collections/{{ model.id }}/cards"
+        >
+          See Cards
+        </a>
+    <button
+    *ngIf="!showFollowForm"
+        type="button"
+        class="btn btn-warning ml-1"
+        (click)="showFollowForm = true"
+      >
+        Follow
+      </button>
   </div>
   <div class="card-footer">
     Author: {{ model.author.firstName || "" + model.author.lastName || "" }}
