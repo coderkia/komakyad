@@ -30,7 +30,7 @@ export class ReadService {
     if (itemPerPage != null) {
       params = params.append('pageSize', itemPerPage.toString());
     }
-    console.log(params);
+
     return this.http.get<ReadCollectionResponse[]>(this.baseUrl + 'All', { observe: 'response', params })
       .pipe(
         map(response => {

@@ -21,7 +21,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   getFollowedCollections(currentPage: number) {
-    this.readService.getAllFollowedCollections(this.authService.currentUser.id, 1, 50)
+    this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, 50)
       .subscribe(response => {
         if (response.pagination.totalPages > currentPage) {
           currentPage++;
