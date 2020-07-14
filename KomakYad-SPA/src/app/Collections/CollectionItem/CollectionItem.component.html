@@ -4,13 +4,19 @@
       {{ model.title }}
     </div>
     <div style="text-align: right;" *ngIf="!showFollowForm">
-      <span class="badge badge-warning ml-1" *ngIf="model.author.id == authService.currentUser.id && model.isPrivate"
+      <span
+        class="badge badge-warning ml-1"
+        *ngIf="model.author.id == authService.currentUser.id && model.isPrivate"
         >Private</span
       >
-      <span class="badge badge-danger ml-1" *ngIf="model.author.id == authService.currentUser.id && !model.isPrivate"
+      <span
+        class="badge badge-danger ml-1"
+        *ngIf="
+          model.author.id == authService.currentUser.id && !model.isPrivate
+        "
         >Public</span
       >
-      <span class="badge badge-info ml-1">Following</span>
+      <span class="badge badge-info ml-1" *ngIf="following">Following</span>
     </div>
     <hr />
     <app-collection-add-reads
@@ -21,14 +27,27 @@
     <p class="card-text" *ngIf="!showFollowForm">
       {{ model.description }}
     </p>
-    <hr />
     <div *ngIf="!showFollowForm">
-      <span class="badge badge-info mr-1">Cards Count: {{ model.cardsCount }}</span>
-      <span class="badge badge-success" *ngIf="model.followersCount === 1">One person is reading this.</span>
-      <span class="badge badge-success" *ngIf="model.followersCount > 1">{{ model.followersCount }} people are reading this.</span>
-      <span class="badge badge-success" *ngIf="model.followersCount === 0">Be the first one who reads it.</span>
+      <span class="badge badge-info mr-1"
+        >Cards Count: {{ model.cardsCount }}</span
+      >
+      <span class="badge badge-success" *ngIf="model.followersCount === 1"
+        >One person is reading this.</span
+      >
+      <span class="badge badge-success" *ngIf="model.followersCount > 1"
+        >{{ model.followersCount }} people are reading this.</span
+      >
+      <span class="badge badge-success" *ngIf="model.followersCount === 0"
+        >Be the first one who reads it.</span
+      >
     </div>
-    <div class="btn-group  mr-1" dropdown [dropup]="true" *ngIf="!showFollowForm && model.author.id == authService.currentUser.id">
+    <hr />
+    <div
+      class="btn-group mr-1"
+      dropdown
+      [dropup]="true"
+      *ngIf="!showFollowForm && model.author.id == authService.currentUser.id"
+    >
       <button
         id="button-dropup"
         dropdownToggle
@@ -46,59 +65,47 @@
         aria-labelledby="button-dropup"
       >
         <li role="menuitem">
-          <a class="dropdown-item" href="/collections/{{ model.id }}/cards">See Cards</a>
+          <a class="dropdown-item" href="/collections/{{ model.id }}/cards"
+            >See Cards</a
+          >
         </li>
-        <li
-          role="menuitem"
-        >
+        <li role="menuitem">
           <a class="dropdown-item" href="/collections/{{ model.id }}/update"
             >Edit</a
           >
         </li>
-        <li
-          role="menuitem"
-        >
+        <li role="menuitem">
           <a class="dropdown-item" href="/collections/{{ model.id }}/card"
             >New Card</a
           >
         </li>
-        <li
-          role="menuitem"
-          *ngIf="
-            !model.isPrivate
-          "
-        >
+        <li role="menuitem" *ngIf="!model.isPrivate">
           <a class="dropdown-item" (click)="changePolicy('private')"
             >Make Private</a
           >
         </li>
-        <li
-          role="menuitem"
-          *ngIf="
-            model.isPrivate
-          "
-        >
+        <li role="menuitem" *ngIf="model.isPrivate">
           <a class="dropdown-item" (click)="changePolicy('public')"
             >Make Public</a
           >
         </li>
       </ul>
     </div>
-      <a
+    <a
       *ngIf="!showFollowForm && model.author.id != authService.currentUser.id"
-          class="btn btn-primary"
-          href="/collections/{{ model.id }}/cards"
-        >
-          See Cards
-        </a>
+      class="btn btn-primary"
+      href="/collections/{{ model.id }}/cards"
+    >
+      See Cards
+    </a>
     <button
-    *ngIf="!showFollowForm"
-        type="button"
-        class="btn btn-warning ml-1"
-        (click)="showFollowForm = true"
-      >
-        Follow
-      </button>
+      *ngIf="!showFollowForm"
+      type="button"
+      class="btn btn-warning ml-1"
+      (click)="showFollowForm = true"
+    >
+      Follow
+    </button>
   </div>
   <div class="card-footer">
     Author: {{ model.author.firstName || "" + model.author.lastName || "" }}
