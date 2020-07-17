@@ -5,6 +5,7 @@ import { ReadCollectionAddRequest } from '../_models/readCollectionAddRequest';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/filters/pagination';
 import { ReadCollectionResponse } from '../_models/readCollectionResponse';
+import { ReadCard } from '../_models/readCard';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { ReadCollectionResponse } from '../_models/readCollectionResponse';
 export class ReadService {
 
   baseUrl = environment.apiUrl + 'readcollection/';
+  readBaseUrl = environment.apiUrl + 'read/collection/';
   constructor(private http: HttpClient) { }
 
   addToReadCollection(collectionId: number, userId: number, isReversed: boolean, readPerDay: number) {
@@ -39,6 +41,16 @@ export class ReadService {
             paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
           }
           return paginatedResult;
+        })
+      );
+  }
+
+  getReadCards(deck: number, readCollectionId: number, userId: number) {
+    const url = this.readBaseUrl + readCollectionId + '/user/' + userId + '/deck/' + deck + '/cards'
+    return this.http.get<ReadCard[]>(url, { observe: 'response' })
+      .pipe(
+        map(response => {
+          return response.body;
         })
       );
   }

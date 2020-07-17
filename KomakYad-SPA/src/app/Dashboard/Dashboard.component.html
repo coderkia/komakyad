@@ -1,3 +1,24 @@
-<p>
-  Dashboard works!
-</p>
+<div class="container" *ngIf="selectedCollection === null">
+  <div class="alert alert-info mt-3">
+    You also can
+    <a href="/collections/create"> create your own collections</a> or
+    <a href="/collections">follow existing ones</a>.
+  </div>
+
+  <div class="row">
+    <div
+      class="col col-lg-4 col-md-6 col-12 mb-1"
+      *ngFor="let item of followedCollections"
+    >
+      <app-read-collection-item
+        [readCollection]="item"
+        (read)="showDetails($event)"
+      >
+      </app-read-collection-item>
+    </div>
+  </div>
+</div>
+<div class="container mt-2"  *ngIf="selectedCollection !== null">
+  <button class="btn btn-light" (click)="hideDetails()" >Back to Dashboard</button>
+  <app-read-collection-details [readCollection]="selectedCollection"></app-read-collection-details>
+</div>

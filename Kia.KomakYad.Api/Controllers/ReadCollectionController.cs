@@ -82,7 +82,7 @@ namespace Kia.KomakYad.Api.Controllers
             }
             if (deck > 6)
             {
-                return BadRequest("the deck is not valid");
+                return BadRequest("The deck is not valid");
             }
             var overview = new TodayOverview
             {

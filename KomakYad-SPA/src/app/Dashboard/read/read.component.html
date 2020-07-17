@@ -1,0 +1,19 @@
+<div class="row" style="margin-left: 0; margin-right: 0;">
+  <div class="col-3 score">
+    <div class="row">
+      <div class="col-6">
+        <div class="alert alert-danger">{{failedCount}}</div>
+      </div>
+      <div class="col-6">
+        <div class="alert alert-success">{{succeedCount}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-9 text-right p-0" >
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-warning">Previous</button>
+      <button type="button" class="btn btn-light">{{cardIndex + 1 }} of {{readCards.length}}</button>
+      <button type="button" class="btn btn-warning" (click)="nextCard()">Next</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.deck {
+  border: 2px solid lightgrey;
+  border-bottom: 12px solid lightgrey;
+  height: 150px;
+  border-radius: 5px;
+  padding: 0 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.deck.deck-orange {
+  border-color: 5px solid orange;
+}
+.deck.deck-gray {
+  border-color: gray;
+}
+.deck.deck-green {
+  border-color: rgb(14, 187, 14);
+}
+.deck.deck-sky {
+  border-color: rgb(83, 199, 245);
+}
+.deck.deck-orangered {
+  border-color: orangered;
+}
+.deck.deck-yellow {
+  border-color: yellow;
+}
+.deck .alert {
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  border-radius: 1px;
+  width: 100%;
+  text-align: center;
+  border-radius: 0px;;
+}
+.deck .col-6{
+ padding : 0;
+}

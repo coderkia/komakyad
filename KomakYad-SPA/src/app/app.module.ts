@@ -9,6 +9,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
@@ -36,6 +37,9 @@ import { CollectionDetailsComponent } from './Cards/collectionDetails/collection
 import { CardItemComponent } from './Cards/cardItem/cardItem.component';
 import { CardEditComponent } from './Cards/cardEdit/cardEdit.component';
 import { CardDeleteComponent } from './Cards/cardDelete/cardDelete.component';
+import { ReadCollectionDetailsComponent } from './Dashboard/readCollectionDetails/readCollectionDetails.component';
+import { ReadCollectionItemComponent } from './Dashboard/readCollectionItem/readCollectionItem.component';
+import { ReadComponent } from './Dashboard/read/read.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -65,6 +69,9 @@ export function tokenGetter() {
       CardItemComponent,
       CardEditComponent,
       CardDeleteComponent,
+      ReadCollectionDetailsComponent,
+      ReadCollectionItemComponent,
+      ReadComponent,
    ],
    imports: [
       BrowserModule,
@@ -75,6 +82,7 @@ export function tokenGetter() {
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
+      ProgressbarModule.forRoot(),
       BrowserAnimationsModule,
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({

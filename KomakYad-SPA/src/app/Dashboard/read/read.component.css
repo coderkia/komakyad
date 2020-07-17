@@ -1,0 +1,12 @@
+.score .alert {
+    padding: 6px;
+    margin: 0;
+    font-weight: normal;
+    border-radius: 1px;
+    width: 100%;
+    text-align: center;
+    border-radius: 0px;;
+  }
+  .score .col-6{
+   padding : 0;
+  }
