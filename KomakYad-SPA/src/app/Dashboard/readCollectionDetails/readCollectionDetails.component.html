@@ -10,8 +10,8 @@
     ng-swipe-left="startReading(10)"
     *ngIf="!readModeActive"
   >
-    <div class="col-md-4 col-sm-6 mb-2" *ngFor="let deck of decks">
-      <div class="deck" (click)="startReading(deck.deck)">
+    <div class="col-md-4 col-sm-6 mb-2" *ngFor="let deck of showDecks">
+      <div class="deck" (click)="startReading(deck)">
         <div class="row">
           <div class="col-6">
             <div class="alert alert-secondary">Total 1650</div>
@@ -30,7 +30,7 @@
           style="font-size: 3.5em; font-weight: bold;"
           class="text-center text-light"
         >
-          DECK {{ deck.deck }}
+          DECK {{ deck }}
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@
       Deck {{ currentDeck }}
     </div>
     <div class="col-6 text-right">
+      <button (click)="readModeActive = false" class="btn btn-light mb-2 mr-1">Back to Details</button>
       <div class="btn-group mb-2" dropdown>
         <button
           id="button-basic"
@@ -57,16 +58,23 @@
           role="menu"
           aria-labelledby="button-basic"
         >
-          <li role="menuitem" *ngFor="let deck of decks">
-            <a class="dropdown-item" (click)="startReading(deck.deck)"
-              >Deck {{ deck.deck }}</a
+          <li role="menuitem" *ngFor="let deck of showDecks" class="{{deck === currentDeck?'disabled':''}}">
+            <a class="dropdown-item {{deck === currentDeck?'disabled':''}}" (click)="startReading(deck)"
+              >Deck {{ deck }}</a
             >
           </li>
           <li class="divider dropdown-divider"></li>
-          <li role="menuitem"><a class="dropdown-item" (click)="readModeActive = false;">Back to Details</a>
+          <li role="menuitem" class="{{6 === currentDeck?'disabled':''}}">
+            <a class="dropdown-item {{6 === currentDeck?'disabled':''}}" (click)="startReading(6)"
+              >Read Finished Cards</a
+            >
+          </li>
         </ul>
       </div>
     </div>
   </div>
-  <app-read *ngIf="readModeActive" [readCards]="readCards"></app-read>
+  <app-read
+    *ngIf="readModeActive"
+    [readCards]="decks[currentDeck].cards"
+  ></app-read>
 </div>

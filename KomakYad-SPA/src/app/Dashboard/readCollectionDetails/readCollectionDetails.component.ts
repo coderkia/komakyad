@@ -16,16 +16,18 @@ export class ReadCollectionDetailsComponent implements OnInit {
   @Input() readCollection: ReadCollectionResponse;
   @ViewChild(ReadComponent) readComponent;
 
+  showDecks = [0, 1, 2, 3, 4, 5];
+
   decks: any = [
-    { deck: 0, class: 'deck-gray' },
-    { deck: 1, class: 'deck-orange' },
-    { deck: 2, class: 'deck-sky' },
-    { deck: 3, class: 'deck-orangered' },
-    { deck: 4, class: 'deck-yellow' },
-    { deck: 6, class: 'deck-green' },
+    { deck: 0, class: 'deck-gray', cards: null },
+    { deck: 1, class: 'deck-orange', cards: null },
+    { deck: 2, class: 'deck-sky', cards: null },
+    { deck: 3, class: 'deck-orangered', cards: null },
+    { deck: 4, class: 'deck-yellow', cards: null },
+    { deck: 5, class: 'deck-green', cards: null },
+    { deck: 6, class: 'deck-green', cards: null },
   ];
-  currentDeck: number = 5;
-  readCards: Array<ReadCard>;
+  currentDeck = 5;
   readModeActive: boolean;
   constructor(private alertify: AlertifyService, private readService: ReadService, private authService: AuthService) { }
 
@@ -33,11 +35,16 @@ export class ReadCollectionDetailsComponent implements OnInit {
   }
 
   startReading(deck: number) {
+    if (this.decks[deck].cards !== null) {
+      this.currentDeck = deck;
+      this.readModeActive = true;
+      return;
+    }
     this.readService.getReadCards(deck, this.readCollection.id, this.authService.currentUser.id)
       .subscribe(response => {
         this.currentDeck = deck;
         this.readModeActive = true;
-        this.readCards = response;
+        this.decks[deck].cards = response;
       }, error => {
         this.alertify.error(error);
       });
