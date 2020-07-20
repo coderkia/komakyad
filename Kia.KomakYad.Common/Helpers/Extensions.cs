@@ -76,6 +76,23 @@ namespace Kia.KomakYad.Common.Helpers
 
             }
         }
+        public static byte GetFailedDeck(this byte currentDeck)
+        {
+            switch (currentDeck)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    return 0;
+                case 4:
+                    return 3;
+                case 5:
+                    return 4;
+                default:
+                    throw new NotImplementedException($"Deck {currentDeck} is not defined.");
+            }
+        }
 
         public static IQueryable<TSource> OrderBy<TSource>(this IQueryable<TSource> query, string propertyName)
         {

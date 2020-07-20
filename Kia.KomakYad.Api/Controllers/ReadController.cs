@@ -61,8 +61,8 @@ namespace Kia.KomakYad.Api.Controllers
             return Ok(readCards);
         }
 
-        [HttpPatch("Card/{readcardId}/User/{userId}/Deck/{deck}/Move")]
-        public async Task<IActionResult> MoveCard(int userId, int readcardId, [Range(0, 6)]byte deck)
+        [HttpPatch("Card/{readcardId}/User/{userId}/Status/{status}/Move")]
+        public async Task<IActionResult> MoveCard(int userId, int readcardId, string status)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
@@ -74,14 +74,23 @@ namespace Kia.KomakYad.Api.Controllers
             if (readCard == null)
                 return NotFound("Card not found");
 
-            if(readCard.Due > DateTime.Now)
+            if (readCard.Due > DateTime.Now)
             {
                 return BadRequest("You can't move a card it is not dued.");
             }
-
             readCard.PreviousDeck = readCard.CurrentDeck;
-            readCard.CurrentDeck = deck;
-            readCard.Due = deck.GetDue();
+            switch (status.ToLower())
+            {
+                case "failed":
+                    readCard.CurrentDeck = readCard.CurrentDeck.GetFailedDeck();
+                    break;
+                case "succeed":
+                    readCard.CurrentDeck++;
+                    break;
+                default:
+                    break;
+            }
+            readCard.Due = readCard.CurrentDeck.GetDue();
             readCard.LastChanged = DateTime.Now;
 
             if (await _repo.SaveAll())

@@ -107,6 +107,11 @@ namespace Kia.KomakYad.Domain.Repositories
             return await _context.Cards.FirstOrDefaultAsync(c => c.Id == cardId);
         }
 
+        public async Task<bool> CheckCardExists(int cardId)
+        {
+            return await _context.Cards.AnyAsync(c => c.Id == cardId);
+        }
+
         public async Task<bool> IsUserCollectionExistAsync(int collectionId, int ownerId)
         {
             return await _context.ReadCollections.AnyAsync(c => c.CollectionId == collectionId && c.OwnerId == ownerId);

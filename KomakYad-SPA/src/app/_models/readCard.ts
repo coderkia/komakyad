@@ -1,4 +1,5 @@
 import { CardResponse } from './cardResponse';
+import { ReadResult } from './enums/readResult';
 
 export interface ReadCard {
     id: number;
@@ -7,4 +8,5 @@ export interface ReadCard {
     card: CardResponse;
     jsonData: any;
     currentDeck: number;
+    readResult: ReadResult;
 }

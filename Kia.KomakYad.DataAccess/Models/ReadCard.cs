@@ -17,7 +17,7 @@ namespace Kia.KomakYad.DataAccess.Models
 
         [Required]
         [Range(0, 6)]
-        public int CurrentDeck { get; set; }
+        public byte CurrentDeck { get; set; }
 
         [Required]
         [Range(0, 6)]

@@ -74,7 +74,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpGet("{readCollectionId}/User({userId})/overview")]
-        public async Task<IActionResult> GetTodayCardOverview(int readCollectionId, int userId, [FromQuery]byte? deck)
+        public async Task<IActionResult> GetTodayCardOverview(int readCollectionId, int userId, [FromQuery] byte? deck)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
@@ -86,7 +86,7 @@ namespace Kia.KomakYad.Api.Controllers
             }
             var overview = new TodayOverview
             {
-                Deck = deck ,
+                Deck = deck,
                 CollectionId = readCollectionId,
                 OwnerId = userId
             };
@@ -102,9 +102,14 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpGet("Cards")]
-        public async Task<IActionResult> GetCards(int readCollectionId, [FromQuery]CardParams cardParams)
+        public async Task<IActionResult> GetCards(int readCollectionId, [FromQuery] CardParams cardParams)
         {
             cardParams.CollectionId = readCollectionId;
+            var readCollection = await _repo.GetReadCollection(readCollectionId);
+            if(readCollection == null){
+                return NotFound("The id not found.");
+            }
+            cardParams.PageSize = readCollection.ReadPerDay;
             var cards = await _repo.GetCards(cardParams);
             if (cards == null)
             {
@@ -121,7 +126,7 @@ namespace Kia.KomakYad.Api.Controllers
         public async Task<IActionResult> Remove(int readCollectionId)
         {
             var readCollection = await _repo.GetReadCollection(readCollectionId);
-            if(readCollection.OwnerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (readCollection.OwnerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
             }
@@ -152,9 +157,9 @@ namespace Kia.KomakYad.Api.Controllers
             }
             throw new Exception("Unable to restore read collection.");
         }
-        
+
         [HttpGet("All")]
-        public async Task<IActionResult> GetAll([FromQuery]ReadCollectionParams readCollectionParams)
+        public async Task<IActionResult> GetAll([FromQuery] ReadCollectionParams readCollectionParams)
         {
             var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var readCollections = await _repo.GetReadCollections(readCollectionParams);

@@ -1,0 +1,17 @@
+tab {
+  height: 300px;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-bottom-width: 3px;
+  padding: 5px;
+}
+.read-result-succeed tab,
+.read-result-succeed .nav.nav-tabs .nav-item .nav-link.active {
+  border-color: #c7eacc;
+  color: #1d5e26;
+}
+.read-result-failed tab,
+.read-result-succeed span {
+  border-color: #f6c7c4;
+  color: #741d17;
+}

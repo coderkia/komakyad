@@ -1,0 +1,15 @@
+<tabset #staticTabs class="{{getreadResultCssClass()}}" >
+  <tab heading="Question" class="text-rtl" (selectTab)="onTabSelect($event)" >{{ readCard.card.question }}</tab>
+  <tab heading="Answer"  (selectTab)="onTabSelect($event)">{{ readCard.card.answer }}</tab>
+  <tab heading="Example"  (selectTab)="onTabSelect($event)">{{ readCard.card.example }}</tab>
+</tabset>
+
+<div class="row mt-2">
+  <div class="col-6">
+    <button class="btn btn-success" (click)="setAsSucceed()" *ngIf="!isCardRead()" >Yeah! Done </button>
+    <button class="btn btn-warning" (click)="noChange()" *ngIf="isCardRead()" >Next Card</button>
+  </div>
+  <div class="col-6 text-right">
+    <button class="btn btn-danger" (click)="setAsFailed()" *ngIf="!isCardRead()" >Send It Back! </button>
+  </div>
+</div>

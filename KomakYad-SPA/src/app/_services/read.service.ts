@@ -6,6 +6,9 @@ import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/filters/pagination';
 import { ReadCollectionResponse } from '../_models/readCollectionResponse';
 import { ReadCard } from '../_models/readCard';
+import { IfStmt } from '@angular/compiler';
+import { AlertifyService } from './alertify.service';
+import { ReadResult } from '../_models/enums/readResult';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +17,10 @@ export class ReadService {
 
   baseUrl = environment.apiUrl + 'readcollection/';
   readBaseUrl = environment.apiUrl + 'read/collection/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private alertify: AlertifyService) { }
 
   addToReadCollection(collectionId: number, userId: number, isReversed: boolean, readPerDay: number) {
     const body: ReadCollectionAddRequest = { isReversed, readPerDay: +readPerDay };
-    console.log(readPerDay);
     return this.http.post(this.baseUrl + 'collection(' + collectionId + ')/user(' + userId + ')', body);
   }
 
@@ -53,5 +55,14 @@ export class ReadService {
           return response.body;
         })
       );
+  }
+
+  moveCard(readCardId: number, userId: number, readResult: ReadResult) {
+    if (readResult === ReadResult.NotRead) {
+      this.alertify.error('Bad data. Error Code 01');
+    }
+    const status = readResult === ReadResult.Failed ? 'failed' : 'succeed';
+    const url = environment.apiUrl + 'read/card/' + readCardId + '/user/' + userId + '/status/' + status + '/move';
+    return this.http.patch(url, {});
   }
 }

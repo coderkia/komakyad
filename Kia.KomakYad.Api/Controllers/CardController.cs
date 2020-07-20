@@ -70,12 +70,12 @@ namespace Kia.KomakYad.Api.Controllers
                 return Unauthorized();
             }
 
-            var card = await _repo.GetCardById(cardToCreate.Id);
-            if (card == null)
+            if (!await _repo.CheckCardExists(cardToCreate.Id))
             {
                 return BadRequest();
             }
 
+            var card = _mapper.Map<Card>(cardToCreate);
             _repo.Update<Card>(card);
 
             if (await _repo.SaveAll())

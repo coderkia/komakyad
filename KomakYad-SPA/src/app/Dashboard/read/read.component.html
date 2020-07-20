@@ -11,9 +11,12 @@
   </div>
   <div class="col-9 text-right p-0" >
     <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-warning">Previous</button>
+      <button type="button" class="btn btn-warning" (click)="previousCard()">Previous</button>
       <button type="button" class="btn btn-light">{{cardIndex + 1 }} of {{readCards.length}}</button>
       <button type="button" class="btn btn-warning" (click)="nextCard()">Next</button>
     </div>
   </div>
+</div>
+<div class="mt-2">
+  <app-read-card [readCard]="readCards[cardIndex]" (goNextCard)="onCardRead($event)"></app-read-card>
 </div>

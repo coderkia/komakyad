@@ -22,6 +22,7 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<PagedList<User>> GetUsers(UserParams filters);
         Task<User> GetUser(int id);
         Task<Card> GetCardById(int cardId);
+        Task<bool> CheckCardExists(int cardId);
         Task<PagedList<Card>> GetCards(CardParams filters);
         Task<PagedList<ReadCard>> GetReadCards(int readCollectionId, ReadCardParams filters);
         Task<IEnumerable<Card>> GetCards(int collectionId);

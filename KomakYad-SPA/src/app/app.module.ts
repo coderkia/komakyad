@@ -5,6 +5,7 @@ import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,6 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
-import { ReadCardComponent } from './ReadCard/ReadCard.component';
 import { CardExploringComponent } from './CardExploring/CardExploring.component';
 import { ResetPassComponent } from './ResetPass/ResetPass.component';
 import { NavComponent } from './nav/nav.component';
@@ -40,6 +40,7 @@ import { CardDeleteComponent } from './Cards/cardDelete/cardDelete.component';
 import { ReadCollectionDetailsComponent } from './Dashboard/readCollectionDetails/readCollectionDetails.component';
 import { ReadCollectionItemComponent } from './Dashboard/readCollectionItem/readCollectionItem.component';
 import { ReadComponent } from './Dashboard/read/read.component';
+import { ReadCardComponent } from './Dashboard/readCard/readCard.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -50,7 +51,6 @@ export function tokenGetter() {
       AppComponent,
       LoginComponent,
       DashboardComponent,
-      ReadCardComponent,
       CardExploringComponent,
       ResetPassComponent,
       NavComponent,
@@ -72,6 +72,7 @@ export function tokenGetter() {
       ReadCollectionDetailsComponent,
       ReadCollectionItemComponent,
       ReadComponent,
+      ReadCardComponent,
    ],
    imports: [
       BrowserModule,
@@ -83,6 +84,7 @@ export function tokenGetter() {
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
       ProgressbarModule.forRoot(),
+      ButtonsModule.forRoot(),
       BrowserAnimationsModule,
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
