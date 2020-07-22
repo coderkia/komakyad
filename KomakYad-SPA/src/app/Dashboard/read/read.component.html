@@ -1,11 +1,14 @@
 <div class="row" style="margin-left: 0; margin-right: 0;">
   <div class="col-3 score">
     <div class="row">
-      <div class="col-6">
-        <div class="alert alert-danger">{{failedCount}}</div>
+      <div class="col-4">
+        <div class="alert alert-danger">{{this.overview.downCount}}</div>
       </div>
-      <div class="col-6">
-        <div class="alert alert-success">{{succeedCount}}</div>
+      <div class="col-4">
+        <div class="alert alert-info">{{this.overview.dueCount}}</div>
+      </div>
+      <div class="col-4">
+        <div class="alert alert-success">{{this.overview.upCount}}</div>
       </div>
     </div>
   </div>

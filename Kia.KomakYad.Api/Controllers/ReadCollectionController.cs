@@ -73,8 +73,9 @@ namespace Kia.KomakYad.Api.Controllers
             throw new Exception("Unable to transfer cards.");
         }
 
-        [HttpGet("{readCollectionId}/User({userId})/overview")]
-        public async Task<IActionResult> GetTodayCardOverview(int readCollectionId, int userId, [FromQuery] byte? deck)
+        [HttpGet("{readCollectionId}/User/{userId}/overview")]
+        [HttpGet("{readCollectionId}/User/{userId}/deck/{deck}/overview")]
+        public async Task<IActionResult> GetTodayCardOverview(int readCollectionId, int userId, byte? deck)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
@@ -87,8 +88,8 @@ namespace Kia.KomakYad.Api.Controllers
             var overview = new TodayOverview
             {
                 Deck = deck,
-                CollectionId = readCollectionId,
-                OwnerId = userId
+                ReadCollectionId = readCollectionId,
+                OwnerId = userId,
             };
             var filters = new ReadCardParams
             {
@@ -96,7 +97,8 @@ namespace Kia.KomakYad.Api.Controllers
             };
             overview.DueCount = await _repo.GetDueCardCount(readCollectionId, filters);
             overview.DownCount = await _repo.GetFailedCount(readCollectionId, filters);
-            overview.UpCount = await _repo.GeSucceedCount(readCollectionId, filters);
+            overview.UpCount = await _repo.GetSucceedCount(readCollectionId, filters);
+            overview.TotalCount = await _repo.GetTotalCount(readCollectionId, filters);
 
             return Ok(overview);
         }

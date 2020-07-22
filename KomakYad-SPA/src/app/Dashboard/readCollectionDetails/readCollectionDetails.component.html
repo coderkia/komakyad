@@ -14,16 +14,16 @@
       <div class="deck" (click)="startReading(deck)">
         <div class="row">
           <div class="col-6">
-            <div class="alert alert-secondary">Total 1650</div>
+            <div class="alert alert-secondary">Backlog {{getBacklogCount(deck)}}</div>
           </div>
           <div class="col-6">
-            <div class="alert alert-info">Ready 50</div>
+            <div class="alert alert-info">Ready {{decks[deck].overview ? decks[deck].overview.dueCount : 'Loading...'}}</div>
           </div>
           <div class="col-6">
-            <div class="alert alert-success">Succeed 50</div>
+            <div class="alert alert-success">Succeed {{decks[deck].overview ? decks[deck].overview.upCount : 'Loading...'}}</div>
           </div>
           <div class="col-6">
-            <div class="alert alert-danger">Failed 66</div>
+            <div class="alert alert-danger">Failed {{decks[deck].overview ? decks[deck].overview.downCount : 'Loading...'}}</div>
           </div>
         </div>
         <div
@@ -76,5 +76,6 @@
   <app-read
     *ngIf="readModeActive"
     [readCards]="decks[currentDeck].cards"
+    [overview]="decks[currentDeck].overview"
   ></app-read>
 </div>

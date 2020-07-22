@@ -21,7 +21,7 @@ namespace Kia.KomakYad.DataAccess.Models
 
         [Required]
         [Range(0, 6)]
-        public int PreviousDeck { get; set; }
+        public byte PreviousDeck { get; set; }
         public DateTime LastChanged { get; set; } = DateTime.Now;
 
     }

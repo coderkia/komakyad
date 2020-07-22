@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ReadCard } from 'src/app/_models/readCard';
 import { ReadResult } from 'src/app/_models/enums/readResult';
+import { ReadOverview } from 'src/app/_models/readOverview';
 
 @Component({
   selector: 'app-read',
@@ -10,15 +11,12 @@ import { ReadResult } from 'src/app/_models/enums/readResult';
 export class ReadComponent implements OnInit {
   @Input() readCards: Array<ReadCard>;
   cardIndex: number;
-  failedCount: number;
-  succeedCount: number;
+  @Input() overview: ReadOverview;
   constructor() {
   }
 
   ngOnChanges() {
     this.cardIndex = 0;
-    this.failedCount = 0;
-    this.succeedCount = 0;
   }
   ngOnInit() {
   }
@@ -43,10 +41,12 @@ export class ReadComponent implements OnInit {
 
   onCardRead(readResult: ReadResult) {
     if (readResult === ReadResult.Succeed) {
-      this.succeedCount++;
+      this.overview.upCount++;
+      this.overview.dueCount--;
     }
     else if (readResult === ReadResult.Failed) {
-      this.failedCount++;
+      this.overview.downCount++;
+      this.overview.dueCount--;
     }
     this.nextCard();
   }

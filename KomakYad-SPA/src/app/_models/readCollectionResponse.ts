@@ -1,4 +1,5 @@
 import { CollectionResponse } from './collectionResponse';
+import { ReadOverview } from './readOverview';
 
 export interface ReadCollectionResponse {
     id: number;
@@ -7,4 +8,5 @@ export interface ReadCollectionResponse {
     collection: CollectionResponse;
     readPerDay: number;
     deleted: boolean;
+    overview?: ReadOverview;
 }

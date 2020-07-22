@@ -17,7 +17,16 @@ export class ReadCollectionItemComponent implements OnInit {
   }
 
   readThis() {
-    console.log('read clicked');
     this.read.emit(this.readCollection);
+  }
+
+  getBacklogCount() {
+    if (this.readCollection.overview) {
+      return this.readCollection.overview.totalCount - this.readCollection.overview.downCount
+        - this.readCollection.overview.upCount - this.readCollection.overview.dueCount;
+    }
+    else {
+      return 'Loading...';
+    }
   }
 }

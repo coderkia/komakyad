@@ -9,6 +9,7 @@ import { ReadCard } from '../_models/readCard';
 import { IfStmt } from '@angular/compiler';
 import { AlertifyService } from './alertify.service';
 import { ReadResult } from '../_models/enums/readResult';
+import { ReadOverview } from '../_models/readOverview';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +65,16 @@ export class ReadService {
     const status = readResult === ReadResult.Failed ? 'failed' : 'succeed';
     const url = environment.apiUrl + 'read/card/' + readCardId + '/user/' + userId + '/status/' + status + '/move';
     return this.http.patch(url, {});
+  }
+
+  getTodayReadCollectionOverview(readCollectionId: number, userId: number, deck?: number) {
+    const url = deck >= 0
+      ? this.baseUrl + readCollectionId + '/user/' + userId + '/deck/' + deck + '/overview'
+      : this.baseUrl + readCollectionId + '/user/' + userId + '/overview';
+    return this.http.get<ReadOverview>(url, { observe: 'response' }).pipe(
+      map(response => {
+        return response.body;
+      })
+    );
   }
 }

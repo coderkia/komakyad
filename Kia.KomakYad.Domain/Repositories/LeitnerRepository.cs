@@ -67,15 +67,22 @@ namespace Kia.KomakYad.Domain.Repositories
             filters.OnlyDued = false;
             var query = GetReadCardsQuery(readCollectionId, filters);
             query = query.Where(c => c.LastChanged > DateTime.Now.Date);
-            return await query.CountAsync(c => c.PreviousDeck == c.CurrentDeck + 1);
+            
+            return await query.CountAsync(c => c.PreviousDeck > c.CurrentDeck);
         }
 
-        public async Task<int> GeSucceedCount(int readCollectionId, ReadCardParams filters)
+        public async Task<int> GetSucceedCount(int readCollectionId, ReadCardParams filters)
         {
             filters.OnlyDued = false;
             var query = GetReadCardsQuery(readCollectionId, filters);
             query = query.Where(c => c.LastChanged > DateTime.Now.Date);
-            return await query.CountAsync(c => c.PreviousDeck == c.CurrentDeck - 1);
+            return await query.CountAsync(c => c.PreviousDeck < c.CurrentDeck);
+        }
+        public async Task<int> GetTotalCount(int readCollectionId, ReadCardParams filters)
+        {
+            filters.OnlyDued = false;
+            var query = GetReadCardsQuery(readCollectionId, filters);
+            return await query.CountAsync();
         }
 
         public async Task<bool> SaveAll()

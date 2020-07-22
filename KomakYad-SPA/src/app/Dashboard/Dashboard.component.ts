@@ -25,15 +25,25 @@ export class DashboardComponent implements OnInit {
     this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, 10)
       .subscribe(response => {
         this.followedCollections = response.result;
+        this.getOverview();
       }, error => {
         this.alertify.error(error);
       });
   }
 
+  getOverview() {
+    this.followedCollections.forEach(item => {
+      this.readService.getTodayReadCollectionOverview(item.id, this.authService.currentUser.id)
+        .subscribe(response => {
+          item.overview = response;
+        });
+    });
+  }
+
   showDetails(selectedCollection: ReadCollectionResponse) {
     this.selectedCollection = selectedCollection;
   }
-  hideDetails(){
+  hideDetails() {
     this.selectedCollection = null;
   }
 }
