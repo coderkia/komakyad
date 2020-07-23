@@ -37,6 +37,10 @@ export class ReadCollectionDetailsComponent implements OnInit {
 
   startReading(deck: number) {
     if (this.decks[deck].cards !== null) {
+      if (this.decks[deck].cards.length < 1) {
+        this.alertify.warning('There is no card to read in Deck ' + deck);
+        return;
+      }
       this.currentDeck = deck;
       this.readModeActive = true;
       return;
@@ -44,8 +48,12 @@ export class ReadCollectionDetailsComponent implements OnInit {
     this.readService.getReadCards(deck, this.readCollection.id, this.authService.currentUser.id)
       .subscribe(response => {
         this.currentDeck = deck;
-        this.readModeActive = true;
         this.decks[deck].cards = response;
+        if (this.decks[deck].cards.length < 1) {
+          this.alertify.warning('There is no card to read in Deck ' + deck);
+          return;
+        }
+        this.readModeActive = true;
       }, error => {
         this.alertify.error(error);
       });
@@ -54,8 +62,7 @@ export class ReadCollectionDetailsComponent implements OnInit {
 
   getBacklogCount(deck: number) {
     if (this.decks[deck].overview) {
-      return this.decks[deck].overview.totalCount - this.decks[deck].overview.downCount
-        - this.decks[deck].overview.upCount - this.decks[deck].overview.dueCount;
+      return this.decks[deck].overview.totalCount - this.decks[deck].overview.dueCount;
     }
     else {
       return 'Loading...';
@@ -73,5 +80,12 @@ export class ReadCollectionDetailsComponent implements OnInit {
           this.alertify.error(error);
         });
     });
+  }
+
+  cardMoved(destinationDeck: number) {
+    this.decks[destinationDeck].overview.totalCount++;
+    if ( this.getBacklogCount(this.currentDeck) > 0) {
+      this.decks[this.currentDeck].overview.totalCount--;
+    }
   }
 }

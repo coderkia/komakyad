@@ -60,7 +60,7 @@ namespace Kia.KomakYad.Common.Helpers
                 case 0:
                     return DateTime.Now;
                 case 1:
-                    return DateTime.Now.AddHours(8);
+                    return DateTime.Now.AddDays(1);
                 case 2:
                     return DateTime.Now.AddDays(1);
                 case 3:

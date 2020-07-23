@@ -96,9 +96,9 @@ namespace Kia.KomakYad.Api.Controllers
                 Deck = deck
             };
             overview.DueCount = await _repo.GetDueCardCount(readCollectionId, filters);
+            overview.TotalCount = await _repo.GetTotalCount(readCollectionId, filters);
             overview.DownCount = await _repo.GetFailedCount(readCollectionId, filters);
             overview.UpCount = await _repo.GetSucceedCount(readCollectionId, filters);
-            overview.TotalCount = await _repo.GetTotalCount(readCollectionId, filters);
 
             return Ok(overview);
         }
@@ -108,7 +108,8 @@ namespace Kia.KomakYad.Api.Controllers
         {
             cardParams.CollectionId = readCollectionId;
             var readCollection = await _repo.GetReadCollection(readCollectionId);
-            if(readCollection == null){
+            if (readCollection == null)
+            {
                 return NotFound("The id not found.");
             }
             cardParams.PageSize = readCollection.ReadPerDay;

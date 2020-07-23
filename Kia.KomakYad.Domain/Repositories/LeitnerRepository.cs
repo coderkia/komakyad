@@ -65,17 +65,34 @@ namespace Kia.KomakYad.Domain.Repositories
         public async Task<int> GetFailedCount(int readCollectionId, ReadCardParams filters)
         {
             filters.OnlyDued = false;
+            var deck = filters.Deck;
+            filters.Deck = null;
             var query = GetReadCardsQuery(readCollectionId, filters);
+            filters.Deck = deck;
             query = query.Where(c => c.LastChanged > DateTime.Now.Date);
-            
+            if (deck.HasValue)
+            {
+                query = query.Where(c => c.PreviousDeck == deck);
+            }
+
             return await query.CountAsync(c => c.PreviousDeck > c.CurrentDeck);
         }
 
         public async Task<int> GetSucceedCount(int readCollectionId, ReadCardParams filters)
         {
             filters.OnlyDued = false;
+            var deck = filters.Deck;
+            filters.Deck = null;
+
             var query = GetReadCardsQuery(readCollectionId, filters);
+
+            filters.Deck = deck;
             query = query.Where(c => c.LastChanged > DateTime.Now.Date);
+            if (deck.HasValue)
+            {
+                query = query.Where(c => c.PreviousDeck == deck);
+            }
+
             return await query.CountAsync(c => c.PreviousDeck < c.CurrentDeck);
         }
         public async Task<int> GetTotalCount(int readCollectionId, ReadCardParams filters)

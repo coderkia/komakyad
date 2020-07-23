@@ -14,9 +14,9 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<PagedList<Collection>> GetCollections(CollectionParams filters);
         Task<PagedList<Collection>> GetUserCollections(int ownerId, CollectionParams filters);
         Task<int> GetDueCardCount(int readCollectionId, ReadCardParams filters);
+        Task<int> GetTotalCount(int readCollectionId, ReadCardParams filters);
         Task<int> GetFailedCount(int readCollectionId, ReadCardParams filters);
         Task<int> GetSucceedCount(int readCollectionId, ReadCardParams filters);
-        Task<int> GetTotalCount(int readCollectionId, ReadCardParams filters);
         Task<bool> SaveAll();
         Task<Collection> GetCollection(int collectionId);
         Task<bool> IsUserCollectionExistAsync(int collectionId, int userId);

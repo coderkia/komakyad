@@ -77,5 +77,6 @@
     *ngIf="readModeActive"
     [readCards]="decks[currentDeck].cards"
     [overview]="decks[currentDeck].overview"
+    (cardMoved)="cardMoved($event)"
   ></app-read>
 </div>

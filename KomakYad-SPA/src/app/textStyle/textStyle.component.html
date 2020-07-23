@@ -1,0 +1,69 @@
+<div class="btn-group" dropdown>
+  <button
+    id="button-animated"
+    dropdownToggle
+    type="button"
+    class="btn btn-primary dropdown-toggle btn-sm"
+    aria-controls="dropdown-animated"
+  >
+    <span class="icon-paragraph-left"></span> <span class="caret"></span>
+  </button>
+  <ul
+    id="dropdown-animated"
+    *dropdownMenu
+    class="dropdown-menu"
+    role="menu"
+    aria-labelledby="button-animated"
+  >
+    <li role="menuitem">
+      <a class="dropdown-item" href="#"
+        ><span class="icon-paragraph-left"></span> Align Left</a
+      >
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" href="#"
+        ><span class="icon-paragraph-center"></span> Center</a
+      >
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" href="#"
+        ><span class="icon-paragraph-right"></span> Align Right</a
+      >
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" href="#"
+        ><span class="icon-paragraph-justify"></span> Justify</a
+      >
+    </li>
+  </ul>
+</div>
+<div class="btn-group ml-1 dropup" dropdown>
+  <button
+    id="button-animated"
+    dropdownToggle
+    type="button"
+    class="btn btn-primary dropdown-toggle btn-sm"
+    aria-haspopup="true" 
+    aria-expanded="false"
+  >
+    <span class="icon-ltr"></span> <span class="caret"></span>
+  </button>
+  <ul
+    id="dropdown-animated"
+    *dropdownMenu
+    class="dropdown-menu"
+    role="menu"
+    aria-labelledby="button-animated"
+  >
+    <li role="menuitem">
+      <a class="dropdown-item" href="#"
+        ><span class="icon-ltr"></span> Left to Right</a
+      >
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" href="#"
+        ><span class="icon-rtl"></span> Right to Left</a
+      >
+    </li>
+  </ul>
+</div>

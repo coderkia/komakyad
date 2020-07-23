@@ -22,8 +22,7 @@ export class ReadCollectionItemComponent implements OnInit {
 
   getBacklogCount() {
     if (this.readCollection.overview) {
-      return this.readCollection.overview.totalCount - this.readCollection.overview.downCount
-        - this.readCollection.overview.upCount - this.readCollection.overview.dueCount;
+      return this.readCollection.overview.totalCount - this.readCollection.overview.dueCount;
     }
     else {
       return 'Loading...';

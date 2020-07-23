@@ -1,7 +1,14 @@
 <tabset #staticTabs class="{{getreadResultCssClass()}}" >
-  <tab heading="Question" class="text-rtl" (selectTab)="onTabSelect($event)" >{{ readCard.card.question }}</tab>
-  <tab heading="Answer"  (selectTab)="onTabSelect($event)">{{ readCard.card.answer }}</tab>
-  <tab heading="Example"  (selectTab)="onTabSelect($event)">{{ readCard.card.example }}</tab>
+  <tab heading="Question" class="text-rtl" (selectTab)="onTabSelect($event)" >
+    {{ readCard.card.question }}
+    <app-text-style></app-text-style>
+  </tab>
+  <tab heading="Answer"  (selectTab)="onTabSelect($event)">
+    {{ readCard.card.answer }}
+  </tab>
+  <tab heading="Example"  (selectTab)="onTabSelect($event)">
+    {{ readCard.card.example }}
+  </tab>
 </tabset>
 
 <div class="row mt-2">
