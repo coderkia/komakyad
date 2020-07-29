@@ -76,11 +76,11 @@ export class ReadCardComponent implements OnInit {
       });
     if (this.cardJsonDataChanged) {
       this.readService.saveJsonData(cardId, userId, this.readCard.jsonData)
-      .subscribe(() => {
-        this.cardJsonDataChanged = false;
-      }, error => {
-        this.alertify.warning('Unable to save text style.');
-      });
+        .subscribe(() => {
+          this.cardJsonDataChanged = false;
+        }, error => {
+          this.alertify.warning('Unable to save text style.');
+        });
     }
   }
 
@@ -88,23 +88,45 @@ export class ReadCardComponent implements OnInit {
     this.goNextCard.emit(ReadResult.None);
     this.cardJsonDataChanged = false;
   }
+  getTextStyle(index: number, type: string) {
+    if (this.readCard.jsonData && this.readCard.jsonData.textStyles && this.readCard.jsonData.textStyles.length > index) {
+      switch (type) {
+        case 'align':
+          return this.readCard.jsonData.textStyles[index].align;
+        case 'direction':
+          return this.readCard.jsonData.textStyles[index].direction;
+        default:
+          console.log('Invalid type', type);
+          return null;
+      }
+    }
+    switch (type) {
+      case 'align':
+        return 'left';
+      case 'direction':
+        return 'ltr';
+      default:
+        console.log('Invalid type', type);
+        return null;
+    }
+  }
 
   setNewStyle(tab: string, style: TextStyle) {
     if (!this.readCard.jsonData) {
       this.readCard.jsonData = {};
     }
-    if (!this.readCard.jsonData.style) {
-      this.readCard.jsonData.style = {};
+    if (!this.readCard.jsonData.textStyles) {
+      this.readCard.jsonData.textStyles = [{}, {}, {}];
     }
     switch (tab) {
-      case `Answer`:
-        this.readCard.jsonData.style.answer = style;
-        break;
       case `Question`:
-        this.readCard.jsonData.style.question = style;
+        this.readCard.jsonData.textStyles[0] = style;
+        break;
+      case `Answer`:
+        this.readCard.jsonData.textStyles[1] = style;
         break;
       case `Example`:
-        this.readCard.jsonData.style.example = style;
+        this.readCard.jsonData.textStyles[2] = style;
         break;
       default:
         break;

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.Api.Helpers;
+using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -97,6 +99,28 @@ namespace Kia.KomakYad.Api.Controllers
                 return NoContent();
 
             throw new System.Exception($"Unable to move card");
+        }
+
+        [HttpPatch("Card/{readcardId}/User/{userId}/saveAdditionalData")]
+        public async Task<IActionResult> SaveJsonData(int userId, int readcardId,[FromBody] ReadCardJsonData readCardAdditionalData)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var readCard = await _repo.GetReadCard(readcardId);
+            if (readCard == null)
+            { 
+                return NotFound("Card not found"); 
+            }
+
+            readCard.JsonData = JsonConvert.SerializeObject(readCardAdditionalData);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new System.Exception($"Unable to save additional data");
         }
     }
 }

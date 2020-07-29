@@ -80,8 +80,7 @@ export class ReadService {
   }
 
   saveJsonData(readCardId: number, userId: number, readCardJsonData: ReadCardJsonData) {
-    const url = environment.apiUrl + 'readCard/' + readCardId + '/user/' + userId + '/saveAdditionalData';
-    const data = JSON.stringify(readCardJsonData);
-    return this.http.patch(url, {data});
+    const url = environment.apiUrl + 'read/card/' + readCardId + '/user/' + userId + '/saveAdditionalData';
+    return this.http.patch(url, readCardJsonData);
   }
 }
