@@ -6,7 +6,7 @@
     class="btn btn-primary dropdown-toggle btn-sm"
     aria-controls="dropdown-animated"
   >
-    <span class="icon-paragraph-left"></span> <span class="caret"></span>
+    <span class="icon-paragraph-{{this.currentStyle.align ? this.currentStyle.align : 'left'}}"></span> <span class="caret"></span>
   </button>
   <ul
     id="dropdown-animated"
@@ -16,28 +16,28 @@
     aria-labelledby="button-animated"
   >
     <li role="menuitem">
-      <a class="dropdown-item" href="#"
+      <a class="dropdown-item" (click)="setStyle('left')"
         ><span class="icon-paragraph-left"></span> Align Left</a
       >
     </li>
     <li role="menuitem">
-      <a class="dropdown-item" href="#"
+      <a class="dropdown-item" (click)="setStyle('center')"
         ><span class="icon-paragraph-center"></span> Center</a
       >
     </li>
     <li role="menuitem">
-      <a class="dropdown-item" href="#"
+      <a class="dropdown-item" (click)="setStyle('right')"
         ><span class="icon-paragraph-right"></span> Align Right</a
       >
     </li>
     <li role="menuitem">
-      <a class="dropdown-item" href="#"
+      <a class="dropdown-item" (click)="setStyle('justify')"
         ><span class="icon-paragraph-justify"></span> Justify</a
       >
     </li>
   </ul>
 </div>
-<div class="btn-group ml-1 dropup" dropdown>
+<div class="btn-group ml-1 dropdown" dropdown>
   <button
     id="button-animated"
     dropdownToggle
@@ -46,7 +46,7 @@
     aria-haspopup="true" 
     aria-expanded="false"
   >
-    <span class="icon-ltr"></span> <span class="caret"></span>
+    <span class="icon-{{this.currentStyle.direction ? this.currentStyle.direction : 'ltr'}}"></span> <span class="caret"></span>
   </button>
   <ul
     id="dropdown-animated"
@@ -56,12 +56,12 @@
     aria-labelledby="button-animated"
   >
     <li role="menuitem">
-      <a class="dropdown-item" href="#"
+      <a class="dropdown-item" (click)="setStyle('ltr')"
         ><span class="icon-ltr"></span> Left to Right</a
       >
     </li>
     <li role="menuitem">
-      <a class="dropdown-item" href="#"
+      <a class="dropdown-item" (click)="setStyle('rtl')"
         ><span class="icon-rtl"></span> Right to Left</a
       >
     </li>

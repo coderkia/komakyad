@@ -6,6 +6,7 @@ import { ReadService } from 'src/app/_services/read.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { ReadResult } from 'src/app/_models/enums/readResult';
+import { TextStyle } from 'src/app/_models/textStyle';
 
 @Component({
   selector: 'app-read-card',
@@ -15,6 +16,7 @@ import { ReadResult } from 'src/app/_models/enums/readResult';
 export class ReadCardComponent implements OnInit {
   @Input() readCard: ReadCard;
   @Output() goNextCard = new EventEmitter();
+  cardJsonDataChanged = false;
 
   getreadResultCssClass() {
     if (this.readCard.readResult === ReadResult.Failed) {
@@ -30,6 +32,7 @@ export class ReadCardComponent implements OnInit {
 
   ngOnChange() {
   }
+
   ngOnInit() {
   }
   onTabSelect(data: TabDirective): void {
@@ -50,6 +53,15 @@ export class ReadCardComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
+    if (this.cardJsonDataChanged) {
+      console.log('saving json data', this.readCard.jsonData);
+      this.readService.saveJsonData(cardId, userId, this.readCard.jsonData)
+        .subscribe(() => {
+          this.cardJsonDataChanged = false;
+        }, error => {
+          this.alertify.warning('Unable to save text style.');
+        });
+    }
   }
   setAsFailed() {
     this.readCard.readResult = ReadResult.Failed;
@@ -62,9 +74,41 @@ export class ReadCardComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       });
+    if (this.cardJsonDataChanged) {
+      this.readService.saveJsonData(cardId, userId, this.readCard.jsonData)
+      .subscribe(() => {
+        this.cardJsonDataChanged = false;
+      }, error => {
+        this.alertify.warning('Unable to save text style.');
+      });
+    }
   }
 
   noChange() {
     this.goNextCard.emit(ReadResult.None);
+    this.cardJsonDataChanged = false;
+  }
+
+  setNewStyle(tab: string, style: TextStyle) {
+    if (!this.readCard.jsonData) {
+      this.readCard.jsonData = {};
+    }
+    if (!this.readCard.jsonData.style) {
+      this.readCard.jsonData.style = {};
+    }
+    switch (tab) {
+      case `Answer`:
+        this.readCard.jsonData.style.answer = style;
+        break;
+      case `Question`:
+        this.readCard.jsonData.style.question = style;
+        break;
+      case `Example`:
+        this.readCard.jsonData.style.example = style;
+        break;
+      default:
+        break;
+    }
+    this.cardJsonDataChanged = true;
   }
 }

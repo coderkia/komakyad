@@ -1,19 +1,23 @@
 <tabset #staticTabs class="{{getreadResultCssClass()}}" >
-  <tab heading="Question" class="text-rtl" (selectTab)="onTabSelect($event)" >
-    {{ readCard.card.question }}
-    <app-text-style></app-text-style>
+  <tab heading="Question" (selectTab)="onTabSelect($event)" >
+    <p class="text-{{readCard?.jsonData?.style?.question?.direction}} text-{{readCard?.jsonData?.style?.question?.align}}">{{ readCard.card.question }}</p>
+    <app-text-style (styleChanged)="setNewStyle('Question',$event)" ></app-text-style>
   </tab>
-  <tab heading="Answer"  (selectTab)="onTabSelect($event)">
-    {{ readCard.card.answer }}
+  <tab heading="Answer" (selectTab)="onTabSelect($event)">
+    <p class="text-{{readCard?.jsonData?.style?.answer?.direction}} text-{{readCard?.jsonData?.style?.answer?.align}}" >
+    {{ readCard.card.answer }}</p>
+    <app-text-style (styleChanged)="setNewStyle('Answer',$event)" ></app-text-style>
   </tab>
-  <tab heading="Example"  (selectTab)="onTabSelect($event)">
-    {{ readCard.card.example }}
+  <tab heading="Example" (selectTab)="onTabSelect($event)">
+    <p class="text-{{readCard?.jsonData?.style?.example?.direction}} text-{{readCard?.jsonData?.style?.example?.align}}">
+    {{ readCard.card.example }}</p>
+    <app-text-style (styleChanged)="setNewStyle('Example',$event)" ></app-text-style>
   </tab>
 </tabset>
 
 <div class="row mt-2">
   <div class="col-6">
-    <button class="btn btn-success" (click)="setAsSucceed()" *ngIf="!isCardRead()" >Yeah! Done </button>
+    <button class="btn btn-success" (click)="setAsSucceed()" *ngIf="!isCardRead()" >Yay! Done </button>
     <button class="btn btn-warning" (click)="noChange()" *ngIf="isCardRead()" >Next Card</button>
   </div>
   <div class="col-6 text-right">

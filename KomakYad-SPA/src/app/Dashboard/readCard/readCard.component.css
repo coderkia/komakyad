@@ -1,9 +1,11 @@
 tab {
-  height: 300px;
   border: 1px solid #dee2e6;
   border-top: none;
   border-bottom-width: 3px;
   padding: 5px;
+}
+tab p {
+  height: 200px;
 }
 .read-result-succeed tab,
 .read-result-succeed .nav.nav-tabs .nav-item .nav-link.active {

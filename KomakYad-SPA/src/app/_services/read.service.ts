@@ -10,6 +10,7 @@ import { IfStmt } from '@angular/compiler';
 import { AlertifyService } from './alertify.service';
 import { ReadResult } from '../_models/enums/readResult';
 import { ReadOverview } from '../_models/readOverview';
+import { ReadCardJsonData } from '../_models/readCardJsonData';
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +77,11 @@ export class ReadService {
         return response.body;
       })
     );
+  }
+
+  saveJsonData(readCardId: number, userId: number, readCardJsonData: ReadCardJsonData) {
+    const url = environment.apiUrl + 'readCard/' + readCardId + '/user/' + userId + '/saveAdditionalData';
+    const data = JSON.stringify(readCardJsonData);
+    return this.http.patch(url, {data});
   }
 }
