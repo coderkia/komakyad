@@ -11,7 +11,7 @@
     <app-text-style (styleChanged)="setNewStyle('Answer',$event)" ></app-text-style>
   </tab>
   <tab heading="Example" (selectTab)="onTabSelect($event)">
-    <p class="text-{{getTextStyle(2,'align')}} text-{{getTextStyle(2,'direction')}}">
+    <p class="text-{{getTextStyle(2,'align')}} text-{{getTextStyle(2,'direction')}}" >
     {{ readCard.card.example }}
     </p>
     <app-text-style (styleChanged)="setNewStyle('Example',$event)" ></app-text-style>

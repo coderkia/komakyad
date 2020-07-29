@@ -6,6 +6,7 @@ tab {
 }
 tab p {
   height: 200px;
+  white-space: pre-wrap;
 }
 .read-result-succeed tab,
 .read-result-succeed .nav.nav-tabs .nav-item .nav-link.active {

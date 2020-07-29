@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ReadCard } from 'src/app/_models/readCard';
 import { FormBuilder } from '@angular/forms';
-import { TabDirective } from 'ngx-bootstrap/tabs';
+import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { ReadService } from 'src/app/_services/read.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -17,6 +17,7 @@ export class ReadCardComponent implements OnInit {
   @Input() readCard: ReadCard;
   @Output() goNextCard = new EventEmitter();
   cardJsonDataChanged = false;
+  @ViewChild('staticTabs', { static: false }) staticTabs: TabsetComponent;
 
   getreadResultCssClass() {
     if (this.readCard.readResult === ReadResult.Failed) {
@@ -47,6 +48,7 @@ export class ReadCardComponent implements OnInit {
     const cardId = this.readCard.id;
     const userId = this.authService.currentUser.id;
     const status = this.readCard.readResult;
+    this.staticTabs.tabs[0].active = true;
     this.goNextCard.emit(ReadResult.Succeed);
     this.readService.moveCard(cardId, userId, status)
       .subscribe(() => {
@@ -68,6 +70,7 @@ export class ReadCardComponent implements OnInit {
     const cardId = this.readCard.id;
     const userId = this.authService.currentUser.id;
     const status = this.readCard.readResult;
+    this.staticTabs.tabs[0].active = true;
     this.goNextCard.emit(ReadResult.Failed);
     this.readService.moveCard(cardId, userId, status)
       .subscribe(() => {
