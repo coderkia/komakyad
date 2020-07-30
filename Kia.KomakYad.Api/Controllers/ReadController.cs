@@ -7,6 +7,7 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -102,7 +103,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPatch("Card/{readcardId}/User/{userId}/saveAdditionalData")]
-        public async Task<IActionResult> SaveJsonData(int userId, int readcardId,[FromBody] ReadCardJsonData readCardAdditionalData)
+        public async Task<IActionResult> SaveJsonData(int userId, int readcardId, [FromBody] ReadCardJsonData readCardAdditionalData)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
@@ -111,11 +112,16 @@ namespace Kia.KomakYad.Api.Controllers
 
             var readCard = await _repo.GetReadCard(readcardId);
             if (readCard == null)
-            { 
-                return NotFound("Card not found"); 
+            {
+                return NotFound("Card not found");
             }
 
-            readCard.JsonData = JsonConvert.SerializeObject(readCardAdditionalData);
+            var contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            readCard.JsonData = JsonConvert.SerializeObject(readCardAdditionalData, Formatting.None, new JsonSerializerSettings { ContractResolver = contractResolver });
 
             if (await _repo.SaveAll())
                 return NoContent();
