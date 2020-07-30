@@ -1,20 +1,20 @@
 <tabset #staticTabs class="{{getreadResultCssClass()}}" >
   <tab heading="Question" (selectTab)="onTabSelect($event)" >
-    <p class="text-{{getTextStyle(0,'align')}} text-{{getTextStyle(0,'direction')}}" >
+    <p class="text-{{getTextStyle(0).align}} text-{{getTextStyle(0).direction}}" >
       {{ readCard.card.question }}
     </p>
-    <app-text-style (styleChanged)="setNewStyle('Question',$event)" ></app-text-style>
+    <app-text-style (styleChanged)="setNewStyle('Question',$event)" [currentStyle]="getTextStyle(0)"></app-text-style>
   </tab>
   <tab heading="Answer" (selectTab)="onTabSelect($event)">
-    <p class="text-{{getTextStyle(1,'align')}} text-{{getTextStyle(1,'direction')}}" >
+    <p class="text-{{getTextStyle(1).align}} text-{{getTextStyle(1).direction}}" >
     {{ readCard.card.answer }}</p>
-    <app-text-style (styleChanged)="setNewStyle('Answer',$event)" ></app-text-style>
+    <app-text-style (styleChanged)="setNewStyle('Answer',$event)" [currentStyle]="getTextStyle(1)"></app-text-style>
   </tab>
   <tab heading="Example" (selectTab)="onTabSelect($event)">
-    <p class="text-{{getTextStyle(2,'align')}} text-{{getTextStyle(2,'direction')}}" >
+    <p class="text-{{getTextStyle(2).align}} text-{{getTextStyle(2).direction}}" >
     {{ readCard.card.example }}
     </p>
-    <app-text-style (styleChanged)="setNewStyle('Example',$event)" ></app-text-style>
+    <app-text-style (styleChanged)="setNewStyle('Example',$event)" [currentStyle]="getTextStyle(2)" ></app-text-style>
   </tab>
 </tabset>
 

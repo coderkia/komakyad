@@ -13,8 +13,13 @@ export class TextStyleComponent implements OnInit {
   constructor(private alertify: AlertifyService) { }
 
   ngOnInit() {
+    console.log('text style', this.currentStyle);
+
     if (this.currentStyle === undefined) {
-      this.currentStyle = {};
+      this.currentStyle = {
+        align: 'left',
+        direction: 'ltr',
+      };
     }
   }
 

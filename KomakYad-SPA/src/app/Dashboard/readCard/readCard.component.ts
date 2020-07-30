@@ -91,27 +91,14 @@ export class ReadCardComponent implements OnInit {
     this.goNextCard.emit(ReadResult.None);
     this.cardJsonDataChanged = false;
   }
-  getTextStyle(index: number, type: string) {
+  getTextStyle(index: number) {
     if (this.readCard.jsonData && this.readCard.jsonData.textStyles && this.readCard.jsonData.textStyles.length > index) {
-      switch (type) {
-        case 'align':
-          return this.readCard.jsonData.textStyles[index].align;
-        case 'direction':
-          return this.readCard.jsonData.textStyles[index].direction;
-        default:
-          console.log('Invalid type', type);
-          return null;
-      }
+      return this.readCard.jsonData.textStyles[index];
     }
-    switch (type) {
-      case 'align':
-        return 'left';
-      case 'direction':
-        return 'ltr';
-      default:
-        console.log('Invalid type', type);
-        return null;
-    }
+    return {
+      align: 'left',
+      direction: 'ltr',
+    };
   }
 
   setNewStyle(tab: string, style: TextStyle) {
