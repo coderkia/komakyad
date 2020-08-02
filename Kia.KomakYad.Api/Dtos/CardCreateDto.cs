@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kia.KomakYad.Api.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Kia.KomakYad.Api.Dtos
@@ -17,7 +18,7 @@ namespace Kia.KomakYad.Api.Dtos
 
         public string Example { get; set; }
 
-        public string ExtraData { get; set; }
+        public ReadCardJsonData JsonData { get; set; }
 
         [Required]
         [Range(1, int.MaxValue)]

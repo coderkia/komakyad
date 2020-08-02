@@ -4,14 +4,16 @@ using Kia.KomakYad.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kia.KomakYad.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200802014816_RenameExtraDataInCard")]
+    partial class RenameExtraDataInCard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,9 +160,6 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.Property<bool>("IsReversed")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateCheck")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");

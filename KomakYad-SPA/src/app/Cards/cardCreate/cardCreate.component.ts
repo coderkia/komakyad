@@ -5,6 +5,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardService } from 'src/app/_services/card.service';
 import { CollectionResponse } from 'src/app/_models/collectionResponse';
+import { TextStyle } from 'src/app/_models/textStyle';
 
 @Component({
   selector: 'app-card-create',
@@ -14,11 +15,17 @@ import { CollectionResponse } from 'src/app/_models/collectionResponse';
 export class CardCreateComponent implements OnInit {
   cardForm: FormGroup;
   collection: CollectionResponse;
+  textStyles: Array<TextStyle>;
 
   constructor(private alertify: AlertifyService, private route: ActivatedRoute, private formbuilder: FormBuilder,
     private router: Router, private cardService: CardService) { }
 
   ngOnInit() {
+    this.textStyles = [
+      { align: 'left', direction: 'ltr' },
+      { align: 'left', direction: 'ltr' },
+      { align: 'left', direction: 'ltr' },
+    ];
     this.route.data.subscribe(data => {
       this.collection = data.collection;
     });
@@ -39,6 +46,7 @@ export class CardCreateComponent implements OnInit {
       question: this.cardForm.value.question,
       example: this.cardForm.value.example,
       collectionId: this.collection.id,
+      jsonDate: this.textStyles
     };
     this.cardService.create(card).subscribe(response => {
       this.alertify.success('Card created successfuly.');
@@ -52,4 +60,9 @@ export class CardCreateComponent implements OnInit {
   cancel() {
     this.router.navigate(['/collections']);
   }
+
+  setNewStyle(index: number, style: TextStyle) {
+    this.textStyles[index] = style;
+  }
+
 }

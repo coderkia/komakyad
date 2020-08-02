@@ -19,7 +19,7 @@ namespace Kia.KomakYad.DataAccess.Models
         [StringLength(2000)]
         public string Example { get; set; }
 
-        public string ExtraData { get; set; }
+        public string JsonData { get; set; }
 
         public Collection Collection { get; set; }
         public int CollectionId { get; set; }

@@ -15,9 +15,12 @@ namespace Kia.KomakYad.Api.Helpers
             CreateMap<User, UserListDto>();
             CreateMap<UserForUpdateDto, User>();
             CreateMap<UserForRegisterDto, User>();
-            CreateMap<CardCreateDto, Card>();
-            CreateMap<Card, CardToReturnDto>();
-            CreateMap<Card, CardToSearchReturnDto>();
+            CreateMap<CardCreateDto, Card>()
+                .ForMember(m => m.JsonData, opt => opt.MapFrom(u => JsonConvert.SerializeObject(u.JsonData)));
+            CreateMap<Card, CardToReturnDto>()
+                .ForMember(m => m.JsonData, opt => opt.MapFrom(u => JsonConvert.DeserializeObject<ReadCardJsonData>(u.JsonData))); ;
+            CreateMap<Card, CardToSearchReturnDto>()
+                .ForMember(m => m.JsonData, opt => opt.MapFrom(u => JsonConvert.DeserializeObject<ReadCardJsonData>(u.JsonData))); ;
             CreateMap<Card, ReadCard>()
                 .ForMember(m => m.CardId, opt => opt.MapFrom(u => u.Id));
             CreateMap<Collection, CollectionToReturnDto>();

@@ -42,7 +42,7 @@ export class CardEditComponent implements OnInit {
       answer: this.cardForm.value.answer,
       question: this.cardForm.value.question,
       example: this.cardForm.value.example,
-      extraData: this.card.extraData,
+      jsonData: this.card.jsonData,
       collectionId: this.collectionId
     };
     this.cardService.update(cardRequest).subscribe(response => {

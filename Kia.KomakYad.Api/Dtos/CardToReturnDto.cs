@@ -12,7 +12,7 @@ namespace Kia.KomakYad.Api.Dtos
         public string Question { get; set; }
 
         public string Example { get; set; }
-        public string ExtraData { get; set; }
+        public string JsonData { get; set; }
         public CollectionToReturnDto Collection { get; set; }
     }
 }

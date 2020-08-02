@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-5">
   <app-collectionDetails [collection]="collection"></app-collectionDetails>
   <h4>Add New Card</h4>
   <hr />
@@ -13,11 +13,11 @@
           'is-invalid':
             cardForm.get('question').errors && cardForm.get('question').touched
         }"
-        class="form-control"
+        class="form-control text-{{textStyles[0].align}} text-{{textStyles[0].direction}}"
         formControlName="question"
         placeholder="Question"
       ></textarea>
-      <app-text-style></app-text-style>
+      <app-text-style (styleChanged)="setNewStyle(0, $event)" [currentStyle]="textStyles[0]"></app-text-style>
       <div class="invalid-feedback">The Question field is required.</div>
       <div
         class="invalid-feedback"
@@ -39,11 +39,11 @@
           'is-invalid':
             cardForm.get('answer').errors && cardForm.get('answer').touched
         }"
-        class="form-control"
+        class="form-control text-{{textStyles[1].align}} text-{{textStyles[1].direction}}"
         formControlName="answer"
         placeholder="Answer"
       ></textarea>
-      <app-text-style></app-text-style>
+      <app-text-style (styleChanged)="setNewStyle(1, $event)" [currentStyle]="textStyles[1]"></app-text-style>
       <div class="invalid-feedback">The Answer field is required.</div>
       <div
         class="invalid-feedback"
@@ -65,11 +65,11 @@
           'is-invalid':
             cardForm.get('example').errors && cardForm.get('example').touched
         }"
-        class="form-control"
+        class="form-control text-{{textStyles[2].align}} text-{{textStyles[2].direction}}"
         formControlName="example"
         placeholder="Example"
       ></textarea>
-      <app-text-style></app-text-style>
+      <app-text-style (styleChanged)="setNewStyle(2, $event)" [currentStyle]="textStyles[2]"></app-text-style>
       <div
         class="invalid-feedback"
         *ngIf="

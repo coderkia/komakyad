@@ -6,6 +6,6 @@ export interface CardResponse {
     answer: string;
     question: string;
     example: string;
-    extraData: any;
+    jsonData: any;
     collection: CollectionResponse;
 }

@@ -45,6 +45,7 @@ namespace Kia.KomakYad.Api.Controllers
                 CollectionId = collectionId,
                 OwnerId = userId,
                 ReadPerDay = (byte)userCollectionToCreate.ReadPerDay,
+                LastUpdateCheck = DateTime.Now
             };
 
             _repo.Add(readCollection);

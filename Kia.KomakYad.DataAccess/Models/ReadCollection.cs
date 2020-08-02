@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kia.KomakYad.DataAccess.Models
 {
@@ -15,5 +16,6 @@ namespace Kia.KomakYad.DataAccess.Models
         [Range(1, 100)]
         public byte ReadPerDay { get; set; }
         public bool Deleted { get; set; }
+        public DateTime LastUpdateCheck { get; set; }
     }
 }

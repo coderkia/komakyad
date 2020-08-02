@@ -13,6 +13,6 @@ namespace Kia.KomakYad.Api.Dtos
 
         public string Example { get; set; }
 
-        public string ExtraData { get; set; }
+        public string JsonData { get; set; }
     }
 }

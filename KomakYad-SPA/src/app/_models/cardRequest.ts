@@ -3,6 +3,6 @@ export interface CardRequest {
     answer: string;
     question: string;
     example: string;
-    extraData?: string;
+    jsonData?: string;
     collectionId: number;
 }
