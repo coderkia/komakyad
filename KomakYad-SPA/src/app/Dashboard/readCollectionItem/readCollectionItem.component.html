@@ -2,7 +2,10 @@
   <div class="card-body">
     <h4>{{ readCollection.collection.title }}</h4>
     <p style="height: 120px;">{{ readCollection.collection.description }}</p>
-    <div class="row read-details">
+    <div *ngIf="!readCollection.overview" class="text-center " style="height: 53px;">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <div class="row read-details" *ngIf="readCollection.overview">
       <div class="col-3">
         <div class="alert alert-secondary">
           <h6>Backlog</h6>
@@ -12,17 +15,25 @@
       <div class="col-3">
         <div class="alert alert-info">
           <h6>Ready</h6>
-          {{ readCollection.overview ? readCollection.overview.dueCount : 'Loading...' }}
-        </div></div>
-      <div class="col-3"><div class="alert alert-danger">
-        <h6>Failed</h6>
-        {{  readCollection.overview ?readCollection.overview.downCount : 'Loading...'  }}
-      </div></div>
+          <span >{{
+            readCollection.overview.dueCount
+          }}</span>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="alert alert-danger">
+          <h6>Failed</h6>
+          <span >{{
+            readCollection.overview.downCount
+          }}</span>
+        </div>
+      </div>
       <div class="col-3 text-right">
-        
         <div class="alert alert-success">
           <h6>Succeed</h6>
-          {{  readCollection.overview ?readCollection.overview.upCount : 'Loading...'  }}
+          <span >{{
+            readCollection.overview.upCount
+          }}</span>
         </div>
       </div>
     </div>

@@ -17,8 +17,17 @@
       </app-read-collection-item>
     </div>
   </div>
+  <div class="text-center">
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  </div>
+  <app-error *ngIf="failedToLoadData"></app-error>
 </div>
-<div class="container mt-2"  *ngIf="selectedCollection !== null">
-  <button class="btn btn-light" (click)="hideDetails()" >Back to Dashboard</button>
-  <app-read-collection-details [readCollection]="selectedCollection"></app-read-collection-details>
+
+<div class="container mt-2" *ngIf="selectedCollection !== null">
+  <button class="btn btn-light" (click)="hideDetails()">
+    Back to Dashboard
+  </button>
+  <app-read-collection-details
+    [readCollection]="selectedCollection"
+  ></app-read-collection-details>
 </div>

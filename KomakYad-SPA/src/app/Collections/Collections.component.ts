@@ -11,7 +11,8 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./Collections.component.css']
 })
 export class CollectionsComponent implements OnInit {
-  isLoading: boolean;
+  isLoading = true;
+  failedToLoadData = false;
   collectionList: Array<CollectionResponse>;
   followedCollections: Array<number> = new Array<number>();
   constructor(private alertify: AlertifyService, private readService: ReadService, private authService: AuthService) { }
@@ -21,6 +22,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   getFollowedCollections(currentPage: number) {
+    this.failedToLoadData = false;
     this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, 50)
       .subscribe(response => {
         if (response.pagination.totalPages > currentPage) {
@@ -32,6 +34,7 @@ export class CollectionsComponent implements OnInit {
         });
       }, error => {
         this.alertify.error(error);
+        this.failedToLoadData = true;
       });
   }
   getLoadingStatus(isLoading: boolean) {

@@ -1,22 +1,27 @@
 <div class="container">
   <div class="alert alert-info mt-3">
-    Can't find a collection suits you? No worries, <a href="/collections/create"> create a new collection here!</a>
+    Can't find a collection suits you? No worries,
+    <a href="/collections/create"> create a new collection here!</a>
   </div>
 
   <app-collection-search
     (collectionList)="getSearchResult($event)"
     (loading)="getLoadingStatus($event)"
   >
-  </app-collection-search>  
-  <hr/>
-  <div style="position: relative;">
-    <div class="loader-container {{ isLoading ? '' : 'hide' }}">
-      <div class="loader"></div>
-    </div>
-    
+  </app-collection-search>
+  <hr />
+  <div class="text-center">
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+  </div>
+  <app-error *ngIf="failedToLoadData"></app-error>
+  <div *ngIf="!isLoading">
     <div class="row">
       <div class="col col-md-4" *ngFor="let item of collectionList">
-        <app-collection-item [model]="item" [following]="followedCollections.indexOf(item.id) > -1"> </app-collection-item>
+        <app-collection-item
+          [model]="item"
+          [following]="followedCollections.indexOf(item.id) > -1"
+        >
+        </app-collection-item>
       </div>
     </div>
   </div>

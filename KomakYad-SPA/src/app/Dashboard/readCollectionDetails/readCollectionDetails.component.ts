@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class ReadCollectionDetailsComponent implements OnInit {
   @Input() readCollection: ReadCollectionResponse;
-
+  loading = false;
   showDecks = [0, 1, 2, 3, 4, 5];
 
   decks: any = [
@@ -45,9 +45,11 @@ export class ReadCollectionDetailsComponent implements OnInit {
       this.readModeActive = true;
       return;
     }
+    this.loading = true;
     this.readService.getReadCards(deck, this.readCollection.id, this.authService.currentUser.id)
       .subscribe(response => {
         this.currentDeck = deck;
+        this.loading = false;
         this.decks[deck].cards = response;
         if (this.decks[deck].cards.length < 1) {
           this.alertify.warning('There is no card to read in Deck ' + deck);
@@ -56,6 +58,7 @@ export class ReadCollectionDetailsComponent implements OnInit {
         this.readModeActive = true;
       }, error => {
         this.alertify.error(error);
+        this.loading = false;
       });
 
   }

@@ -5,25 +5,39 @@
     You need to read {{ readCollection.readPerDay }} cards in deck 1 every day.
   </p>
   <hr />
+  <div class="text-center">
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  </div>
   <div
     class="mb-2 row"
     ng-swipe-left="startReading(10)"
-    *ngIf="!readModeActive"
+    *ngIf="!readModeActive && !loading"
   >
     <div class="col-md-4 col-sm-6 mb-2" *ngFor="let deck of showDecks">
       <div class="deck" (click)="startReading(deck)">
-        <div class="row">
+        <div class="text-center" *ngIf="!decks[deck].overview" style="height: 52px;">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+        <div class="row" *ngIf="decks[deck].overview">
           <div class="col-6">
-            <div class="alert alert-secondary">Backlog {{getBacklogCount(deck)}}</div>
+            <div class="alert alert-secondary">
+              Backlog {{ getBacklogCount(deck) }}
+            </div>
           </div>
           <div class="col-6">
-            <div class="alert alert-info">Ready {{decks[deck].overview ? decks[deck].overview.dueCount : 'Loading...'}}</div>
+            <div class="alert alert-info">
+              Ready {{ decks[deck].overview.dueCount }}
+            </div>
           </div>
           <div class="col-6">
-            <div class="alert alert-success">Succeed {{decks[deck].overview ? decks[deck].overview.upCount : 'Loading...'}}</div>
+            <div class="alert alert-success">
+              Succeed {{ decks[deck].overview.upCount }}
+            </div>
           </div>
           <div class="col-6">
-            <div class="alert alert-danger">Failed {{decks[deck].overview ? decks[deck].overview.downCount : 'Loading...'}}</div>
+            <div class="alert alert-danger">
+              Failed {{ decks[deck].overview.downCount }}
+            </div>
           </div>
         </div>
         <div
@@ -40,7 +54,9 @@
       Deck {{ currentDeck }}
     </div>
     <div class="col-8 text-right">
-      <button (click)="readModeActive = false" class="btn btn-light mb-2 mr-1">Back to Details</button>
+      <button (click)="readModeActive = false" class="btn btn-light mb-2 mr-1">
+        Back to Details
+      </button>
       <div class="btn-group mb-2" dropdown>
         <button
           id="button-basic"
@@ -58,14 +74,22 @@
           role="menu"
           aria-labelledby="button-basic"
         >
-          <li role="menuitem" *ngFor="let deck of showDecks" class="{{deck === currentDeck?'disabled':''}}">
-            <a class="dropdown-item {{deck === currentDeck?'disabled':''}}" (click)="startReading(deck)"
+          <li
+            role="menuitem"
+            *ngFor="let deck of showDecks"
+            class="{{ deck === currentDeck ? 'disabled' : '' }}"
+          >
+            <a
+              class="dropdown-item {{ deck === currentDeck ? 'disabled' : '' }}"
+              (click)="startReading(deck)"
               >Deck {{ deck }}</a
             >
           </li>
           <li class="divider dropdown-divider"></li>
-          <li role="menuitem" class="{{6 === currentDeck?'disabled':''}}">
-            <a class="dropdown-item {{6 === currentDeck?'disabled':''}}" (click)="startReading(6)"
+          <li role="menuitem" class="{{ 6 === currentDeck ? 'disabled' : '' }}">
+            <a
+              class="dropdown-item {{ 6 === currentDeck ? 'disabled' : '' }}"
+              (click)="startReading(6)"
               >Read Finished Cards</a
             >
           </li>

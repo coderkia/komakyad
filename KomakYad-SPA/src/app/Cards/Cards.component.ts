@@ -19,7 +19,7 @@ export class CardsComponent implements OnInit {
   cardForEdit: CardResponse;
   collection: CollectionResponse;
   cards: CardResponse[];
-  isLoading: boolean;
+  loading: boolean;
   pagination: Pagination = new Pagination();
   baseUrl = environment.apiUrl + 'collection/search';
   searchForm: FormGroup;
@@ -53,7 +53,7 @@ export class CardsComponent implements OnInit {
   }
 
   search(currentPage?: number) {
-    this.isLoading = true;
+    this.loading = true;
     let answer: string;
     let question: string;
     if (this.filterInput === 'Answer') {
@@ -65,10 +65,10 @@ export class CardsComponent implements OnInit {
       .subscribe(response => {
         this.cards = response.result;
         this.pagination = response.pagination;
-        this.isLoading = false;
+        this.loading = false;
       }, error => {
         this.alertify.error(error);
-        this.isLoading = false;
+        this.loading = false;
       });
   }
 

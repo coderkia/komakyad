@@ -10,7 +10,8 @@ import { ReadCollectionResponse } from '../_models/readCollectionResponse';
   styleUrls: ['./Dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  loading = true;
+  failedToLoadData = false;
   followedCollections: Array<ReadCollectionResponse>;
   selectedCollection: ReadCollectionResponse = null;
 
@@ -22,12 +23,16 @@ export class DashboardComponent implements OnInit {
   }
 
   getFollowedCollections(currentPage: number) {
+    this.loading = true;
     this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, 10)
       .subscribe(response => {
         this.followedCollections = response.result;
         this.getOverview();
+        this.loading = false;
       }, error => {
         this.alertify.error(error);
+        this.loading = false;
+        this.failedToLoadData = true;
       });
   }
 
@@ -36,6 +41,8 @@ export class DashboardComponent implements OnInit {
       this.readService.getTodayReadCollectionOverview(item.id, this.authService.currentUser.id)
         .subscribe(response => {
           item.overview = response;
+        }, error => {
+          this.alertify.error(error);
         });
     });
   }

@@ -58,7 +58,7 @@
     <div class="col-lg-4 col-12 mt-3">
       <pagination
         style="float: right;"
-        [disabled]="isLoading"
+        [disabled]="loading"
         [totalItems]="pagination.totalItems"
         [(ngModel)]="pagination.currentPage"
         [itemsPerPage]="pagination.itemsPerPage"
@@ -67,10 +67,10 @@
     </div>
   </div>
   <div style="position: relative;" *ngIf="this.showCardsList">
-    <div class="loader-container {{ isLoading ? '' : 'hide' }}">
-      <div class="loader"></div>
-    </div>
-    <div class="row mt-3" *ngIf="this.showCardsList">
+  <div class="text-center">
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  </div>
+    <div class="row mt-3" *ngIf="this.showCardsList && !loading">
       <div *ngFor="let item of cards" class="col col-lg-4 col-md-6 col-12 mb-2">
         <app-cardItem [card]="item" (edit)="editCard($event)" [itIsOwnerCard]="collection.author.id === authService.currentUser.id"></app-cardItem>
       </div>

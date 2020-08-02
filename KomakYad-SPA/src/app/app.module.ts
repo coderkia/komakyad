@@ -42,6 +42,8 @@ import { ReadCollectionItemComponent } from './Dashboard/readCollectionItem/read
 import { ReadComponent } from './Dashboard/read/read.component';
 import { ReadCardComponent } from './Dashboard/readCard/readCard.component';
 import { TextStyleComponent } from './textStyle/textStyle.component';
+import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
+import { ErrorComponent } from './ui/error/error.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -74,7 +76,9 @@ export function tokenGetter() {
       ReadCollectionItemComponent,
       ReadComponent,
       ReadCardComponent,
-      TextStyleComponent
+      TextStyleComponent,
+      LoadingSpinnerComponent,
+      ErrorComponent,
    ],
    imports: [
       BrowserModule,
