@@ -30,7 +30,9 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<ReadCollection> GetReadCollection(int readCollectionId);
         Task<ReadCard> GetReadCard(int readcardId);
         Task<PagedList<ReadCollection>> GetReadCollections(ReadCollectionParams filters);
-        Task<int> GetCardsCount(int id);
+        Task<int> GetCardsCount(int collectionId);
         Task<int> GetFollowersCount(int id);
+        Task<int> GetReadCardsCount(int collectionId);
+        Task<List<Card>> GetNewCardsToRead(int readCollectionId, int collectionId);
     }
 }

@@ -104,6 +104,40 @@ namespace Kia.KomakYad.Api.Controllers
             return Ok(overview);
         }
 
+        public async Task<IActionResult> CheckForUpdates(int readCollectionId, int userId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+            var readCollection = await _repo.GetReadCollection(readCollectionId);
+            var newCards = _repo.GetNewCardsToRead(readCollection.Id, readCollection.CollectionId);
+
+            if (newCards == null)
+            {
+                return NoContent();
+            }
+
+            var readCards = _mapper.Map<IEnumerable<ReadCard>>(newCards);
+
+            readCards.Map(c =>
+            {
+                c.Id = 0;
+                c.OwnerId = userId;
+                c.ReadCollectionId = readCollection.Id;
+            }).ToList();
+
+            _repo.AddRange(readCards);
+
+            if (await _repo.SaveAll())
+            {
+                var cardsToReturnDto = _mapper.Map<List<CardToReturnDto>>(newCards);
+                return Ok(cardsToReturnDto);
+            }
+            throw new Exception("Unable to transfer cards.");
+
+        }
+
         [HttpGet("Cards")]
         public async Task<IActionResult> GetCards(int readCollectionId, [FromQuery] CardParams cardParams)
         {

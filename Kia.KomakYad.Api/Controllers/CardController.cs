@@ -7,6 +7,7 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -30,12 +31,11 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCard(CardCreateDto cardToCreate)
         {
-            var author = (await _repo.GetCollection(cardToCreate.CollectionId));
-            if (author.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            var collection = await _repo.GetCollection(cardToCreate.CollectionId);
+            if (collection?.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
             }
-
             var card = _mapper.Map<Card>(cardToCreate);
             _repo.Add<Card>(card);
 

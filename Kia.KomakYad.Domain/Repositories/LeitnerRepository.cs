@@ -235,10 +235,20 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             return await _context.Cards.CountAsync(c => c.CollectionId == collectionId);
         }
+        public async Task<int> GetReadCardsCount(int readCollectionId)
+        {
+            return await _context.ReadCards.CountAsync(c => c.ReadCollectionId == readCollectionId);
+        }
 
         public async Task<int> GetFollowersCount(int collectionId)
         {
             return await _context.ReadCollections.CountAsync(c => c.CollectionId == collectionId);
+        }
+
+        public async Task<List<Card>> GetNewCardsToRead(int readCollectionId, int collectionId)
+        {
+            var readCardIds = await _context.ReadCards.Where(c => c.ReadCollectionId == readCollectionId).Select(c => c.CardId).ToListAsync();
+            return await _context.Cards.Where(c => !readCardIds.Contains(c.Id)).ToListAsync();
         }
     }
 }
