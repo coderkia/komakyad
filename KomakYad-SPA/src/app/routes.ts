@@ -8,6 +8,8 @@ import { CollectionResolver } from './_resolvers/collection.resolver';
 import { CollectionCreateComponent } from './Collections/CollectionCreate/CollectionCreate.component';
 import { CardsComponent } from './Cards/Cards.component';
 import { CardCreateComponent } from './Cards/cardCreate/cardCreate.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ManagementComponent } from './management/management.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -16,6 +18,8 @@ export const appRoutes: Routes = [
         runGuardsAndResolvers: 'always',
         canActivate: [AuthGuard],
         children: [
+            { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+            { path: 'management', component: ManagementComponent, canActivate: [AuthGuard] },
             { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
             { path: 'collections', component: CollectionsComponent, canActivate: [AuthGuard] },
             { path: 'collections/create', component: CollectionCreateComponent, canActivate: [AuthGuard] },

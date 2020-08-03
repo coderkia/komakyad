@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
+import { ProfileUpdate } from '../_models/profileUpdate';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   currentUser;
@@ -35,5 +37,9 @@ export class AuthService {
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  updateProfile(id: any, profile: ProfileUpdate) {
+    return this.http.put(environment.apiUrl + 'profile/' + id, profile);
   }
 }

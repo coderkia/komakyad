@@ -13,7 +13,7 @@ namespace Kia.KomakYad.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = AuthHelper.AdminPolicy)]
+    [Authorize(AuthHelper.AdminPolicy)]
     public class UsersController : ControllerBase
     {
         private readonly ILeitnerRepository _repo;
@@ -49,24 +49,6 @@ namespace Kia.KomakYad.Api.Controllers
             var userToReturn = _mapper.Map<UserDetailedDto>(user);
 
             return Ok(userToReturn);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdate)
-        {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            {
-                return Unauthorized();
-            }
-
-            var userFromRepo = await _repo.GetUser(id);
-
-            _mapper.Map(userForUpdate, userFromRepo);
-
-            if (await _repo.SaveAll())
-                return NoContent();
-
-            throw new System.Exception($"Updating user {id} failed on save");
         }
     }
 }

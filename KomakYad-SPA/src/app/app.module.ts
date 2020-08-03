@@ -44,6 +44,9 @@ import { ReadCardComponent } from './Dashboard/readCard/readCard.component';
 import { TextStyleComponent } from './textStyle/textStyle.component';
 import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
 import { ErrorComponent } from './ui/error/error.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileAccountDetailsComponent } from './profile/profile-account-details/profile-account-details.component';
+import { ManagementComponent } from './management/management.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -79,6 +82,9 @@ export function tokenGetter() {
       TextStyleComponent,
       LoadingSpinnerComponent,
       ErrorComponent,
+      ProfileComponent,
+      ProfileAccountDetailsComponent,
+      ManagementComponent,
    ],
    imports: [
       BrowserModule,
