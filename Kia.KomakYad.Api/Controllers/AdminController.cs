@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kia.KomakYad.Api.Dtos;
@@ -24,6 +25,48 @@ namespace Kia.KomakYad.Api.Controllers
         {
             _repo = repo;
             _userManager = userManager;
+        }
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            return Ok(await _repo.GetRoles());
+        }
+
+        [HttpGet("user/{username}/roles")]
+        public async Task<IActionResult> GetUsersRoles(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound($"Username {username} doesn't exist.");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            return Ok(roles);
+        }
+
+        [HttpPost("user/{username}/addRole")]
+        public async Task<IActionResult> AddRole(string username, string roleName)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound($"Username {username} doesn't exist.");
+            }
+            await _userManager.AddToRolesAsync(user, new List<string> { roleName });
+            return NoContent();
+        }
+
+        [HttpPost("user/{username}/removeRole")]
+        public async Task<IActionResult> RemoveRole(string username, string roleName)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound($"Username {username} doesn't exist.");
+            }
+            await _userManager.RemoveFromRolesAsync(user, new List<string> { roleName });
+            return NoContent();
         }
 
         [HttpGet("UsersWithRoles")]

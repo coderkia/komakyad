@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
     const user = localStorage.getItem('user');
     if (user) {
       this.authService.currentUser = JSON.parse(user);;
+      this.authService.loadRoles();
     }
   }
 }

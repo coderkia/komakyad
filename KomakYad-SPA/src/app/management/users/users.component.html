@@ -1,0 +1,18 @@
+<div class="row" *ngIf="!selectedUser && !loading">
+  <div *ngFor="let item of users" class="col-md-4 col-sm-6 mb-4">
+    <app-user-item
+      [user]="item"
+      (click)="showUserDetials(item)"
+    ></app-user-item>
+  </div>
+</div>
+<div *ngIf="selectedUser">
+  <button class="btn btn-light" (click)="hideUserDetials()">
+    Back to Users
+  </button>
+  <hr/>
+  <app-user-details [user]="selectedUser"></app-user-details>
+</div>
+<div class="text-center">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+</div>

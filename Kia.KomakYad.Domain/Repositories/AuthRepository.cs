@@ -1,6 +1,9 @@
 ﻿using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess;
+using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,6 +35,11 @@ namespace Kia.KomakYad.Domain.Repositories
 
             return await PagedList<UserWithRolesDto>.CreateAsync(userList, filters);
                                 
+        }
+
+        public async Task<List<Role>> GetRoles()
+        {
+            return await _context.Roles.ToListAsync();
         }
     }
 }

@@ -47,6 +47,10 @@ import { ErrorComponent } from './ui/error/error.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileAccountDetailsComponent } from './profile/profile-account-details/profile-account-details.component';
 import { ManagementComponent } from './management/management.component';
+import { RolesComponent } from './management/roles/roles.component';
+import { UsersComponent } from './management/users/users.component';
+import { UserItemComponent } from './management/user-item/user-item.component';
+import { UserDetailsComponent } from './management/user-details/user-details.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -85,6 +89,10 @@ export function tokenGetter() {
       ProfileComponent,
       ProfileAccountDetailsComponent,
       ManagementComponent,
+      RolesComponent,
+      UsersComponent,
+      UserItemComponent,
+      UserDetailsComponent,
    ],
    imports: [
       BrowserModule,

@@ -9,10 +9,10 @@ import { ProfileUpdate } from '../_models/profileUpdate';
   providedIn: 'root'
 })
 export class AuthService {
-
   baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   currentUser;
+  roles: Array<string>;
   constructor(private http: HttpClient) { }
 
   login(model: any) {
@@ -25,11 +25,15 @@ export class AuthService {
             localStorage.setItem('user', JSON.stringify(user.user));
           }
           const decodedToken = this.jwtHelper.decodeToken(user.token);
+          this.roles = decodedToken.role;
+          console.log(this.roles);
           this.currentUser = user.user;
         })
       );
   }
-
+  loadRoles(){
+    this.roles = this.jwtHelper.decodeToken(localStorage.getItem('token')).role;
+  }
   register(model: any) {
     return this.http.post(this.baseUrl + 'register', model);
   }

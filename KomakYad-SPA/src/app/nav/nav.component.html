@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary mb-2">
   <div class="container">
     <a class="navbar-brand" href="/">Komak Yad</a>
     <button
@@ -21,6 +21,9 @@
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/collections']">Collections</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" *ngIf="authService.roles.includes('Admin')">
+          <a class="nav-link" [routerLink]="['/management']">Management</a>
         </li>
       </ul>
 
