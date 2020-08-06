@@ -13,6 +13,7 @@ namespace Kia.KomakYad.Domain.Dtos
         public string LastName { get; set; }
         public string Email { get; set; }
         public string CreatedOn { get; set; }
+        public bool Locked { get; set; }
 
     }
 }

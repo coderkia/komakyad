@@ -45,25 +45,25 @@ namespace Kia.KomakYad.Api.Controllers
             return Ok(roles);
         }
 
-        [HttpPost("user/{username}/addRole")]
-        public async Task<IActionResult> AddRole(string username, string roleName)
+        [HttpPost("user/{userId}/addRole({roleName})")]
+        public async Task<IActionResult> AddRole(int userId, string roleName)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
-                return NotFound($"Username {username} doesn't exist.");
+                return NotFound($"User ID {userId} doesn't exist.");
             }
             await _userManager.AddToRolesAsync(user, new List<string> { roleName });
             return NoContent();
         }
 
-        [HttpPost("user/{username}/removeRole")]
-        public async Task<IActionResult> RemoveRole(string username, string roleName)
+        [HttpPost("user/{userId}/removeRole({roleName})")]
+        public async Task<IActionResult> RemoveRole(int userId, string roleName)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
-                return NotFound($"Username {username} doesn't exist.");
+                return NotFound($"User ID {userId} doesn't exist.");
             }
             await _userManager.RemoveFromRolesAsync(user, new List<string> { roleName });
             return NoContent();
@@ -106,7 +106,6 @@ namespace Kia.KomakYad.Api.Controllers
             if (user == null)
                 NotFound();
 
-            await _userManager.SetLockoutEnabledAsync(user, true);
             await _userManager.SetLockoutEndDateAsync(user, DateTime.MaxValue);
 
             return NoContent();
@@ -119,7 +118,6 @@ namespace Kia.KomakYad.Api.Controllers
             if (user == null)
                 NotFound();
 
-            await _userManager.SetLockoutEnabledAsync(user, false);
             await _userManager.SetLockoutEndDateAsync(user, DateTime.Now);
 
             return NoContent();

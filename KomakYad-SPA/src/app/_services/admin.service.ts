@@ -41,18 +41,18 @@ export class AdminService {
   }
 
   getUserRoles(username: string) {
-    return this.http.get<Role[]>(this.baseUrl + 'user/' + username + '/roles', { observe: 'response' });
+    return this.http.get<string[]>(this.baseUrl + 'user/' + username + '/roles', { observe: 'response' });
   }
 
   getRoles() {
     return this.http.get<Role[]>(this.baseUrl + 'roles', { observe: 'response' });
   }
 
-  addRole(username: string, roleName: string) {
-    return this.http.post(this.baseUrl + 'user/' + username + '/addRole(' + roleName + ')', {});
+  addRole(userId: number, roleName: string) {
+    return this.http.post(this.baseUrl + 'user/' + userId + '/addRole(' + roleName + ')', {});
   }
 
-  removeRole(username: string, roleName: string) {
-    return this.http.post(this.baseUrl + 'user/' + username + '/removeRole(' + roleName + ')', {});
+  removeRole(userId: number, roleName: string) {
+    return this.http.post(this.baseUrl + 'user/' + userId + '/removeRole(' + roleName + ')', {});
   }
 }

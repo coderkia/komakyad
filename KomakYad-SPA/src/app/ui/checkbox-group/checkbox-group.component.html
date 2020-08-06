@@ -1,0 +1,14 @@
+<div *ngFor="let item of items">
+  <input
+    [(ngModel)]="item.checked"
+    type="checkbox"
+    class="form-check-input"
+    value="item.id"
+    id="role{{ item.name + randomNumber }}"
+    (change)="checkboxToggled(item, $event.target.checked)"
+  />
+
+  <label class="form-check-label" for="role{{ item.name + randomNumber }}">{{
+    item.name
+  }}</label>
+</div>

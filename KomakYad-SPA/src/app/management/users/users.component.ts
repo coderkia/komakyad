@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
         this.users = response.result;
         this.pagination = response.pagination;
         this.loading = false;
+        console.log(this.users);
       }, error => {
         this.alertify.error(error);
         this.loading = false;

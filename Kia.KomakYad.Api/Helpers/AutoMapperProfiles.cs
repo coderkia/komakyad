@@ -4,6 +4,7 @@ using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Newtonsoft.Json;
+using System;
 
 namespace Kia.KomakYad.Api.Helpers
 {
@@ -12,7 +13,8 @@ namespace Kia.KomakYad.Api.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<User, UserDetailedDto>();
-            CreateMap<User, UserListDto>();
+            CreateMap<User, UserListDto>()
+                .ForMember(m => m.Locked, opt => opt.MapFrom(u => u.LockoutEnabled && u.LockoutEnd > DateTime.Now));
             CreateMap<UserForUpdateDto, User>();
             CreateMap<UserForRegisterDto, User>();
             CreateMap<CardCreateDto, Card>()

@@ -51,6 +51,7 @@ import { RolesComponent } from './management/roles/roles.component';
 import { UsersComponent } from './management/users/users.component';
 import { UserItemComponent } from './management/user-item/user-item.component';
 import { UserDetailsComponent } from './management/user-details/user-details.component';
+import { CheckboxGroupComponent } from './ui/checkbox-group/checkbox-group.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -93,6 +94,7 @@ export function tokenGetter() {
       UsersComponent,
       UserItemComponent,
       UserDetailsComponent,
+      CheckboxGroupComponent,
    ],
    imports: [
       BrowserModule,

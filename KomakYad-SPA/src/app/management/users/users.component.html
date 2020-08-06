@@ -7,10 +7,19 @@
   </div>
 </div>
 <div *ngIf="selectedUser">
-  <button class="btn btn-light" (click)="hideUserDetials()">
-    Back to Users
-  </button>
-  <hr/>
+  <div class="row">
+    <div class="col-6">
+      <button class="btn btn-light mr-1" (click)="hideUserDetials()">
+        Back to Users
+      </button>
+    </div>
+    <div class="col-6 text-right">
+      <button class="btn btn-danger" *ngIf="!selectedUser.locked">Lock User</button>
+      <button class="btn btn-warning" *ngIf="selectedUser.locked">Unlock User</button>
+    </div>
+  </div>
+
+  <hr />
   <app-user-details [user]="selectedUser"></app-user-details>
 </div>
 <div class="text-center">

@@ -10,47 +10,50 @@ import { User } from 'src/app/_models/user';
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  activeRoles: Array<Role>;
-  allRoles: Array<Role>;
+  roles: { id: string, name: string, checked?: boolean }[];
   randomNumber: number;
   @Input() user: User;
   constructor(private adminService: AdminService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.generateRandomNumber();
     this.adminService.getRoles().subscribe(response => {
-      this.allRoles = response.body;
-      console.log('all roles', this.allRoles);
-    }, error => {
-      this.alertify.error(error);
-    });
+      this.adminService.getUserRoles(this.user.username).subscribe(activeRoles => {
+        this.roles = [];
+        response.body.forEach(element => {
+          let checked = false;
+          activeRoles.body.forEach(active => {
+            if (active === element.name) {
+              checked = true;
+            }
+          });
+          this.roles.push({ id: element.id.toString(), name: element.name, checked });
+        });
+      }, error => {
+        this.alertify.error(error);
+      });
 
-    this.adminService.getUserRoles(this.user.username).subscribe(response => {
-      this.activeRoles = response.body;
-      console.log('active roles', this.activeRoles);
+
+
     }, error => {
       this.alertify.error(error);
     });
   }
 
-  generateRandomNumber() {
-    const num = Math.random() * 10000;
-    this.randomNumber = Math.floor(num);
-  }
 
   roleChanged(roleName: string, checked: boolean) {
     if (checked) {
-      this.adminService.addRole(this.user.username, roleName).subscribe(response => {
-        this.alertify.success(roleName + ' Role is added.');
+      this.adminService.addRole(this.user.id, roleName).subscribe(response => {
+        this.alertify.success(roleName + ' role is added.');
       }, error => {
         this.alertify.error(error);
       });
     } else {
-      this.adminService.removeRole(this.user.username, roleName).subscribe(response => {
-        this.alertify.success(roleName + ' Role is added.');
+      this.adminService.removeRole(this.user.id, roleName).subscribe(response => {
+        this.alertify.warning(roleName + ' role is removed.');
       }, error => {
         this.alertify.error(error);
       });
     }
   }
+
 }
