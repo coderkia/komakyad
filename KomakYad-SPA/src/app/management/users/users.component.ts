@@ -60,7 +60,7 @@ export class UsersComponent implements OnInit {
     this.adminService.unlockUser(this.selectedUser.id).subscribe(respone => {
       this.lockUnlockInProgress = false;
       this.selectedUser.locked = false;
-      this.alertify.success(this.selectedUser.username + ' is locked');
+      this.alertify.success(this.selectedUser.username + ' is unlocked');
     }, error => {
       this.alertify.error(error);
       this.lockUnlockInProgress = false;
