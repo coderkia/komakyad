@@ -14,8 +14,9 @@
       </button>
     </div>
     <div class="col-6 text-right">
-      <button class="btn btn-danger" *ngIf="!selectedUser.locked">Lock User</button>
-      <button class="btn btn-warning" *ngIf="selectedUser.locked">Unlock User</button>
+      <button class="btn btn-danger" *ngIf="!selectedUser.locked && !lockUnlockInProgress" (click)="lockUser()">Lock User</button>
+      <button class="btn btn-warning" *ngIf="selectedUser.locked && !lockUnlockInProgress"(click)="unlockUser()">Unlock User</button>
+      <app-loading-spinner *ngIf="lockUnlockInProgress"></app-loading-spinner>
     </div>
   </div>
 

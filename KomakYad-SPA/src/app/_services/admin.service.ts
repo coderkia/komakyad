@@ -55,4 +55,11 @@ export class AdminService {
   removeRole(userId: number, roleName: string) {
     return this.http.post(this.baseUrl + 'user/' + userId + '/removeRole(' + roleName + ')', {});
   }
+
+  lockUser(userId: number) {
+    return this.http.patch(this.baseUrl + 'lockUser(' + userId + ')', {});
+  }
+  unlockUser(userId: number) {
+    return this.http.patch(this.baseUrl + 'unlockUser(' + userId + ')', {});
+  }
 }

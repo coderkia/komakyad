@@ -13,6 +13,7 @@ export class UsersComponent implements OnInit {
 
   users: Array<User>;
   loading: boolean;
+  lockUnlockInProgress: boolean;
   pagination: Pagination;
   selectedUser: User = null;
   constructor(private alertify: AlertifyService, private adminService: AdminService) { }
@@ -41,5 +42,28 @@ export class UsersComponent implements OnInit {
 
   hideUserDetials() {
     this.selectedUser = null;
+  }
+
+  lockUser() {
+    this.lockUnlockInProgress = true;
+    this.adminService.lockUser(this.selectedUser.id).subscribe(respone => {
+      this.lockUnlockInProgress = false;
+      this.selectedUser.locked = true;
+      this.alertify.success(this.selectedUser.username + ' is locked');
+    }, error => {
+      this.alertify.error(error);
+      this.lockUnlockInProgress = false;
+    });
+  }
+  unlockUser() {
+    this.lockUnlockInProgress = true;
+    this.adminService.unlockUser(this.selectedUser.id).subscribe(respone => {
+      this.lockUnlockInProgress = false;
+      this.selectedUser.locked = false;
+      this.alertify.success(this.selectedUser.username + ' is locked');
+    }, error => {
+      this.alertify.error(error);
+      this.lockUnlockInProgress = false;
+    });
   }
 }

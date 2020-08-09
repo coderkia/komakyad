@@ -99,22 +99,22 @@ namespace Kia.KomakYad.Api.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
-        [HttpPatch("lockUser({userName})")]
-        public async Task<IActionResult> LockUser(string userName)
+        [HttpPatch("lockUser({userId})")]
+        public async Task<IActionResult> LockUser(string userId)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 NotFound();
 
-            await _userManager.SetLockoutEndDateAsync(user, DateTime.MaxValue);
+            await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1000));
 
             return NoContent();
         }
 
-        [HttpPatch("unlockUser({userName})")]
-        public async Task<IActionResult> UnlockUser(string userName)
+        [HttpPatch("unlockUser({userId})")]
+        public async Task<IActionResult> UnlockUser(string userId)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 NotFound();
 
