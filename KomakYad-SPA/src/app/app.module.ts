@@ -52,6 +52,7 @@ import { UsersComponent } from './management/users/users.component';
 import { UserItemComponent } from './management/user-item/user-item.component';
 import { UserDetailsComponent } from './management/user-details/user-details.component';
 import { CheckboxGroupComponent } from './ui/checkbox-group/checkbox-group.component';
+import { ReCaptchaComponent } from './ui/re-captcha/re-captcha.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -95,6 +96,7 @@ export function tokenGetter() {
       UserItemComponent,
       UserDetailsComponent,
       CheckboxGroupComponent,
+      ReCaptchaComponent,
    ],
    imports: [
       BrowserModule,
