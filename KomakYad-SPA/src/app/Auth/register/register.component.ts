@@ -14,35 +14,45 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   reCaptchaToken: string;
 
-constructor(private authService: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder) { }
 
-ngOnInit() {
-  this.createRegisterForm();
-}
+  ngOnInit() {
+    this.createRegisterForm();
+  }
 
-createRegisterForm() {
-  this.registerForm = this.formBuilder.group({
-    username: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-  }, { validators: this.passwordMatchValidator });
-}
-passwordMatchValidator(g: FormGroup) {
-  return g.get('password').value === g.get('confirmPassword').value ? null : { mismatch: true };
-}
-register() {
-  this.authService.register(this.registerForm.value).subscribe(() => {
-    this.alertify.success('registeration successfull');
-  }, error => {
-    this.alertify.error(error);
-  });
-}
+  createRegisterForm() {
+    this.registerForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+    }, { validators: this.passwordMatchValidator });
+  }
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value ? null : { mismatch: true };
+  }
+  register() {
+    const registerModel = {
+      username: this.registerForm.value.username,
+      password: this.registerForm.value.password,
+      confirmPassword: this.registerForm.value.confirmPassword,
+      email: this.registerForm.value.email,
+      firstName: this.registerForm.value.firstName,
+      lastName: this.registerForm.value.lastName,
+      reCaptchaToken: this.reCaptchaToken,
 
-cancel() {
-  this.cancelRegister.emit(false);
-}
+    }
+    this.authService.register(registerModel).subscribe(() => {
+      this.alertify.success('registeration successfull');
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  cancel() {
+    this.cancelRegister.emit(false);
+  }
 
 }

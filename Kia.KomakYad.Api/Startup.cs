@@ -22,6 +22,7 @@ using Kia.KomakYad.Common.Configurations;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Kia.KomakYad.Api.Configs;
 
 namespace Kia.KomakYad.Api
 {
@@ -69,12 +70,15 @@ namespace Kia.KomakYad.Api
 
 
             services.Configure<EmailConfiguration>(Configuration.GetSection(typeof(EmailConfiguration).Name));
+            services.Configure<ReCaptchaConfig>(Configuration.GetSection("ReCaptcha"));
             services.AddCors();
+            services.AddHttpClient<IReCaptchaService, ReCaptchaService>();
             services.AddDbContext<DataContext>(c => c.UseSqlServer(Configuration.GetConnectionString("DefaultConnections")));
             services.AddAutoMapper(typeof(LeitnerRepository).Assembly, typeof(Program).Assembly, typeof(User).Assembly);
             services.AddTransient<ILeitnerRepository, LeitnerRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddSingleton<EmailService>();
+            services.AddSingleton<IReCaptchaService, ReCaptchaService>();
 
             services.AddControllers(options =>
             {
@@ -98,7 +102,7 @@ namespace Kia.KomakYad.Api
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     var error = context.Features.Get<IExceptionHandlerFeature>();
-                    if(error != null)
+                    if (error != null)
                     {
                         context.Response.AddApplicationError(error.Error.Message);
                         await context.Response.WriteAsync(error.Error.Message);

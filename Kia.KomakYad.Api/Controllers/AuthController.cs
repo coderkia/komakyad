@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.Common.Services;
+using Kia.KomakYad.Api.Helpers;
 
 namespace Kia.KomakYad.Api.Controllers
 {
@@ -28,19 +29,26 @@ namespace Kia.KomakYad.Api.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly EmailService _emailService;
+        private readonly IReCaptchaService _reCaptchaHelper;
 
-        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService)
+        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService,
+            IReCaptchaService reCaptchaHelper)
         {
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
+            _reCaptchaHelper = reCaptchaHelper;
             _config = config;
         }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
+            if(!await _reCaptchaHelper.Validate(userForRegister.ReCaptchaToken))
+            {
+                return BadRequest();
+            }
             var userToCreate = _mapper.Map<User>(userForRegister);
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegister.Password);

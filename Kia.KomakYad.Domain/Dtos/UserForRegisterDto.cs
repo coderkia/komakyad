@@ -21,5 +21,6 @@ namespace Kia.KomakYad.Domain.Dtos
         [StringLength(250)]
         public string LastName { get; set; }
 
+        public string ReCaptchaToken { get; set; }
     }
 }

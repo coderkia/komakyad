@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-re-captcha',
@@ -32,7 +33,7 @@ export class ReCaptchaComponent implements OnInit {
 
   renderReCaptcha() {
     window['grecaptcha'].render(this.recaptchaElement.nativeElement, {
-      'sitekey' : '6Ley0rwZAAAAAIzdpxkOW6hxJLkPXHbrCE4Qp8EW',
+      'sitekey' : environment.siteKey,
       'callback': (response) => {
           this.token.emit(response);
       }

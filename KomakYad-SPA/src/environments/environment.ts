@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api/'
+  apiUrl: 'http://localhost:5000/api/',
+  siteKey: '6Ley0rwZAAAAAIzdpxkOW6hxJLkPXHbrCE4Qp8EW'
 };
 
 /*
