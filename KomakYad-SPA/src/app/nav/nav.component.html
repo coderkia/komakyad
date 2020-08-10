@@ -22,7 +22,7 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/collections']">Collections</a>
         </li>
-        <li class="nav-item" routerLinkActive="active" *ngIf="authService.roles.includes('Admin')">
+        <li class="nav-item" routerLinkActive="active" *ngIf="loggedIn() && authService.roles.includes('Admin')">
           <a class="nav-link" [routerLink]="['/management']">Management</a>
         </li>
       </ul>

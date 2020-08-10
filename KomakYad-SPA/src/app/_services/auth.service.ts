@@ -31,8 +31,12 @@ export class AuthService {
         })
       );
   }
-  loadRoles(){
-    this.roles = this.jwtHelper.decodeToken(localStorage.getItem('token')).role;
+  loadRoles() {
+    if (this.loggedIn()) {
+      this.roles = this.jwtHelper.decodeToken(localStorage.getItem('token')).role;
+    } else {
+      this.roles = [];
+    }
   }
   register(model: any) {
     return this.http.post(this.baseUrl + 'register', model);
