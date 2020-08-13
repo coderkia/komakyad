@@ -1,7 +1,72 @@
-<div class="form-horizontal">
-  <form #lginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()"> 
-    <input name="username" required class="form-control mr-sm-2" type="text" placeholder="Username, or email" aria-label="Username" spellcheck="false" data-ms-editor="true" [(ngModel)]="model.username">
-    <input name="password" required class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password" spellcheck="false" data-ms-editor="true" [(ngModel)]="model.password">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="!lginForm.valid">Login</button>
-  </form>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-4 pt-5"></div>
+    <div class="col-sm-6 col-md-4">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <h2 class="text-center text-primary">Sign In</h2>
+        <hr />
+
+        <div class="form-group">
+          <input
+            type="text"
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('username').errors &&
+                loginForm.get('username').touched
+            }"
+            class="form-control"
+            formControlName="username"
+            placeholder="Username"
+          />
+          <div class="invalid-feedback">The Username field is required.</div>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('password').errors &&
+                loginForm.get('password').touched
+            }"
+            class="form-control"
+            formControlName="password"
+            placeholder="Password"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              loginForm.get('password').hasError('required') &&
+              loginForm.get('password').touched
+            "
+          >
+            The Password field is required.
+          </div>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              loginForm.get('password').hasError('minlength') &&
+              loginForm.get('password').touched
+            "
+          >
+            Password must be at least 6 characters
+          </div>
+        </div>
+
+        <div class="form-group text-center mt-2" *ngIf="!loading">
+          <button
+            class="btn btn-success"
+            [disabled]="!loginForm.valid"
+            type="submit"
+          >
+            Register
+          </button>
+        </div>
+        <div class="text-center">
+          <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-3 col-md-4 pt-5"></div>
+  </div>
 </div>

@@ -22,7 +22,11 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/collections']">Collections</a>
         </li>
-        <li class="nav-item" routerLinkActive="active" *ngIf="loggedIn() && authService.roles.includes('Admin')">
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          *ngIf="loggedIn() && authService.roles.includes('Admin')"
+        >
           <a class="nav-link" [routerLink]="['/management']">Management</a>
         </li>
       </ul>
@@ -49,42 +53,13 @@
         </div>
       </div>
 
-      <form
+      <a
         *ngIf="!loggedIn()"
-        #lginForm="ngForm"
-        class="form-inline mt-2 mt-md-0"
-        (ngSubmit)="login()"
+        class="btn btn-outline-light my-2 my-sm-0"
+        href="/login"
       >
-        <input
-          name="username"
-          required
-          class="form-control mr-sm-2"
-          type="text"
-          placeholder="Username, or email"
-          aria-label="Username"
-          spellcheck="false"
-          data-ms-editor="true"
-          [(ngModel)]="model.username"
-        />
-        <input
-          name="password"
-          required
-          class="form-control mr-sm-2"
-          type="password"
-          placeholder="Password"
-          aria-label="Password"
-          spellcheck="false"
-          data-ms-editor="true"
-          [(ngModel)]="model.password"
-        />
-        <button
-          class="btn btn-outline-success my-2 my-sm-0"
-          type="submit"
-          [disabled]="!lginForm.valid"
-        >
-          Login
-        </button>
-      </form>
+        Login
+      </a>
     </div>
   </div>
 </nav>

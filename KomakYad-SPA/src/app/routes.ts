@@ -10,9 +10,11 @@ import { CardsComponent } from './Cards/Cards.component';
 import { CardCreateComponent } from './Cards/cardCreate/cardCreate.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
+import { LoginComponent } from './Auth/login/login.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',
