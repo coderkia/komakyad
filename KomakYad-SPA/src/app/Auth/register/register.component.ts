@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   model: any = {};
   registerForm: FormGroup;
   reCaptchaToken: string;
+  loading: boolean;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder) { }
 
@@ -34,6 +35,7 @@ export class RegisterComponent implements OnInit {
     return g.get('password').value === g.get('confirmPassword').value ? null : { mismatch: true };
   }
   register() {
+    this.loading = true;
     const registerModel = {
       username: this.registerForm.value.username,
       password: this.registerForm.value.password,
@@ -46,8 +48,10 @@ export class RegisterComponent implements OnInit {
     }
     this.authService.register(registerModel).subscribe(() => {
       this.alertify.success('registeration successfull');
+      this.loading = false;
     }, error => {
       this.alertify.error(error);
+      this.loading = false;
     });
   }
 

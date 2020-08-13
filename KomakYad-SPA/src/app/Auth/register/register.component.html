@@ -117,10 +117,19 @@
   </div>
   <app-re-captcha (token)="reCaptchaToken = $event"></app-re-captcha>
 
-  <div class="form-group text-center mt-2">
-    <button class="btn btn-success" [disabled]="!registerForm.valid" type="submit">Register</button>
+  <div class="form-group text-center mt-2" *ngIf="!loading">
+    <button
+      class="btn btn-success"
+      [disabled]="!registerForm.valid"
+      type="submit"
+    >
+      Register
+    </button>
     <button class="btn btn-default" type="button" (click)="cancel()">
       Cancel
     </button>
+  </div>
+  <div class="text-center">
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
   </div>
 </form>
