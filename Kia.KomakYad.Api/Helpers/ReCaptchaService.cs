@@ -2,6 +2,7 @@
 using Kia.KomakYad.Api.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -30,7 +31,8 @@ namespace Kia.KomakYad.Api.Helpers
             {
                 return true;
             }
-            throw new Exception("Error when resolving ReCaptcha\n\r" + response);
+            Log.Warning("Error from reCaptcha " + response);
+            return false;
         }
     }
 }

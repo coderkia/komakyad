@@ -47,7 +47,7 @@ namespace Kia.KomakYad.Api.Controllers
         {
             if(!await _reCaptchaHelper.Validate(userForRegister.ReCaptchaToken))
             {
-                return BadRequest();
+                return BadRequest("Prove you are not a robot");
             }
             var userToCreate = _mapper.Map<User>(userForRegister);
 
