@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   loginResponse: any;
   loginForm: FormGroup;
   loading: boolean;
+  reCaptchaToken: string;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router,
     private formBuilder: FormBuilder) { }
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   createLoginForm() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
     const loginModel = {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password,
+      reCaptchaToken: this.reCaptchaToken,
     };
     this.authService.login(loginModel).subscribe(response => {
       this.alertify.success('Logged in successfully');

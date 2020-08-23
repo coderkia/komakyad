@@ -101,6 +101,10 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
         {
+            if (!await _reCaptchaHelper.Validate(userForLogin.ReCaptchaToken))
+            {
+                return BadRequest("Prove you are not a robot");
+            }
             var user = await _userManager.FindByNameAsync(userForLogin.Username);
 
             if (user == null)
