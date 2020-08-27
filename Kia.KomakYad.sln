@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kia.KomakYad.Domain", "Kia.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kia.KomakYad.Common", "Kia.KomakYad.Common\Kia.KomakYad.Common.csproj", "{D9049BB3-48C4-4737-A82F-316FEFFCB7B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kia.KomakYad.Tests", "Kia.KomakYad.Tests\Kia.KomakYad.Tests.csproj", "{3D87DFBB-F9DB-4297-AE26-D3F01DE7E37F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kia.KomakYad.Tests", "Kia.KomakYad.Tests\Kia.KomakYad.Tests.csproj", "{3D87DFBB-F9DB-4297-AE26-D3F01DE7E37F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kia.KomakYad.Tools.Migrations", "Kia.KomakYad.Tools.Migrations\Kia.KomakYad.Tools.Migrations.csproj", "{578C3D83-E945-4DD1-8A4A-1C8E3B5149E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3D87DFBB-F9DB-4297-AE26-D3F01DE7E37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D87DFBB-F9DB-4297-AE26-D3F01DE7E37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D87DFBB-F9DB-4297-AE26-D3F01DE7E37F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{578C3D83-E945-4DD1-8A4A-1C8E3B5149E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{578C3D83-E945-4DD1-8A4A-1C8E3B5149E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{578C3D83-E945-4DD1-8A4A-1C8E3B5149E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{578C3D83-E945-4DD1-8A4A-1C8E3B5149E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
