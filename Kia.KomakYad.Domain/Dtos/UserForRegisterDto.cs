@@ -12,7 +12,7 @@ namespace Kia.KomakYad.Domain.Dtos
         public string Email { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8 character.")]
+        [StringLength(250, MinimumLength = 8, ErrorMessage = "You must specify password between 8 and 250 character.")]
         public string Password { get; set; }
 
         [StringLength(250)]

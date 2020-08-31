@@ -22,6 +22,8 @@ namespace Kia.KomakYad.Api.Helpers
         }
         public async Task<bool> Validate(string token)
         {
+            if (!_config.Enabled)
+                return true;
             var request = new HttpRequestMessage(HttpMethod.Get, $"https://www.google.com/recaptcha/api/siteverify?secret={ _config.SecretKey}&response={token}");
 
             var response =  await (await _httpClient.SendAsync(request)).Content.ReadAsStringAsync();

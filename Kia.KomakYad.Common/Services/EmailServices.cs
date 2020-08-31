@@ -20,10 +20,11 @@ namespace Kia.KomakYad.Common.Services
         {
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(_configuration.SenderEmail, _configuration.SenderEmail),
+                From = new MailAddress(_configuration.SenderEmail, _configuration.SenderName),
                 IsBodyHtml = isHtml,
                 Subject = subject,
-                Body = body
+                Body = body,
+                
             };
 
             mailMessage.To.Add(emailAddress);
@@ -31,7 +32,7 @@ namespace Kia.KomakYad.Common.Services
             using (var smtp = new SmtpClient(_configuration.Host, _configuration.Port))
             {
                 smtp.Credentials = new NetworkCredential(_configuration.SenderEmail, _configuration.Password);
-                await smtp.SendMailAsync(mailMessage);
+                //await smtp.SendMailAsync(mailMessage);
             }
         }
     }

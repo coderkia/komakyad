@@ -45,9 +45,13 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
-            if(!await _reCaptchaHelper.Validate(userForRegister.ReCaptchaToken))
+            if (!await _reCaptchaHelper.Validate(userForRegister.ReCaptchaToken))
             {
                 return BadRequest("Prove you are not a robot");
+            }
+            if (await _userManager.FindByEmailAsync(userForRegister.Email) != null)
+            {
+                return BadRequest("Another account exists with this email address.");
             }
             var userToCreate = _mapper.Map<User>(userForRegister);
 
@@ -65,7 +69,7 @@ namespace Kia.KomakYad.Api.Controllers
             return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
         }
 
-        [HttpGet("ConfirmEmail/{userId}/token/{token}", Name ="ConfirmEmail")]
+        [HttpGet("ConfirmEmail/{userId}/token/{token}", Name = "ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string userName, string token)
         {
             var user = await _userManager.FindByNameAsync(userName);

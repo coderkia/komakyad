@@ -12,7 +12,9 @@ namespace Kia.KomakYad.Tools.Migrations.DestinationModels
         public int UserFlashId { get; set; }
         public byte CurrentDeck { get; set; }
         public int ReviewCount { get; set; }
+        public int CreatedBy { get; set; }
         public string Hint { get; set; }
         public System.DateTime Due { get; set; }
+        public System.DateTime? ModifiedOn { get; set; }
     }
 }

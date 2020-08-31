@@ -16,5 +16,7 @@ namespace Kia.KomakYad.Tools.Migrations.DestinationModels
         public Nullable<byte> AuthorPercentage { get; set; }
         public byte AccessType { get; set; }
         public long ReadRate { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public int CreatedBy { get; set; }
     }
 }

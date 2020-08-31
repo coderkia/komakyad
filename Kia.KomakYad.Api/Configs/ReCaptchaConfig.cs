@@ -3,5 +3,6 @@
     public class ReCaptchaConfig
     {
         public string SecretKey { get; set; }
+        public bool Enabled { get; set; }
     }
 }

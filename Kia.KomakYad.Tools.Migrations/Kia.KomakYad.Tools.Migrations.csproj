@@ -10,4 +10,9 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kia.KomakYad.DataAccess\Kia.KomakYad.DataAccess.csproj" />
+    <ProjectReference Include="..\Kia.KomakYad.Domain\Kia.KomakYad.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
