@@ -200,6 +200,7 @@ namespace Kia.KomakYad.Api.Controllers
         public async Task<IActionResult> GetAll([FromQuery] ReadCollectionParams readCollectionParams)
         {
             var ownerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            readCollectionParams.OwnerId = ownerId;
             var readCollections = await _repo.GetReadCollections(readCollectionParams);
 
             var readCollectionsToReturn = _mapper.Map<IEnumerable<ReadCollectionToReturnDto>>(readCollections);
