@@ -36,6 +36,14 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 return Unauthorized();
             }
+
+            if (int.TryParse(User.FindFirst(CustomClaimTypes.CardLimit).Value, out int cardLimit))
+            {
+                if(await _repo.GetCardsCount(collection.Id) > cardLimit)
+                {
+                    return BadRequest($"You cannot add more than {cardLimit} cards to a collection");
+                }
+            }
             var card = _mapper.Map<Card>(cardToCreate);
             _repo.Add<Card>(card);
 
@@ -87,7 +95,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery]CardParams cardParams)
+        public async Task<IActionResult> Search([FromQuery] CardParams cardParams)
         {
             if (!User.IsInRole(AuthHelper.AdminRole))
             {

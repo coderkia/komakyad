@@ -31,6 +31,14 @@ namespace Kia.KomakYad.Api.Controllers
             if (collectionToCreate.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
+            if (int.TryParse(User.FindFirst(CustomClaimTypes.CollectionLimit).Value, out int collectionLimit))
+            {
+                if (await _repo.GetCollectionsCount(collectionToCreate.AuthorId) > collectionLimit)
+                {
+                    return BadRequest($"You cannot add more than {collectionLimit} collections.");
+                }
+            }
+
             var collection = _mapper.Map<Collection>(collectionToCreate);
 
             _repo.Add(collection);

@@ -12,6 +12,7 @@ namespace Kia.KomakYad.Domain.Repositories
         void AddRange<T>(IEnumerable<T> entities) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<PagedList<Collection>> GetCollections(CollectionParams filters);
+        Task<int> GetCollectionsCount(int authorId);
         Task<PagedList<Collection>> GetUserCollections(int ownerId, CollectionParams filters);
         Task<int> GetDueCardCount(int readCollectionId, ReadCardParams filters);
         Task<int> GetTotalCount(int readCollectionId, ReadCardParams filters);

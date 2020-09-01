@@ -47,7 +47,9 @@ namespace Kia.KomakYad.Api
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-            builder.AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+            builder.AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders()
+                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
+
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
@@ -67,7 +69,6 @@ namespace Kia.KomakYad.Api
                 options.AddPolicy(AuthHelper.AdminPolicy, policy => policy.RequireRole(AuthHelper.AdminRole));
                 options.AddPolicy(AuthHelper.ReadPolicy, policy => policy.RequireRole(AuthHelper.AdminRole, AuthHelper.MemberRole, AuthHelper.ModeratorRole, AuthHelper.ReporterRole));
             });
-
 
             services.Configure<EmailConfiguration>(Configuration.GetSection(typeof(EmailConfiguration).Name));
             services.Configure<ReCaptchaConfig>(Configuration.GetSection("ReCaptcha"));

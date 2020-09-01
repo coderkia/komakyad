@@ -250,5 +250,10 @@ namespace Kia.KomakYad.Domain.Repositories
             var readCardIds = await _context.ReadCards.Where(c => c.ReadCollectionId == readCollectionId).Select(c => c.CardId).ToListAsync();
             return await _context.Cards.Where(c => !readCardIds.Contains(c.Id)).ToListAsync();
         }
+
+        public async Task<int> GetCollectionsCount(int authorId)
+        {
+            return await _context.Collections.CountAsync(c => c.AuthorId == authorId);
+        }
     }
 }
