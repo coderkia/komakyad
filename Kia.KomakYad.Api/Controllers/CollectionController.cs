@@ -31,7 +31,7 @@ namespace Kia.KomakYad.Api.Controllers
             if (collectionToCreate.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
-            if (int.TryParse(User.FindFirst(CustomClaimTypes.CollectionLimit).Value, out int collectionLimit))
+            if (int.TryParse(User.FindFirst(CustomClaimTypes.CollectionLimit)?.Value, out int collectionLimit))
             {
                 if (await _repo.GetCollectionsCount(collectionToCreate.AuthorId) > collectionLimit)
                 {

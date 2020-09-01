@@ -37,7 +37,7 @@ namespace Kia.KomakYad.Api.Controllers
                 return Unauthorized();
             }
 
-            if (int.TryParse(User.FindFirst(CustomClaimTypes.CardLimit).Value, out int cardLimit))
+            if (int.TryParse(User.FindFirst(CustomClaimTypes.CardLimit)?.Value, out int cardLimit))
             {
                 if(await _repo.GetCardsCount(collection.Id) > cardLimit)
                 {

@@ -2,7 +2,7 @@
 {
     public class CustomClaimTypes
     {
-        public const string CardLimit = "CardLimit";
-        public const string CollectionLimit = "CollectionLimit";
+        public const string CardLimit = "CDL";
+        public const string CollectionLimit = "CLL";
     }
 }

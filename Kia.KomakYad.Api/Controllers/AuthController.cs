@@ -61,7 +61,6 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 return BadRequest(result.Errors);
             }
-
             var userToReturn = _mapper.Map<UserDetailedDto>(userToCreate);
 
             await GetEmailConfirmationToken(userToCreate.Email);
@@ -79,9 +78,11 @@ namespace Kia.KomakYad.Api.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
             if (result.Succeeded)
+            {
                 return NoContent();
+            }
 
-            return BadRequest(result.Errors);
+                return BadRequest(result.Errors);
         }
 
         [HttpPost("GetEmailConfirmationToken({email})")]
@@ -181,6 +182,8 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(CustomClaimTypes.CardLimit, user.CardLimit.ToString()),
+                new Claim(CustomClaimTypes.CollectionLimit, user.CollectionLimit.ToString()),
             };
 
             var roles = await _userManager.GetRolesAsync(user);

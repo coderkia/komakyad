@@ -47,8 +47,8 @@ namespace Kia.KomakYad.Api
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-            builder.AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders()
-                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
+            builder.AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
 
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
