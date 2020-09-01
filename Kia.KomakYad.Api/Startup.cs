@@ -77,6 +77,7 @@ namespace Kia.KomakYad.Api
             services.AddAutoMapper(typeof(LeitnerRepository).Assembly, typeof(Program).Assembly, typeof(User).Assembly);
             services.AddTransient<ILeitnerRepository, LeitnerRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<IAdminRepository, AdminRepository>();
             services.AddSingleton<EmailService>();
             services.AddSingleton<IReCaptchaService, ReCaptchaService>();
 

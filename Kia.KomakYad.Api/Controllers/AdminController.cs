@@ -18,19 +18,20 @@ namespace Kia.KomakYad.Api.Controllers
     [Authorize(Policy = AuthHelper.AdminPolicy)]
     public class AdminController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
+        private readonly IAuthRepository _authRepository;
+        private readonly IAdminRepository _adminRepository;
         private readonly UserManager<User> _userManager;
 
         public AdminController(IAuthRepository repo, UserManager<User> userManager)
         {
-            _repo = repo;
+            _authRepository = repo;
             _userManager = userManager;
         }
 
         [HttpGet("roles")]
         public async Task<IActionResult> GetRoles()
         {
-            return Ok(await _repo.GetRoles());
+            return Ok(await _authRepository.GetRoles());
         }
 
         [HttpGet("user/{username}/roles")]
@@ -72,7 +73,7 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpGet("UsersWithRoles")]
         public async Task<IActionResult> GetUsersWithRoles([FromQuery]UserWithRolesParams filters)
         {
-            var userWithRoles = await _repo.GetUsersWithRoles(filters);
+            var userWithRoles = await _authRepository.GetUsersWithRoles(filters);
 
             Response.AddPagination(userWithRoles);
             return Ok(userWithRoles);
@@ -121,6 +122,36 @@ namespace Kia.KomakYad.Api.Controllers
             await _userManager.SetLockoutEndDateAsync(user, DateTime.Now);
 
             return NoContent();
+        }
+
+
+        [HttpPatch("User/{userId}/CardLimit({limit})")]
+        public async Task<IActionResult> SetCardLimits(string userId, int limit)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                NotFound("User not found");
+            }
+
+            await _adminRepository.SetCardLimit(user, limit);
+
+            return NoContent();
+
+        }
+        [HttpPatch("User/{userId}/CollectionLimit({limit})")]
+        public async Task<IActionResult> SetCollectionLimits(string userId, int limit)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                NotFound("User not found");
+            }
+
+            await _adminRepository.SetCollectionLimit(user, limit);
+
+            return NoContent();
+
         }
     }
 }
