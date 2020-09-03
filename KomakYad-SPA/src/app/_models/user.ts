@@ -6,4 +6,6 @@ export interface User {
     lastName: string;
     createdOn: Date;
     locked: boolean;
+    cardLimit?: number;
+    collectionLimit?: number;
 }

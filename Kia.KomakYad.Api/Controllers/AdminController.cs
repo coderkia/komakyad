@@ -22,10 +22,11 @@ namespace Kia.KomakYad.Api.Controllers
         private readonly IAdminRepository _adminRepository;
         private readonly UserManager<User> _userManager;
 
-        public AdminController(IAuthRepository repo, UserManager<User> userManager)
+        public AdminController(IAuthRepository repo, UserManager<User> userManager,IAdminRepository adminRepository)
         {
             _authRepository = repo;
             _userManager = userManager;
+            _adminRepository = adminRepository;
         }
 
         [HttpGet("roles")]
@@ -128,6 +129,10 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPatch("User/{userId}/CardLimit({limit})")]
         public async Task<IActionResult> SetCardLimits(string userId, int limit)
         {
+            if (limit < 0)
+            {
+                return BadRequest("Negatinve value is not acceptable.");
+            }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
@@ -142,6 +147,10 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPatch("User/{userId}/CollectionLimit({limit})")]
         public async Task<IActionResult> SetCollectionLimits(string userId, int limit)
         {
+            if (limit < 0)
+            {
+                return BadRequest("Negatinve value is not acceptable.");
+            }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {

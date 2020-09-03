@@ -14,6 +14,8 @@ namespace Kia.KomakYad.Domain.Dtos
         public string Email { get; set; }
         public string CreatedOn { get; set; }
         public bool Locked { get; set; }
+        public int? CollectionLimit { get; set; }
+        public int? CardLimit { get; set; }
 
     }
 }

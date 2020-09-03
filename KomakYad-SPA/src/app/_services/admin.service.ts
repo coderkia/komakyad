@@ -62,4 +62,11 @@ export class AdminService {
   unlockUser(userId: number) {
     return this.http.patch(this.baseUrl + 'unlockUser(' + userId + ')', {});
   }
+  setCollectionLimit(userId: number, limit: number) {
+    return this.http.patch(this.baseUrl + 'user/' + userId + '/collectionlimit(' + limit + ')', {});
+  }
+  setCardLimit(userId: number, limit: number) {
+    return this.http.patch(this.baseUrl + 'user/' + userId + '/cardlimit(' + limit + ')', {});
+  }
+
 }

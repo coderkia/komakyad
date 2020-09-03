@@ -1,0 +1,9 @@
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text text-right" style="width: 100px;" for="inputGroupSelect01">Card</label>
+  </div>
+  <input type="number" [(ngModel)]="user.cardLimit" class="form-control" placeholder="Card Limit">
+  <div class="input-group-append">
+    <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="setLimit()">Set Limit</button>
+  </div>
+</div>

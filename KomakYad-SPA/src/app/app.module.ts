@@ -53,6 +53,8 @@ import { UserItemComponent } from './management/user-item/user-item.component';
 import { UserDetailsComponent } from './management/user-details/user-details.component';
 import { CheckboxGroupComponent } from './ui/checkbox-group/checkbox-group.component';
 import { ReCaptchaComponent } from './ui/re-captcha/re-captcha.component';
+import { CardLimitComponent } from './management/card-limit/card-limit.component';
+import { CollectionLimitComponent } from './management/collection-limit/collection-limit.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -97,6 +99,8 @@ export function tokenGetter() {
       UserDetailsComponent,
       CheckboxGroupComponent,
       ReCaptchaComponent,
+      CardLimitComponent,
+      CollectionLimitComponent,
    ],
    imports: [
       BrowserModule,

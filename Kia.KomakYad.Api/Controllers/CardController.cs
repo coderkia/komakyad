@@ -5,9 +5,7 @@ using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,7 +17,7 @@ namespace Kia.KomakYad.Api.Controllers
     [Authorize(Policy = AuthHelper.ReadPolicy)]
     public class CardController : ControllerBase
     {
-        private ILeitnerRepository _repo;
+        private readonly ILeitnerRepository _repo;
         private readonly IMapper _mapper;
 
         public CardController(ILeitnerRepository repo, IMapper mapper)
