@@ -5,6 +5,7 @@ using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -19,11 +20,13 @@ namespace Kia.KomakYad.Api.Controllers
     {
         private readonly ILeitnerRepository _repo;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public CardController(ILeitnerRepository repo, IMapper mapper)
+        public CardController(ILeitnerRepository repo, IMapper mapper, UserManager<User> userManager)
         {
             _repo = repo;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -34,12 +37,12 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 return Unauthorized();
             }
-
-            if (int.TryParse(User.FindFirst(CustomClaimTypes.CardLimit)?.Value, out int cardLimit))
+            var user = await _userManager.FindByIdAsync(collection.AuthorId.ToString());
+            if (user.CardLimit.HasValue)
             {
-                if(await _repo.GetCardsCount(collection.Id) > cardLimit)
+                if(await _repo.GetCardsCount(collection.Id) > user.CardLimit)
                 {
-                    return BadRequest($"You cannot add more than {cardLimit} cards to a collection");
+                    return BadRequest($"You cannot add more than {user.CardLimit} cards to a collection");
                 }
             }
             var card = _mapper.Map<Card>(cardToCreate);

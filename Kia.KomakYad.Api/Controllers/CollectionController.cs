@@ -5,6 +5,7 @@ using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -19,10 +20,13 @@ namespace Kia.KomakYad.Api.Controllers
     {
         private readonly ILeitnerRepository _repo;
         private readonly IMapper _mapper;
-        public CollectionController(ILeitnerRepository repo, IMapper mapper)
+        private readonly UserManager<User> _userManager;
+
+        public CollectionController(ILeitnerRepository repo, IMapper mapper, UserManager<User> userManager)
         {
             _repo = repo;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -31,11 +35,12 @@ namespace Kia.KomakYad.Api.Controllers
             if (collectionToCreate.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
-            if (int.TryParse(User.FindFirst(CustomClaimTypes.CollectionLimit)?.Value, out int collectionLimit))
+            var user = await _userManager.FindByIdAsync(collectionToCreate.AuthorId.ToString());
+            if (user.CollectionLimit.HasValue)
             {
-                if (await _repo.GetCollectionsCount(collectionToCreate.AuthorId) > collectionLimit)
+                if (await _repo.GetCollectionsCount(collectionToCreate.AuthorId) > user.CollectionLimit)
                 {
-                    return BadRequest($"You cannot add more than {collectionLimit} collections.");
+                    return BadRequest($"You cannot add more than {user.CollectionLimit} collections.");
                 }
             }
 

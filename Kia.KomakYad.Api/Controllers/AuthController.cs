@@ -182,8 +182,6 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(CustomClaimTypes.CardLimit, user.CardLimit.ToString()),
-                new Claim(CustomClaimTypes.CollectionLimit, user.CollectionLimit.ToString()),
             };
 
             var roles = await _userManager.GetRolesAsync(user);
