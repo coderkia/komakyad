@@ -32,7 +32,7 @@ namespace Kia.KomakYad.Common.Services
             using (var smtp = new SmtpClient(_configuration.Host, _configuration.Port))
             {
                 smtp.Credentials = new NetworkCredential(_configuration.SenderEmail, _configuration.Password);
-                //await smtp.SendMailAsync(mailMessage);
+                await smtp.SendMailAsync(mailMessage);
             }
         }
     }

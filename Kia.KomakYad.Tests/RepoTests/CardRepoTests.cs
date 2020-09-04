@@ -138,7 +138,7 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.Greater(actual.First().Id, actual.Last().Id);
+            Assert.Less(actual.First().Id, actual.Last().Id);
         }
 
         [Test]

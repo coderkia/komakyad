@@ -4,6 +4,7 @@ using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -19,7 +20,12 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         public void ShouldReturnUnauthorizedIfUserIdIsDifferentFromAuthorIdInCollection()
         {
             var repo = new Mock<ILeitnerRepository>();
-            var mapper = new Mock<IMapper>();
+            var mapper = new Mock<IMapper>(); 
+            var userManager = UserManagerMock.MockUserManager<User>(new List<User>
+            {
+                 new User { Id = 10, UserName = "user 10"},
+                 new User { Id = 2, UserName = "user 2" }
+            });
             var collectionId = 12;
             var userId = 10;
 
@@ -32,7 +38,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
 
-            var sut = new CollectionController(repo.Object, mapper.Object);
+            var sut = new CollectionController(repo.Object, mapper.Object, userManager.Object);
 
             sut.ControllerContext = new ControllerContext
             {
@@ -57,6 +63,11 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         {
             var repo = new Mock<ILeitnerRepository>();
             var mapper = new Mock<IMapper>();
+            var userManager = UserManagerMock.MockUserManager<User>(new List<User>
+            {
+                 new User { Id = 10, UserName = "user 10"},
+                 new User { Id = 2, UserName = "user 2" }
+            });
             var collectionId = 12;
             var userId = 10;
 
@@ -69,7 +80,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
 
-            var sut = new CollectionController(repo.Object, mapper.Object);
+            var sut = new CollectionController(repo.Object, mapper.Object, userManager.Object);
 
             sut.ControllerContext = new ControllerContext
             {
