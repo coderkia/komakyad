@@ -79,6 +79,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, AuthHelper.MemberRole);
                 return NoContent();
             }
 
@@ -91,8 +92,13 @@ namespace Kia.KomakYad.Api.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
+            { 
                 return Unauthorized();
-
+            }
+            if (user.EmailConfirmed)
+            {
+                return BadRequest("You already confirmed your email.");
+            }
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             var confirmationLink = $"{Request.Scheme}://{Request.Host}" + Url.Action("ConfirmEmail", new { token, userName = user.UserName });
