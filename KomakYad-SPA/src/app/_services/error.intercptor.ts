@@ -14,6 +14,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 if (error.status === 401) {
                     return throwError(error.statusText);
                 }
+                if (error.status === 403) {
+                    return throwError(error.statusText);
+                }
                 if (error instanceof HttpErrorResponse) {
                     const applicationError = error.headers.get('Application-Error');
                     if (applicationError) {
@@ -28,7 +31,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                             }
                         }
                     }
-                    return throwError(modelStateErrors || serverError || 'Server Error');
+                    let userIdentityErrors = '';
+                    console.log(serverError);
+                    if (serverError && Array.isArray(serverError)) {
+                        for (const item of serverError) {
+                            userIdentityErrors += item.description + '\r\n';
+                        }
+                    }
+                    return throwError(modelStateErrors || userIdentityErrors || serverError || 'Server Error');
                 }
             })
         );

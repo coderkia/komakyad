@@ -55,6 +55,7 @@ import { CheckboxGroupComponent } from './ui/checkbox-group/checkbox-group.compo
 import { ReCaptchaComponent } from './ui/re-captcha/re-captcha.component';
 import { CardLimitComponent } from './management/card-limit/card-limit.component';
 import { CollectionLimitComponent } from './management/collection-limit/collection-limit.component';
+import { ChangePassComponent } from './Auth/change-pass/change-pass.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -101,6 +102,7 @@ export function tokenGetter() {
       ReCaptchaComponent,
       CardLimitComponent,
       CollectionLimitComponent,
+      ChangePassComponent,
    ],
    imports: [
       BrowserModule,

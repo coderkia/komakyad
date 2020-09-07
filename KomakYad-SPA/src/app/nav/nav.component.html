@@ -25,7 +25,7 @@
         <li
           class="nav-item"
           routerLinkActive="active"
-          *ngIf="loggedIn() && authService.roles.includes('Admin')"
+          *ngIf="loggedIn() && authService.roles?.includes('Admin')"
         >
           <a class="nav-link" [routerLink]="['/management']">Management</a>
         </li>

@@ -26,6 +26,7 @@ export class NavComponent implements OnInit {
   }
 
   loggedIn() {
+    console.log('logged in',this.authService.loggedIn());
     return this.authService.loggedIn();
   }
 

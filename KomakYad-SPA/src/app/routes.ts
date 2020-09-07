@@ -11,6 +11,7 @@ import { CardCreateComponent } from './Cards/cardCreate/cardCreate.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
 import { LoginComponent } from './Auth/login/login.component';
+import { ChangePassComponent } from './Auth/change-pass/change-pass.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },

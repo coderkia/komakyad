@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { ProfileUpdate } from '../_models/profileUpdate';
+import { ChangePassRequest } from '../_models/changePassRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -49,5 +50,9 @@ export class AuthService {
 
   updateProfile(id: any, profile: ProfileUpdate) {
     return this.http.put(environment.apiUrl + 'profile/' + id, profile);
+  }
+
+  changePassword(request: ChangePassRequest) {
+    return this.http.post(this.baseUrl + 'changePass', request);
   }
 }
