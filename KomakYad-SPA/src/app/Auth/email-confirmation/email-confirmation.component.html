@@ -1,0 +1,9 @@
+<div class="container mt-5 text-center">
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  <div class="alert alert-success" *ngIf="succeed && !loading">
+    Your email address is confirm.
+  </div>
+  <div class="alert alert-danger" *ngIf="!succeed && !loading">
+      {{ error }}
+  </div>
+</div>

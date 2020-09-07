@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="text-center" *ngIf="!sent">
+    <p class="alert alert-info">
+      You need to confirm your email address({{ email }}).
+    </p>
+    <button class="btn btn-primary mt-2" (click)="sendConfirmationEmail()">
+      Send me a confirmation email
+    </button>
+  </div>
+  <div *ngIf="sent">
+    <p class="text-center alert alert-success">
+      A confirmation email is sent to your email address, please check Spam/Junk
+      if you didn't get an email from us.
+    </p>
+  </div>
+</div>

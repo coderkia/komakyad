@@ -56,6 +56,8 @@ import { ReCaptchaComponent } from './ui/re-captcha/re-captcha.component';
 import { CardLimitComponent } from './management/card-limit/card-limit.component';
 import { CollectionLimitComponent } from './management/collection-limit/collection-limit.component';
 import { ChangePassComponent } from './Auth/change-pass/change-pass.component';
+import { ConfirmEmailComponent } from './Auth/confirm-email/confirm-email.component';
+import { EmailConfirmationComponent } from './Auth/email-confirmation/email-confirmation.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -103,6 +105,8 @@ export function tokenGetter() {
       CardLimitComponent,
       CollectionLimitComponent,
       ChangePassComponent,
+      ConfirmEmailComponent,
+      EmailConfirmationComponent,
    ],
    imports: [
       BrowserModule,

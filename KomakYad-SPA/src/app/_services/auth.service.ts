@@ -55,4 +55,12 @@ export class AuthService {
   changePassword(request: ChangePassRequest) {
     return this.http.post(this.baseUrl + 'changePass', request);
   }
+
+  sendConfirmationEmail(email: string) {
+    return this.http.post(this.baseUrl + 'getEmailConfirmationToken(' + email + ')', {});
+  }
+
+  confirmationEmail(request: { token: string; username: string; }) {
+    return this.http.post(this.baseUrl + 'confirmEmail', request);
+  }
 }

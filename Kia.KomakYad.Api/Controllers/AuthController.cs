@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.Common.Services;
 using Kia.KomakYad.Api.Helpers;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Kia.KomakYad.Api.Controllers
 {
@@ -68,14 +69,15 @@ namespace Kia.KomakYad.Api.Controllers
             return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToReturn);
         }
 
-        [HttpGet("ConfirmEmail/{userId}/token/{token}", Name = "ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string userName, string token)
+        [HttpPost("ConfirmEmail", Name = "ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(EmailConfirmModel model)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            
+            var user = await _userManager.FindByNameAsync(model.Username);
             if (user == null)
                 return Unauthorized();
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            var result = await _userManager.ConfirmEmailAsync(user, model.Token);
 
             if (result.Succeeded)
             {
@@ -83,7 +85,7 @@ namespace Kia.KomakYad.Api.Controllers
                 return NoContent();
             }
 
-                return BadRequest(result.Errors);
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("GetEmailConfirmationToken({email})")]
@@ -92,7 +94,7 @@ namespace Kia.KomakYad.Api.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-            { 
+            {
                 return Unauthorized();
             }
             if (user.EmailConfirmed)
@@ -101,7 +103,12 @@ namespace Kia.KomakYad.Api.Controllers
             }
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var confirmationLink = $"{Request.Scheme}://{Request.Host}" + Url.Action("ConfirmEmail", new { token, userName = user.UserName });
+            var confirmationLink = QueryHelpers.AddQueryString(_config.GetSection("Spa:emailConfirmUrl").Value,
+                new Dictionary<string, string>
+                {
+                    { "username", user.UserName },
+                    {"token", token }
+                });
 
             var message = $"Hi {user.FirstName}\r\n Confirm your email address by clicking on following link.\r\n{confirmationLink}";
             await _emailService.SendAsync(message, "Confirm your email address", email, false);

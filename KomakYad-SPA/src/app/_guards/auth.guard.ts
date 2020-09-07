@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
-import { Route } from '@angular/compiler/src/core';
 import { AlertifyService } from '../_services/alertify.service';
 
 @Injectable({
@@ -13,9 +12,15 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) { }
 
   canActivate(): boolean {
+    console.log(this.router.url);
     if (this.authService.loggedIn()) {
+      if (!this.authService.currentUser.emailConfirmed) {
+        this.router.navigate(['/confirmEmail']);
+        return false;
+      }
       return true;
     }
+
     this.alertify.error('Unauthorized request');
     this.router.navigate(['/home']);
     return false;

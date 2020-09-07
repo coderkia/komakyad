@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Kia.KomakYad.Domain.Dtos
+﻿namespace Kia.KomakYad.Domain.Dtos
 {
     public class UserListDto
     {
@@ -16,6 +14,7 @@ namespace Kia.KomakYad.Domain.Dtos
         public bool Locked { get; set; }
         public int? CollectionLimit { get; set; }
         public int? CardLimit { get; set; }
+        public bool EmailConfirmed { get; set; }
 
     }
 }
