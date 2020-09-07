@@ -37,7 +37,11 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 return Unauthorized();
             }
-            var user = await _userManager.FindByIdAsync(collection.AuthorId.ToString());
+            var user = await _userManager.FindByIdAsync(collection.AuthorId.ToString()); 
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(403, "Confirm your eamil first");
+            }
             if (user.CardLimit.HasValue)
             {
                 if(await _repo.GetCardsCount(collection.Id) > user.CardLimit)

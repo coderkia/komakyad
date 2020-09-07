@@ -6,6 +6,7 @@ using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,13 @@ namespace Kia.KomakYad.Api.Controllers
     {
         private readonly ILeitnerRepository _repo;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public ReadCollectionController(ILeitnerRepository repo, IMapper mapper)
+        public ReadCollectionController(ILeitnerRepository repo, IMapper mapper, UserManager<User> userManager)
         {
             _repo = repo;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpPost("Collection({collectionId})/User({userId})")]
@@ -35,6 +38,11 @@ namespace Kia.KomakYad.Api.Controllers
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
+            }
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(403, "Confirm your eamil first");
             }
             if (await _repo.IsUserCollectionExistAsync(collectionId, userId))
             {

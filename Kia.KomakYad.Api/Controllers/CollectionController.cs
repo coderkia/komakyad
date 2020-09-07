@@ -36,6 +36,10 @@ namespace Kia.KomakYad.Api.Controllers
                 return Unauthorized();
 
             var user = await _userManager.FindByIdAsync(collectionToCreate.AuthorId.ToString());
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(403, "Confirm your eamil first");
+            }
             if (user.CollectionLimit.HasValue)
             {
                 if (await _repo.GetCollectionsCount(collectionToCreate.AuthorId) > user.CollectionLimit)
