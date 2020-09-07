@@ -1,0 +1,109 @@
+<form [formGroup]="form" (ngSubmit)="changePassword()">
+  <h2 class="text-primary">Change Password</h2>
+  <hr />
+  <div *ngIf="failed" class="alert alert-danger">
+    {{errors}}
+  </div>
+  <div class="form-group">
+    <input
+      type="password"
+      [ngClass]="{
+        'is-invalid':
+          form.get('currentPassword').errors &&
+          form.get('currentPassword').touched
+      }"
+      class="form-control"
+      formControlName="currentPassword"
+      placeholder="Current Password"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        form.get('currentPassword').hasError('required') &&
+        form.get('currentPassword').touched
+      "
+    >
+      The Password field is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="password"
+      [ngClass]="{
+        'is-invalid':
+          form.get('newPassword').errors &&
+          form.get('newPassword').touched
+      }"
+      class="form-control"
+      formControlName="newPassword"
+      placeholder="New Password"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        form.get('newPassword').hasError('required') &&
+        form.get('newPassword').touched
+      "
+    >
+      The Password field is required.
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        form.get('newPassword').hasError('minlength') &&
+        form.get('newPassword').touched
+      "
+    >
+      Password must be at least 8 characters
+    </div>
+  </div>
+  <div class="form-group">
+    <input
+      type="password"
+      [ngClass]="{
+        'is-invalid':
+          (form.get('confirmPassword').errors &&
+            form.get('confirmPassword').touched) ||
+          (form.get('confirmPassword').touched &&
+            form.hasError('mismatch'))
+      }"
+      class="form-control"
+      formControlName="confirmPassword"
+      placeholder="Confirm Password"
+    />
+
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        form.get('confirmPassword').hasError('required') &&
+        form.get('confirmPassword').touched
+      "
+    >
+      Password is required
+    </div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        !form.get('confirmPassword').hasError('required') &&
+        form.hasError('mismatch') &&
+        form.get('confirmPassword').touched
+      "
+    >
+      Password must match
+    </div>
+  </div>
+
+  <div class="form-groupmt-2" *ngIf="!loading">
+    <button
+      class="btn btn-success"
+      [disabled]="!form.valid"
+      type="submit"
+    >
+      Change Password
+    </button>
+  </div>
+  <div class="text-center">
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  </div>
+</form>
