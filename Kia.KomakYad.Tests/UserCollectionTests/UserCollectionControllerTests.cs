@@ -21,6 +21,11 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
         {
             var repo = new Mock<ILeitnerRepository>();
             var mapper = new Mock<IMapper>();
+            var userManager = UserManagerMock.MockUserManager<User>(new List<User>
+            {
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
+            });
             var collectionId = 12;
             var ownerId = 10;
 
@@ -33,7 +38,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
 
-            var sut = new ReadCollectionController(repo.Object, mapper.Object);
+            var sut = new ReadCollectionController(repo.Object, mapper.Object, userManager.Object);
 
             sut.ControllerContext = new ControllerContext
             {
@@ -54,6 +59,11 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
         [Test]
         public void ShouldReturnBadRequestIfItAlreadyExists()
         {
+            var userManager = UserManagerMock.MockUserManager<User>(new List<User>
+            {
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
+            });
             var repo = new Mock<ILeitnerRepository>();
             var mapper = new Mock<IMapper>();
             var collectionId = 12;
@@ -67,7 +77,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var identity = new ClaimsIdentity(claims, "Test");
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
-            var sut = new ReadCollectionController(repo.Object, mapper.Object);
+            var sut = new ReadCollectionController(repo.Object, mapper.Object, userManager.Object);
 
             sut.ControllerContext = new ControllerContext
             {
@@ -91,6 +101,11 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
         [Test]
         public void ShouldAddOwnerIdToAllReadCardsEntities()
         {
+            var userManager = UserManagerMock.MockUserManager<User>(new List<User>
+            {
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
+            });
             var repo = new Mock<ILeitnerRepository>();
             var mapper = new Mock<IMapper>();
             var collectionId = 12;
@@ -105,7 +120,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var identity = new ClaimsIdentity(claims, "Test");
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
-            var sut = new ReadCollectionController(repo.Object, mapper.Object);
+            var sut = new ReadCollectionController(repo.Object, mapper.Object, userManager.Object);
 
             sut.ControllerContext = new ControllerContext
             {

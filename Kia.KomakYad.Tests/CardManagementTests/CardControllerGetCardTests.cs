@@ -21,8 +21,8 @@ namespace Kia.KomakYad.Tests.CardManagementTests
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
-                 new User { Id = 10, UserName = "user 10"},
-                 new User { Id = 2, UserName = "user 2" }
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
             });
             var cardId = 12;
             var expectedCard = new Card
@@ -51,8 +51,8 @@ namespace Kia.KomakYad.Tests.CardManagementTests
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
-                 new User { Id = 10, UserName = "user 10"},
-                 new User { Id = 2, UserName = "user 2" }
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
             });
             var cardId = 12;
             var expectedCard = new Card

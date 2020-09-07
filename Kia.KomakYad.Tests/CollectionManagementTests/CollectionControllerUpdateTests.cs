@@ -23,8 +23,8 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             var mapper = new Mock<IMapper>(); 
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
-                 new User { Id = 10, UserName = "user 10"},
-                 new User { Id = 2, UserName = "user 2" }
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
             });
             var collectionId = 12;
             var userId = 10;
@@ -65,8 +65,8 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
-                 new User { Id = 10, UserName = "user 10"},
-                 new User { Id = 2, UserName = "user 2" }
+                new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
+                new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
             });
             var collectionId = 12;
             var userId = 10;
