@@ -1,95 +1,106 @@
-<div class="container">
-  <h4>Edit Card</h4>
-  <hr />
-  <form [formGroup]="cardForm" (ngSubmit)="save()">
-    <div class="form-group">
-      <label for="question">Question</label>
-      <textarea
-        id="question"
-        rows="4"
-        cols="50"
-        [ngClass]="{
-          'is-invalid':
-            cardForm.get('question').errors && cardForm.get('question').touched
-        }"
-        class="form-control text-{{card.jsonData.textStyles[0].align}} text-{{card.jsonData.textStyles[0].direction}}"
-        formControlName="question"
-        placeholder="Question"
-      ></textarea>
-      <app-text-style [currentStyle]="card.jsonData.textStyles[0]" class="mt-1"></app-text-style>
-      <div class="invalid-feedback">The Question field is required.</div>
-      <div
-        class="invalid-feedback"
-        *ngIf="
-          cardForm.get('question').hasError('maxlength') &&
-          cardForm.get('question').touched
-        "
-      >
-        Question length must be less than 2000 characters
-      </div>
+<h4>Edit Card</h4>
+<hr />
+<form [formGroup]="cardForm" (ngSubmit)="save()">
+  <div class="form-group">
+    <label for="question">Question</label>
+    <textarea
+      id="question"
+      [ngClass]="{
+        'is-invalid':
+          cardForm.get('question').errors && cardForm.get('question').touched
+      }"
+      class="form-control text-{{ card.jsonData.textStyles[0].align }} text-{{
+        card.jsonData.textStyles[0].direction
+      }}"
+      formControlName="question"
+      placeholder="Question"
+    ></textarea>
+    <app-text-style
+      [currentStyle]="card.jsonData.textStyles[0]"
+      class="mt-1"
+    ></app-text-style>
+    <div class="invalid-feedback">The Question field is required.</div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        cardForm.get('question').hasError('maxlength') &&
+        cardForm.get('question').touched
+      "
+    >
+      Question length must be less than 2000 characters
     </div>
-    <!--end of form-group-->
-    <div class="form-group">
-      <label for="answer">Answer</label>
-      <textarea
-        rows="4"
-        cols="50"
-        [ngClass]="{
-          'is-invalid':
-            cardForm.get('answer').errors && cardForm.get('answer').touched
-        }"
-        class="form-control text-{{card.jsonData.textStyles[1].align}} text-{{card.jsonData.textStyles[1].direction}}"
-        formControlName="answer"
-        placeholder="Answer"
-      ></textarea>
-      <app-text-style [currentStyle]="this.card.jsonData.textStyles[1]" class="mt-1"></app-text-style>
-      <div class="invalid-feedback">The Answer field is required.</div>
-      <div
-        class="invalid-feedback"
-        *ngIf="
-          cardForm.get('answer').hasError('maxlength') &&
-          cardForm.get('answer').touched
-        "
-      >
-        Answer length must be less than 2000 characters
-      </div>
+  </div>
+  <!--end of form-group-->
+  <div class="form-group">
+    <label for="answer">Answer</label>
+    <textarea
+      rows="4"
+      cols="50"
+      [ngClass]="{
+        'is-invalid':
+          cardForm.get('answer').errors && cardForm.get('answer').touched
+      }"
+      class="form-control text-{{ card.jsonData.textStyles[1].align }} text-{{
+        card.jsonData.textStyles[1].direction
+      }}"
+      formControlName="answer"
+      placeholder="Answer"
+    ></textarea>
+    <app-text-style
+      [currentStyle]="this.card.jsonData.textStyles[1]"
+      class="mt-1"
+    ></app-text-style>
+    <div class="invalid-feedback">The Answer field is required.</div>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        cardForm.get('answer').hasError('maxlength') &&
+        cardForm.get('answer').touched
+      "
+    >
+      Answer length must be less than 2000 characters
     </div>
-    <!--end of form-group-->
-    <div class="form-group">
-      <label for="example">Example</label>
-      <textarea
-        rows="4"
-        cols="50"
-        [ngClass]="{
-          'is-invalid':
-            cardForm.get('example').errors && cardForm.get('example').touched
-        }"
-        class="form-control text-{{card.jsonData.textStyles[2].align}} text-{{card.jsonData.textStyles[2].direction}}"
-        formControlName="example"
-        placeholder="Example"
-      ></textarea>
-      <app-text-style [currentStyle]="this.card.jsonData.textStyles[2]" class="mt-1"></app-text-style>
-      <div
-        class="invalid-feedback"
-        *ngIf="
-          cardForm.get('example').hasError('maxlength') &&
-          cardForm.get('example').touched
-        "
-      >
-        Example length must be less than 2000 characters
-      </div>
+  </div>
+  <!--end of form-group-->
+  <div class="form-group">
+    <label for="example">Example</label>
+    <textarea
+      rows="4"
+      cols="50"
+      [ngClass]="{
+        'is-invalid':
+          cardForm.get('example').errors && cardForm.get('example').touched
+      }"
+      class="form-control text-{{ card.jsonData.textStyles[2].align }} text-{{
+        card.jsonData.textStyles[2].direction
+      }}"
+      formControlName="example"
+      placeholder="Example"
+    ></textarea>
+    <app-text-style
+      [currentStyle]="this.card.jsonData.textStyles[2]"
+      class="mt-1"
+    ></app-text-style>
+    <div
+      class="invalid-feedback"
+      *ngIf="
+        cardForm.get('example').hasError('maxlength') &&
+        cardForm.get('example').touched
+      "
+    >
+      Example length must be less than 2000 characters
     </div>
-    <div class="form-group text-center">
-      <button
-        class="btn btn-success"
-        [disabled]="!cardForm.dirty || !cardForm.valid"
-        type="submit"
-      >
-        Save
-      </button>
-      <button class="btn btn-default" type="button" (click)="cancel()">
-        Cancel
-      </button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="form-group text-center">
+    <button
+      class="btn btn-success"
+      [disabled]="!cardForm.dirty || !cardForm.valid"
+      type="submit"
+    >
+      Save
+    </button>
+    <button class="btn btn-default" type="button" (click)="cancel()">
+      Cancel
+    </button>
+  </div>
+</form>

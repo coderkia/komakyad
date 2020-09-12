@@ -33,6 +33,7 @@ export class CardEditComponent implements OnInit {
       this.card.jsonData.textStyles = [{}, {}, {}];
     }
   }
+
   createCardForm() {
     this.cardForm = this.formbuilder.group({
       answer: [this.card.answer, [Validators.required, Validators.maxLength(2000)]],

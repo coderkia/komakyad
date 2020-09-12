@@ -1,6 +1,5 @@
-<div class="{{ class }}">
   <div
-    class="btn-group mr-1"
+    class="btn-group mr-1 {{ class }}"
     [(ngModel)]="currentStyle.direction"
     btnRadioGroup
     (ngModelChange)="triggerStyleChanged()"
@@ -21,7 +20,7 @@
     >
   </div>
   <div
-    class="btn-group"
+    class="btn-group {{ class }}"
     [(ngModel)]="currentStyle.align"
     btnRadioGroup
     (ngModelChange)="triggerStyleChanged()"
@@ -55,4 +54,3 @@
       ><i class="icon-paragraph-justify"></i></label
     >
   </div>
-</div>

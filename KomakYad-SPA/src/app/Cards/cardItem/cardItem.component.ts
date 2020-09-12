@@ -16,8 +16,13 @@ export class CardItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if (!this.card.jsonData) {
+      this.card.jsonData = {};
+    }
+    if (!this.card.jsonData.textStyles) {
+      this.card.jsonData.textStyles = [{}, {}, {}];
+    }
   }
-
   editCard() {
     this.edit.emit(this.card);
   }

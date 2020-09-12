@@ -2,18 +2,58 @@
   <div class="card-body">
     <tabset *ngIf="!showDeleteForm">
       <tab heading="Question">
-        <p style="height: 100px;">{{ card.question }}</p>
+        <p
+          class="text-{{ card.jsonData.textStyles[0].align }} text-{{
+            card.jsonData.textStyles[0].direction
+          }}"
+        >
+          {{ card.question }}
+        </p>
+        <app-text-style
+          [currentStyle]="card.jsonData.textStyles[0]"
+        ></app-text-style>
       </tab>
       <tab heading="Answer">
-        <p style="height: 100px;">{{ card.answer }}</p>
+        <p
+          class="text-{{ card.jsonData.textStyles[1].align }} text-{{
+            card.jsonData.textStyles[1].direction
+          }}"
+        >
+          {{ card.answer }}
+        </p>
+        <app-text-style
+          [currentStyle]="card.jsonData.textStyles[1]"
+        ></app-text-style>
       </tab>
       <tab heading="Example">
-        <p style="height: 100px;">{{ card.example }}</p>
+        <p
+          class="text-{{ card.jsonData.textStyles[2].align }} text-{{
+            card.jsonData.textStyles[2].direction
+          }}"
+        >
+          {{ card.example }}
+        </p>
+        <app-text-style
+          [currentStyle]="card.jsonData.textStyles[2]"
+        ></app-text-style>
       </tab>
     </tabset>
-  <div class="form-group" *ngIf="itIsOwnerCard && !showDeleteForm" >
-    <button class="btn btn-info" (click)="editCard()">Edit</button>
-    <button class="btn btn-danger ml-1" (click)="showDeleteForm = true;">Delete</button>
+
+    <hr />
+    <button class="btn btn-info" *ngIf="itIsOwnerCard" (click)="editCard()">
+      Edit
+    </button>
+    <button
+      class="btn btn-danger ml-1"
+      *ngIf="itIsOwnerCard && !showDeleteForm"
+      (click)="showDeleteForm = true"
+    >
+      Delete
+    </button>
+
+    <app-card-delete
+      *ngIf="showDeleteForm && !showDeleteForm"
+      (response)="deleteCard($event)"
+    ></app-card-delete>
   </div>
-  <app-card-delete *ngIf="showDeleteForm" (response)="deleteCard($event)"></app-card-delete>
 </div>

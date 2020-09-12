@@ -1,13 +1,13 @@
 <div class="container">
   <app-collectionDetails [collection]="collection"></app-collectionDetails>
   <hr />
-  <div class="row" *ngIf="this.showCardEdit">
+  <div *ngIf="this.showCardEdit">
     <app-card-edit [card]="cardForEdit" [collectionId]="collection.id" (done)="closeEdit()" ></app-card-edit>
   </div>
   <div class="row" *ngIf="this.showCardsList">
     <div class="col-lg-8 col-12 mt-3">
       <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="search()">
-        <div class="form-group px-2">
+        <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
               <div class="btn-group" dropdown>
@@ -71,7 +71,7 @@
     <app-loading-spinner *ngIf="loading"></app-loading-spinner>
   </div>
     <div class="row mt-3" *ngIf="this.showCardsList && !loading">
-      <div *ngFor="let item of cards" class="col col-lg-4 col-md-6 col-12 mb-2">
+      <div *ngFor="let item of cards" class="col col-md-6 col-12 mb-2">
         <app-cardItem [card]="item" (edit)="editCard($event)" [itIsOwnerCard]="collection.author.id === authService.currentUser.id"></app-cardItem>
       </div>
     </div>
