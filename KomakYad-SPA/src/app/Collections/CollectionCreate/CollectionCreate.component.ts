@@ -40,8 +40,6 @@ export class CollectionCreateComponent implements OnInit {
     };
     this.collectionService.create(collectionRequest).subscribe(response => {
       this.alertify.success('Collection created.');
-      console.log(response);
-      console.log();
       this.router.navigate(['/collections/' + response.body.id + '/card']);
     }, error => {
       this.alertify.error(error);

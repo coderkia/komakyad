@@ -32,7 +32,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                         }
                     }
                     let userIdentityErrors = '';
-                    console.log(serverError);
                     if (serverError && Array.isArray(serverError)) {
                         for (const item of serverError) {
                             userIdentityErrors += item.description + '\r\n';

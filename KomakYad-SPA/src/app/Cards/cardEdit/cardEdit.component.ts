@@ -25,6 +25,14 @@ export class CardEditComponent implements OnInit {
     this.createCardForm();
   }
 
+  ngOnChanges() {
+    if (!this.card.jsonData) {
+      this.card.jsonData = {};
+    }
+    if (!this.card.jsonData.textStyles) {
+      this.card.jsonData.textStyles = [{}, {}, {}];
+    }
+  }
   createCardForm() {
     this.cardForm = this.formbuilder.group({
       answer: [this.card.answer, [Validators.required, Validators.maxLength(2000)]],
@@ -57,6 +65,5 @@ export class CardEditComponent implements OnInit {
   }
   cancel() {
     this.done.emit();
-    console.log('canceled');
   }
 }

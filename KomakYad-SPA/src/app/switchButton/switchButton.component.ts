@@ -11,7 +11,6 @@ export class SwitchButtonComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(name);
   }
 
 }

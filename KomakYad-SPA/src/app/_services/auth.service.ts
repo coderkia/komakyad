@@ -27,7 +27,6 @@ export class AuthService {
           }
           const decodedToken = this.jwtHelper.decodeToken(user.token);
           this.roles = decodedToken.role;
-          console.log(this.roles);
           this.currentUser = user.user;
         })
       );

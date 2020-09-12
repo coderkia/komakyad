@@ -46,7 +46,6 @@ export class TextStyleComponent implements OnInit {
         break;
       default:
         this.alertify.error('Invalid text style');
-        console.log('Invalid Style ' + style);
         break;
     }
     this.styleChanged.emit(this.currentStyle);

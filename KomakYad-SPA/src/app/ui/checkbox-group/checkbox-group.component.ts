@@ -13,7 +13,6 @@ export class CheckboxGroupComponent implements OnInit {
 
   ngOnInit() {
     this.generateRandomNumber();
-    console.log(this.items);
   }
 
   checkboxToggled(item: { id: string, name: string, checked?: boolean }, checked: boolean) {

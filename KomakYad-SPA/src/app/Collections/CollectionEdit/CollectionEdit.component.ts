@@ -23,7 +23,6 @@ export class CollectionEditComponent implements OnInit {
     this.createcollectionForm();
   }
   createcollectionForm() {
-    console.log(this.collection);
     this.collectionForm = this.formbuilder.group({
       title: [this.collection.title, [Validators.required, Validators.maxLength(450)]],
       description: [this.collection.description, [Validators.required, Validators.maxLength(2000)]]

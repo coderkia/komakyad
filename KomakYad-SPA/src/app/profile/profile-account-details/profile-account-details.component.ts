@@ -16,7 +16,6 @@ export class ProfileAccountDetailsComponent implements OnInit {
 
   constructor(private formbuilder: FormBuilder, private authService: AuthService, private alertify: AlertifyService) { }
   ngOnInit() {
-    console.log(this.user);
     this.createForm();
   }
   createForm() {

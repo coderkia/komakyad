@@ -32,7 +32,6 @@ export class ReadCardComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnChanges(changes: ReadCard) {
-    console.log('changed', changes);
     if (!this.readCard.jsonData) {
       this.readCard.jsonData = {};
     }
@@ -64,7 +63,6 @@ export class ReadCardComponent implements OnInit {
         this.alertify.error(error);
       });
     if (this.cardJsonDataChanged) {
-      console.log('saving json data', this.readCard.jsonData);
       this.readService.saveJsonData(cardId, userId, this.readCard.jsonData)
         .subscribe(() => {
           this.cardJsonDataChanged = false;

@@ -81,13 +81,11 @@ export class CardsComponent implements OnInit {
     this.cardForEdit = card;
     this.showCardsList = false;
     this.showCardEdit = true;
-    console.log(this.showCardsList);
   }
 
   closeEdit() {
     this.showCardsList = true;
     this.showCardEdit = false;
-    console.log('closeEdit');
   }
 
 }

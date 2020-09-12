@@ -12,7 +12,6 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) { }
 
   canActivate(): boolean {
-    console.log(this.router.url);
     if (this.authService.loggedIn()) {
       if (!this.authService.currentUser.emailConfirmed) {
         this.router.navigate(['/confirmEmail']);

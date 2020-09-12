@@ -12,10 +12,11 @@
           'is-invalid':
             cardForm.get('question').errors && cardForm.get('question').touched
         }"
-        class="form-control"
+        class="form-control text-{{card.jsonData.textStyles[0].align}} text-{{card.jsonData.textStyles[0].direction}}"
         formControlName="question"
         placeholder="Question"
       ></textarea>
+      <app-text-style [currentStyle]="card.jsonData.textStyles[0]" class="mt-1"></app-text-style>
       <div class="invalid-feedback">The Question field is required.</div>
       <div
         class="invalid-feedback"
@@ -37,10 +38,11 @@
           'is-invalid':
             cardForm.get('answer').errors && cardForm.get('answer').touched
         }"
-        class="form-control"
+        class="form-control text-{{card.jsonData.textStyles[1].align}} text-{{card.jsonData.textStyles[1].direction}}"
         formControlName="answer"
         placeholder="Answer"
       ></textarea>
+      <app-text-style [currentStyle]="this.card.jsonData.textStyles[1]" class="mt-1"></app-text-style>
       <div class="invalid-feedback">The Answer field is required.</div>
       <div
         class="invalid-feedback"
@@ -62,10 +64,11 @@
           'is-invalid':
             cardForm.get('example').errors && cardForm.get('example').touched
         }"
-        class="form-control"
+        class="form-control text-{{card.jsonData.textStyles[2].align}} text-{{card.jsonData.textStyles[2].direction}}"
         formControlName="example"
         placeholder="Example"
       ></textarea>
+      <app-text-style [currentStyle]="this.card.jsonData.textStyles[2]" class="mt-1"></app-text-style>
       <div
         class="invalid-feedback"
         *ngIf="
