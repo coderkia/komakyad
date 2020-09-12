@@ -17,8 +17,7 @@
         formControlName="question"
         placeholder="Question"
       ></textarea>
-      <app-text-style (styleChanged)="setNewStyle(0, $event)" [currentStyle]="textStyles[0]"></app-text-style>
-      <pre class="card card-block card-header">{{textStyles[0] | json}}</pre>
+      <app-text-style [currentStyle]="textStyles[0]" class="mt-1"></app-text-style>
       <div class="invalid-feedback">The Question field is required.</div>
       <div
         class="invalid-feedback"
@@ -44,7 +43,7 @@
         formControlName="answer"
         placeholder="Answer"
       ></textarea>
-      <app-text-style (styleChanged)="setNewStyle(1, $event)" [currentStyle]="textStyles[1]"></app-text-style>
+      <app-text-style [currentStyle]="textStyles[1]" class="mt-1"></app-text-style>
       <div class="invalid-feedback">The Answer field is required.</div>
       <div
         class="invalid-feedback"
@@ -70,7 +69,7 @@
         formControlName="example"
         placeholder="Example"
       ></textarea>
-      <app-text-style (styleChanged)="setNewStyle(2, $event)" [currentStyle]="textStyles[2]"></app-text-style>
+      <app-text-style [currentStyle]="textStyles[2]" class="mt-1"></app-text-style>
       <div
         class="invalid-feedback"
         *ngIf="

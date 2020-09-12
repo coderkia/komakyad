@@ -10,6 +10,7 @@ import { AlertifyService } from '../_services/alertify.service';
 export class TextStyleComponent implements OnInit {
   @Output() styleChanged = new EventEmitter();
   @Input() currentStyle: TextStyle;
+  @Input() class: string;
   constructor(private alertify: AlertifyService) { }
 
   ngOnInit() {
@@ -21,7 +22,7 @@ export class TextStyleComponent implements OnInit {
     }
   }
 
-  triggerStyleChanged(){
+  triggerStyleChanged() {
     this.styleChanged.emit();
   }
 

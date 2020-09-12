@@ -31,16 +31,17 @@ export class ReadCardComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private readService: ReadService, private alertify: AlertifyService,
     private authService: AuthService) { }
 
-  ngOnChange() {
-  }
-
-  ngOnInit() {
+  ngOnChanges(changes: ReadCard) {
+    console.log('changed', changes);
     if (!this.readCard.jsonData) {
       this.readCard.jsonData = {};
     }
     if (!this.readCard.jsonData.textStyles) {
       this.readCard.jsonData.textStyles = [{}, {}, {}];
     }
+  }
+
+  ngOnInit() {
   }
 
   onTabSelect(data: TabDirective): void {
@@ -100,7 +101,7 @@ export class ReadCardComponent implements OnInit {
     this.cardJsonDataChanged = false;
   }
 
-  setStyleChanged(){
+  setStyleChanged() {
     this.cardJsonDataChanged = true;
   }
 }

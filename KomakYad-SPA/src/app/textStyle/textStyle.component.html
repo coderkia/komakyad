@@ -1,56 +1,58 @@
-<div
-  class="btn-group mr-1"
-  [(ngModel)]="currentStyle.direction"
-  btnRadioGroup
-  (ngModelChange)="triggerStyleChanged()"
->
-  <label
-    class="btn btn-outline-secondary"
-    btnRadio="ltr"
-    tabindex="0"
-    role="button"
-    >Left to Right</label
+<div class="{{ class }}">
+  <div
+    class="btn-group mr-1"
+    [(ngModel)]="currentStyle.direction"
+    btnRadioGroup
+    (ngModelChange)="triggerStyleChanged()"
   >
-  <label
-    class="btn btn-outline-secondary"
-    btnRadio="rtl"
-    tabindex="0"
-    role="button"
-    >Right to Left</label
+    <label
+      class="btn btn-light"
+      btnRadio="ltr"
+      tabindex="0"
+      role="button"
+      >Left to Right</label
+    >
+    <label
+      class="btn btn-light"
+      btnRadio="rtl"
+      tabindex="0"
+      role="button"
+      >Right to Left</label
+    >
+  </div>
+  <div
+    class="btn-group"
+    [(ngModel)]="currentStyle.align"
+    btnRadioGroup
+    (ngModelChange)="triggerStyleChanged()"
   >
-</div>
-<div
-  class="btn-group"
-  [(ngModel)]="currentStyle.align"
-  btnRadioGroup
-  (ngModelChange)="triggerStyleChanged()"
->
-  <label
-    class="btn btn-outline-secondary"
-    btnRadio="left"
-    tabindex="0"
-    role="button"
-    >Left</label
-  >
-  <label
-    class="btn btn-outline-secondary"
-    btnRadio="center"
-    tabindex="0"
-    role="button"
-    >Center</label
-  >
-  <label
-    class="btn btn-outline-secondary"
-    btnRadio="right"
-    tabindex="0"
-    role="button"
-    >Right</label
-  >
-  <label
-    class="btn btn-outline-secondary"
-    btnRadio="justify"
-    tabindex="0"
-    role="button"
-    >Justify</label
-  >
+    <label
+      class="btn btn-light"
+      btnRadio="left"
+      tabindex="0"
+      role="button"
+      >Left</label
+    >
+    <label
+      class="btn btn-light"
+      btnRadio="center"
+      tabindex="0"
+      role="button"
+      >Center</label
+    >
+    <label
+      class="btn btn-light"
+      btnRadio="right"
+      tabindex="0"
+      role="button"
+      >Right</label
+    >
+    <label
+      class="btn btn-light"
+      btnRadio="justify"
+      tabindex="0"
+      role="button"
+      >Justify</label
+    >
+  </div>
 </div>

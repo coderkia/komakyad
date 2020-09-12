@@ -61,8 +61,5 @@ export class CardCreateComponent implements OnInit {
     this.router.navigate(['/collections']);
   }
 
-  setNewStyle(index: number, style: TextStyle) {
-    this.textStyles[index] = style;
-  }
 
 }
