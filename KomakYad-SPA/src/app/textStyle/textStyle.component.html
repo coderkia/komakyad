@@ -1,69 +1,50 @@
-<div class="btn-group" dropdown>
-  <button
-    id="button-animated"
-    dropdownToggle
-    type="button"
-    class="btn btn-primary dropdown-toggle btn-sm"
-    aria-controls="dropdown-animated"
+<div
+  class="btn-group mr-1"
+  [(ngModel)]="currentStyle.direction"
+  btnRadioGroup
+>
+  <label
+    class="btn btn-outline-secondary"
+    btnRadio="ltr"
+    tabindex="0"
+    role="button"
+    >Left to Right</label
   >
-    <span class="icon-paragraph-{{this.currentStyle.align ? this.currentStyle.align : 'left'}}"></span> <span class="caret"></span>
-  </button>
-  <ul
-    id="dropdown-animated"
-    *dropdownMenu
-    class="dropdown-menu"
-    role="menu"
-    aria-labelledby="button-animated"
+  <label
+    class="btn btn-outline-secondary"
+    btnRadio="rtl"
+    tabindex="0"
+    role="button"
+    >Right to Left</label
   >
-    <li role="menuitem">
-      <a class="dropdown-item" (click)="setStyle('left')"
-        ><span class="icon-paragraph-left"></span> Align Left</a
-      >
-    </li>
-    <li role="menuitem">
-      <a class="dropdown-item" (click)="setStyle('center')"
-        ><span class="icon-paragraph-center"></span> Center</a
-      >
-    </li>
-    <li role="menuitem">
-      <a class="dropdown-item" (click)="setStyle('right')"
-        ><span class="icon-paragraph-right"></span> Align Right</a
-      >
-    </li>
-    <li role="menuitem">
-      <a class="dropdown-item" (click)="setStyle('justify')"
-        ><span class="icon-paragraph-justify"></span> Justify</a
-      >
-    </li>
-  </ul>
 </div>
-<div class="btn-group ml-1 dropdown" dropdown>
-  <button
-    id="button-animated"
-    dropdownToggle
-    type="button"
-    class="btn btn-primary dropdown-toggle btn-sm"
-    aria-haspopup="true" 
-    aria-expanded="false"
+<div class="btn-group" [(ngModel)]="currentStyle.align" btnRadioGroup>
+  <label
+    class="btn btn-outline-secondary"
+    btnRadio="left"
+    tabindex="0"
+    role="button"
+    >Left</label
   >
-    <span class="icon-{{this.currentStyle.direction ? this.currentStyle.direction : 'ltr'}}"></span> <span class="caret"></span>
-  </button>
-  <ul
-    id="dropdown-animated"
-    *dropdownMenu
-    class="dropdown-menu"
-    role="menu"
-    aria-labelledby="button-animated"
+  <label
+    class="btn btn-outline-secondary"
+    btnRadio="center"
+    tabindex="0"
+    role="button"
+    >Center</label
   >
-    <li role="menuitem">
-      <a class="dropdown-item" (click)="setStyle('ltr')"
-        ><span class="icon-ltr"></span> Left to Right</a
-      >
-    </li>
-    <li role="menuitem">
-      <a class="dropdown-item" (click)="setStyle('rtl')"
-        ><span class="icon-rtl"></span> Right to Left</a
-      >
-    </li>
-  </ul>
+  <label
+    class="btn btn-outline-secondary"
+    btnRadio="right"
+    tabindex="0"
+    role="button"
+    >Right</label
+  >
+  <label
+    class="btn btn-outline-secondary"
+    btnRadio="justify"
+    tabindex="0"
+    role="button"
+    >Justify</label
+  >
 </div>
