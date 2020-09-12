@@ -35,7 +35,14 @@ export class ReadCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.readCard.jsonData) {
+      this.readCard.jsonData = {};
+    }
+    if (!this.readCard.jsonData.textStyles) {
+      this.readCard.jsonData.textStyles = [{}, {}, {}];
+    }
   }
+
   onTabSelect(data: TabDirective): void {
   }
 
@@ -65,6 +72,7 @@ export class ReadCardComponent implements OnInit {
         });
     }
   }
+
   setAsFailed() {
     this.readCard.readResult = ReadResult.Failed;
     const cardId = this.readCard.id;
@@ -91,36 +99,8 @@ export class ReadCardComponent implements OnInit {
     this.goNextCard.emit(ReadResult.None);
     this.cardJsonDataChanged = false;
   }
-  getTextStyle(index: number) {
-    if (this.readCard.jsonData && this.readCard.jsonData.textStyles && this.readCard.jsonData.textStyles.length > index) {
-      return this.readCard.jsonData.textStyles[index];
-    }
-    return {
-      align: 'left',
-      direction: 'ltr',
-    };
-  }
 
-  setNewStyle(tab: string, style: TextStyle) {
-    if (!this.readCard.jsonData) {
-      this.readCard.jsonData = {};
-    }
-    if (!this.readCard.jsonData.textStyles) {
-      this.readCard.jsonData.textStyles = [{}, {}, {}];
-    }
-    switch (tab) {
-      case `Question`:
-        this.readCard.jsonData.textStyles[0] = style;
-        break;
-      case `Answer`:
-        this.readCard.jsonData.textStyles[1] = style;
-        break;
-      case `Example`:
-        this.readCard.jsonData.textStyles[2] = style;
-        break;
-      default:
-        break;
-    }
+  setStyleChanged(){
     this.cardJsonDataChanged = true;
   }
 }

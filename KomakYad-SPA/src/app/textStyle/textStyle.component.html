@@ -2,6 +2,7 @@
   class="btn-group mr-1"
   [(ngModel)]="currentStyle.direction"
   btnRadioGroup
+  (ngModelChange)="triggerStyleChanged()"
 >
   <label
     class="btn btn-outline-secondary"
@@ -18,7 +19,12 @@
     >Right to Left</label
   >
 </div>
-<div class="btn-group" [(ngModel)]="currentStyle.align" btnRadioGroup>
+<div
+  class="btn-group"
+  [(ngModel)]="currentStyle.align"
+  btnRadioGroup
+  (ngModelChange)="triggerStyleChanged()"
+>
   <label
     class="btn btn-outline-secondary"
     btnRadio="left"

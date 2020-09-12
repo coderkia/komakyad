@@ -18,6 +18,7 @@
         placeholder="Question"
       ></textarea>
       <app-text-style (styleChanged)="setNewStyle(0, $event)" [currentStyle]="textStyles[0]"></app-text-style>
+      <pre class="card card-block card-header">{{textStyles[0] | json}}</pre>
       <div class="invalid-feedback">The Question field is required.</div>
       <div
         class="invalid-feedback"
