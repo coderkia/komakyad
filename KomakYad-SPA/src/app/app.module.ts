@@ -58,6 +58,7 @@ import { CollectionLimitComponent } from './management/collection-limit/collecti
 import { ChangePassComponent } from './Auth/change-pass/change-pass.component';
 import { ConfirmEmailComponent } from './Auth/confirm-email/confirm-email.component';
 import { EmailConfirmationComponent } from './Auth/email-confirmation/email-confirmation.component';
+import { MoveCardsComponent } from './Dashboard/move-cards/move-cards.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -107,6 +108,7 @@ export function tokenGetter() {
       ChangePassComponent,
       ConfirmEmailComponent,
       EmailConfirmationComponent,
+      MoveCardsComponent,
    ],
    imports: [
       BrowserModule,

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.Api.Helpers;
+using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.Common.Helpers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Dtos;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -215,6 +217,37 @@ namespace Kia.KomakYad.Api.Controllers
             Response.AddPagination(readCollections.CurrentPage, readCollections.PageSize, readCollections.TotalCount, readCollections.TotalPages);
 
             return Ok(readCollectionsToReturn);
+        }
+
+        [HttpPost("{readCollectionId}/MoveCards")]
+        public async Task<IActionResult> MoveCards(int readCollectionId, MoveCardModel model)
+        {
+            var readCollection = await _repo.GetReadCollection(readCollectionId);
+            if (readCollection == null)
+            {
+                return NotFound($"There is no ReadCollection with ID {readCollectionId}");
+            }
+            if (readCollection.OwnerId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+            var filters = new ReadCardParams
+            {
+                Deck = model.TargetDeck
+            };
+            filters.BypassMaxPageSize(int.MaxValue);
+            var cards = await _repo.GetReadCards(readCollectionId, filters);
+            foreach (var card in cards)
+            {
+                card.CurrentDeck = model.DestinationDeck;
+                card.Due = DateTime.Now.AddDays(-1);
+                card.PreviousDeck = 0;
+            }
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+            throw new Exception("Unable to move cards.");
         }
     }
 }
