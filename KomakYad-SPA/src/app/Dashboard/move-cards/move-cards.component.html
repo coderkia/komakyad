@@ -1,3 +1,25 @@
-<p>
-  move-cards works!
-</p>
+
+  <label class="">Target Deck</label>
+  <select class="form-control" [(ngModel)]="targetDeck">
+    <option [ngValue]="-1">All Decks</option>
+    <option [ngValue]="0">Deck 0</option>
+    <option [ngValue]="1">Deck 1</option>
+    <option [ngValue]="2">Deck 2</option>
+    <option [ngValue]="3">Deck 3</option>
+    <option [ngValue]="4">Deck 4</option>
+    <option [ngValue]="5">Deck 5</option>
+    <option [ngValue]="6">Deck 6</option>
+  </select>
+
+  <label class="mt-3">Destination </label>
+  <select class="form-control" [(ngModel)]="destinationDeck">
+    <option [ngValue]="0">Deck 0</option>
+    <option [ngValue]="1">Deck 1</option>
+    <option [ngValue]="2">Deck 2</option>
+    <option [ngValue]="3">Deck 3</option>
+    <option [ngValue]="4">Deck 4</option>
+    <option [ngValue]="5">Deck 5</option>
+    <option [ngValue]="6">Deck 6</option>
+  </select>
+  <button class="btn btn-secondary mt-3 mr-1" (click)="cancel()">Cancel</button>
+  <button class="btn btn-primary mt-3" (click)="move()">Move</button>

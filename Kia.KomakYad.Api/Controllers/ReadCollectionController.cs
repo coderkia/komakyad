@@ -9,6 +9,7 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -233,19 +234,23 @@ namespace Kia.KomakYad.Api.Controllers
             }
             var filters = new ReadCardParams
             {
-                Deck = model.TargetDeck
+                Deck = (byte?)model.TargetDeck
             };
             filters.BypassMaxPageSize(int.MaxValue);
             var cards = await _repo.GetReadCards(readCollectionId, filters);
+            if (!cards.Any())
+            {
+                return Ok(new { Message = $"No cards are in deck { model.TargetDeck?.ToString() ?? "0-6" }" });
+            }
             foreach (var card in cards)
             {
-                card.CurrentDeck = model.DestinationDeck;
+                card.CurrentDeck = (byte)model.DestinationDeck;
                 card.Due = DateTime.Now.AddDays(-1);
                 card.PreviousDeck = 0;
             }
             if (await _repo.SaveAll())
             {
-                return NoContent();
+                return Ok(new { Message = $"{ cards.Count() } cards in deck { model.TargetDeck?.ToString() ?? "0-6" } are moved to deck { model.DestinationDeck }" });
             }
             throw new Exception("Unable to move cards.");
         }

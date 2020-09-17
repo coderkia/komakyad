@@ -10,7 +10,7 @@ import { ReadCollectionResponse } from 'src/app/_models/readCollectionResponse';
 export class ReadCollectionItemComponent implements OnInit {
   @Input() readCollection: ReadCollectionResponse;
   @Output() read = new EventEmitter();
-
+  showMoveCards = false;
   constructor() { }
 
   ngOnInit() {

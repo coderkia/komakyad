@@ -5,9 +5,9 @@ namespace Kia.KomakYad.Api.Models
     public class MoveCardModel
     {
         [Range(0, 6)]
-        public byte DestinationDeck { get; set; }
+        public int DestinationDeck { get; set; }
 
         [Range(0, 6)]
-        public byte? TargetDeck { get; set; }
+        public int? TargetDeck { get; set; }
     }
 }

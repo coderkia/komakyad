@@ -42,7 +42,7 @@ export class CardsComponent implements OnInit {
 
   resetFilters() {
     this.pagination.currentPage = 1;
-    this.pagination.itemsPerPage = 9;
+    this.pagination.itemsPerPage = 10;
   }
 
   createSearchForm() {

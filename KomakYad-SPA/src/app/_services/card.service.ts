@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { CardRequest } from '../_models/cardRequest';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Pagination, PaginatedResult } from '../_models/filters/pagination';
+import { PaginatedResult } from '../_models/filters/pagination';
 import { CardResponse } from '../_models/cardResponse';
 import { map } from 'rxjs/operators';
+import { MoveCardsRequest } from '../_models/moveCardsRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,15 @@ export class CardService {
           return paginatedResult;
         })
       );
+  }
+
+  moveCards(readCollectionId: number, target: number, destinationDeck: number) {
+    const url = environment.apiUrl + 'ReadCollection/' + readCollectionId + '/MoveCards';
+    const body = { destinationDeck, targetDeck: null };
+    if (target !== -1) {
+      body.targetDeck = target;
+    }
+    return this.http.post(url, body);
   }
 
 }

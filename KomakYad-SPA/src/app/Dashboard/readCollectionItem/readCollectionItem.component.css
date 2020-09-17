@@ -10,3 +10,9 @@
   .read-details .col-3{
    padding : 0;
   }
+  .card-body p{
+    height: 120px;;
+  }
+  .card-body {
+    height: 338px;;
+  }
