@@ -113,7 +113,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             var emailTemplate = System.IO.File.ReadAllText("templates/confirmEmail.html");
             var message = emailTemplate.Replace("{username}", user.FirstName ?? user.UserName).Replace("{confirmationLink}", confirmationLink);
-            await _emailService.SendAsync(message, "Confirm your email address", email, false);
+            await _emailService.SendAsync(message, "Confirm your email address", email);
 
             return NoContent();
         }
