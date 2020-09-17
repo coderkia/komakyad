@@ -17,6 +17,7 @@ using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.Common.Services;
 using Kia.KomakYad.Api.Helpers;
 using Microsoft.AspNetCore.WebUtilities;
+using System.IO;
 
 namespace Kia.KomakYad.Api.Controllers
 {
@@ -72,7 +73,7 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPost("ConfirmEmail", Name = "ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(EmailConfirmModel model)
         {
-            
+
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user == null)
                 return Unauthorized();
@@ -110,7 +111,8 @@ namespace Kia.KomakYad.Api.Controllers
                     {"token", token }
                 });
 
-            var message = $"Hi {user.FirstName}\r\n Confirm your email address by clicking on following link.\r\n{confirmationLink}";
+            var emailTemplate = System.IO.File.ReadAllText("templates/confirmEmail.html");
+            var message = emailTemplate.Replace("{username}", user.FirstName ?? user.UserName).Replace("{confirmationLink}", confirmationLink);
             await _emailService.SendAsync(message, "Confirm your email address", email, false);
 
             return NoContent();
@@ -145,20 +147,28 @@ namespace Kia.KomakYad.Api.Controllers
             });
         }
 
-        [HttpPost("RestorePass({userName})")]
-        public async Task<IActionResult> Restore(string userName)
+        [HttpPost("RestorePass({email})")]
+        public async Task<IActionResult> Restore(string email)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
-                return NotFound();
+                return NotFound("There is no account with this email address.");
 
             var emailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            //todo send email
+            var resetLink = QueryHelpers.AddQueryString(_config.GetSection("Spa:resetPassUrl").Value,
+                new Dictionary<string, string>
+                {
+                    {"token", emailToken }
+                });
+            var emailTemplate = System.IO.File.ReadAllText("templates/resetPass.html");
+            var message = emailTemplate.Replace("{username}", user.FirstName ?? user.UserName).Replace("{resetLink}", resetLink);
 
+            await _emailService.SendAsync(message, "Reset Password", email);
             return NoContent();
         }
+
 
         [HttpPost("ResetPass({token})")]
         public async Task<IActionResult> ResetPass(string token, ResetPasswordModel resetPasswordModel)

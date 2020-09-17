@@ -29,5 +29,14 @@
     <ProjectReference Include="..\Kia.KomakYad.Domain\Kia.KomakYad.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Templates\confirmEmail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\resetPass.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
