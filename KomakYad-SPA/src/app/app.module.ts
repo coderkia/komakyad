@@ -59,6 +59,7 @@ import { ChangePassComponent } from './Auth/change-pass/change-pass.component';
 import { ConfirmEmailComponent } from './Auth/confirm-email/confirm-email.component';
 import { EmailConfirmationComponent } from './Auth/email-confirmation/email-confirmation.component';
 import { MoveCardsComponent } from './Dashboard/move-cards/move-cards.component';
+import { ForgotPasswordComponent } from './Auth/forgot-password/forgot-password.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -109,6 +110,7 @@ export function tokenGetter() {
       ConfirmEmailComponent,
       EmailConfirmationComponent,
       MoveCardsComponent,
+      ForgotPasswordComponent,
    ],
    imports: [
       BrowserModule,
