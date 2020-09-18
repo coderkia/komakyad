@@ -13,12 +13,14 @@ import { ManagementComponent } from './management/management.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { ConfirmEmailComponent } from './Auth/confirm-email/confirm-email.component';
 import { EmailConfirmationComponent } from './Auth/email-confirmation/email-confirmation.component';
+import { ResetPasswordComponent } from './Auth/reset-password/reset-password.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'confirmEmail', component: ConfirmEmailComponent },
     { path: 'emailConfirmation', component: EmailConfirmationComponent },
+    { path: 'resetPass', component: ResetPasswordComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',

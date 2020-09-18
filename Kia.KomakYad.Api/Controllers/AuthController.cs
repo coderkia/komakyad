@@ -156,7 +156,8 @@ namespace Kia.KomakYad.Api.Controllers
             var resetLink = QueryHelpers.AddQueryString(_config.GetSection("Spa:resetPassUrl").Value,
                 new Dictionary<string, string>
                 {
-                    {"token", emailToken }
+                    {"token", emailToken },
+                    { "username", user.UserName },
                 });
             var emailTemplate = System.IO.File.ReadAllText("templates/resetPass.html");
             var message = emailTemplate.Replace("{username}", user.FirstName ?? user.UserName).Replace("{resetLink}", resetLink);
@@ -166,15 +167,15 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
 
-        [HttpPost("ResetPass({token})")]
-        public async Task<IActionResult> ResetPass(string token, ResetPasswordModel resetPasswordModel)
+        [HttpPost("ResetPass")]
+        public async Task<IActionResult> ResetPass(ResetPasswordModel resetPasswordModel)
         {
-            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+            var user = await _userManager.FindByNameAsync(resetPasswordModel.Username);
 
-            var result = await _userManager.ResetPasswordAsync(user, token, resetPasswordModel.NewPassword);
+            var result = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
 
             if (result.Succeeded)
-                return NoContent();
+                return await Login(new UserForLoginDto { Username = resetPasswordModel.Username, Password = resetPasswordModel.Password });
 
             return BadRequest(result.Errors);
         }

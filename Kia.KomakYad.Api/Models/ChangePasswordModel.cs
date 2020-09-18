@@ -5,11 +5,10 @@ namespace Kia.KomakYad.Api.Models
     public class ChangePasswordModel
     {
         [Required]
-        [StringLength(30)]
         public string CurrentPassword { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(250, MinimumLength = 8, ErrorMessage = "You must specify password between 8 and 250 character.")]
         public string NewPassword { get; set; }
 
         [Required]

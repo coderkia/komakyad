@@ -5,15 +5,17 @@ namespace Kia.KomakYad.Api.Models
     public class ResetPasswordModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Token { get; set; }
 
         [Required]
-        [StringLength(30)]
-        public string NewPassword { get; set; }
+        public string Username { get; set; }
 
         [Required]
-        [Compare("NewPassword")]
+        [StringLength(250, MinimumLength = 8, ErrorMessage = "You must specify password between 8 and 250 character.")]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare("Password")]
         public string ConfirmPassword { get; set; }
     }
 }

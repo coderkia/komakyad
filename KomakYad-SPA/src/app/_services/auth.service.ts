@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { ProfileUpdate } from '../_models/profileUpdate';
 import { ChangePassRequest } from '../_models/changePassRequest';
+import { ResetPasswordRequest } from '../_models/resetPasswordRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -65,5 +66,9 @@ export class AuthService {
 
   restorePass(email: string) {
     return this.http.post(this.baseUrl + 'restorePass', { email });
+  }
+
+  resetPass(request: ResetPasswordRequest) {
+    return this.http.post(this.baseUrl + 'resetPass', request);
   }
 }

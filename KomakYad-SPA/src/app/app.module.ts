@@ -15,7 +15,6 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Dashboard/Dashboard.component';
 import { CardExploringComponent } from './CardExploring/CardExploring.component';
-import { ResetPassComponent } from './ResetPass/ResetPass.component';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
@@ -60,6 +59,7 @@ import { ConfirmEmailComponent } from './Auth/confirm-email/confirm-email.compon
 import { EmailConfirmationComponent } from './Auth/email-confirmation/email-confirmation.component';
 import { MoveCardsComponent } from './Dashboard/move-cards/move-cards.component';
 import { ForgotPasswordComponent } from './Auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './Auth/reset-password/reset-password.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -71,7 +71,6 @@ export function tokenGetter() {
       LoginComponent,
       DashboardComponent,
       CardExploringComponent,
-      ResetPassComponent,
       NavComponent,
       RegisterComponent,
       HomeComponent,
@@ -111,6 +110,7 @@ export function tokenGetter() {
       EmailConfirmationComponent,
       MoveCardsComponent,
       ForgotPasswordComponent,
+      ResetPasswordComponent,
    ],
    imports: [
       BrowserModule,

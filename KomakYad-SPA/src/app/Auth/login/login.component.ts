@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
     const loginModel = {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password,
-      reCaptchaToken: this.reCaptchaToken,
     };
     this.authService.login(loginModel).subscribe(response => {
       this.alertify.success('Logged in successfully');
