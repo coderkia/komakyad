@@ -121,10 +121,6 @@ namespace Kia.KomakYad.Api.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
         {
-            if (!await _reCaptchaHelper.Validate(userForLogin.ReCaptchaToken))
-            {
-                return BadRequest("Prove you are not a robot");
-            }
             var user = await _userManager.FindByNameAsync(userForLogin.Username);
 
             if (user == null)
@@ -132,7 +128,7 @@ namespace Kia.KomakYad.Api.Controllers
                 return Unauthorized("Username or Password is wrong.");
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLogin.Password, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLogin.Password, true);
 
             if (!result.Succeeded)
             {
@@ -147,13 +143,13 @@ namespace Kia.KomakYad.Api.Controllers
             });
         }
 
-        [HttpPost("RestorePass({email})")]
-        public async Task<IActionResult> Restore(string email)
+        [HttpPost("RestorePass")]
+        public async Task<IActionResult> Restore(RestorePasswordModel model)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user == null)
-                return NotFound("There is no account with this email address.");
+                return NotFound("No account associated with the email address");
 
             var emailToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -165,7 +161,7 @@ namespace Kia.KomakYad.Api.Controllers
             var emailTemplate = System.IO.File.ReadAllText("templates/resetPass.html");
             var message = emailTemplate.Replace("{username}", user.FirstName ?? user.UserName).Replace("{resetLink}", resetLink);
 
-            await _emailService.SendAsync(message, "Reset Password", email);
+            await _emailService.SendAsync(message, "Reset Password", model.Email);
             return NoContent();
         }
 

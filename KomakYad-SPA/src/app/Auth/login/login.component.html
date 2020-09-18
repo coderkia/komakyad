@@ -2,7 +2,11 @@
   <div class="row">
     <div class="col-sm-3 col-md-4 pt-5"></div>
     <div class="col-sm-6 col-md-4">
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="login()"
+        *ngIf="!showForgotPass"
+      >
         <h2 class="text-center text-primary">Sign In</h2>
         <hr />
 
@@ -53,8 +57,6 @@
           </div>
         </div>
 
-        <app-re-captcha (token)="reCaptchaToken = $event"></app-re-captcha>
-        
         <div class="form-group text-center mt-2" *ngIf="!loading">
           <button
             class="btn btn-success"
@@ -67,8 +69,15 @@
         <div class="text-center">
           <app-loading-spinner *ngIf="loading"></app-loading-spinner>
         </div>
+        <div class="text-center" (click)="showForgotPass = true">
+          <button class="btn btn-link">Forgot Password?</button>
+        </div>
       </form>
     </div>
     <div class="col-sm-3 col-md-4 pt-5"></div>
   </div>
+  <app-forgot-password
+    *ngIf="showForgotPass"
+    (cancelled)="showForgotPass = false"
+  ></app-forgot-password>
 </div>

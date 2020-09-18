@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading: boolean;
   reCaptchaToken: string;
+  showForgotPass: boolean;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router,
     private formBuilder: FormBuilder) { }

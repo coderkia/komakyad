@@ -62,4 +62,8 @@ export class AuthService {
   confirmationEmail(request: { token: string; username: string; }) {
     return this.http.post(this.baseUrl + 'confirmEmail', request);
   }
+
+  restorePass(email: string) {
+    return this.http.post(this.baseUrl + 'restorePass', { email });
+  }
 }

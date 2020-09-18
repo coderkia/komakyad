@@ -13,6 +13,7 @@ export class ForgotPasswordComponent implements OnInit {
   form: FormGroup;
   loading: boolean;
   reCaptchaToken: string;
+  showSucceedMessage = false;
   constructor(private authService: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -20,7 +21,15 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   forgotPass() {
-
+    this.loading = true;
+    const email = this.form.value.email;
+    this.authService.restorePass(email).subscribe(response => {
+      this.showSucceedMessage = true;
+      this.loading = false;
+    }, error => {
+      this.alertify.error(error);
+      this.loading = false;
+    });
   }
 
   cancel() {
@@ -29,7 +38,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 }
