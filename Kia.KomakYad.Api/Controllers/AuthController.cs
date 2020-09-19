@@ -178,7 +178,14 @@ namespace Kia.KomakYad.Api.Controllers
             var result = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
 
             if (result.Succeeded)
-                return await Login(new UserForLoginDto { Username = resetPasswordModel.Username, Password = resetPasswordModel.Password });
+            {
+                if (!user.EmailConfirmed)
+                {
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    await _userManager.ConfirmEmailAsync(user, token);
+                }
+                return NoContent();
+            }
 
             return BadRequest(result.Errors);
         }
