@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ export class RegisterComponent implements OnInit {
   reCaptchaToken: string;
   loading: boolean;
 
-  constructor(private authService: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, private alertify: AlertifyService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.createRegisterForm();
@@ -47,6 +48,7 @@ export class RegisterComponent implements OnInit {
 
     }
     this.authService.register(registerModel).subscribe(() => {
+      this.login(registerModel);
       this.alertify.success('registeration successfull');
       this.loading = false;
     }, error => {
@@ -55,6 +57,15 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  login(loginModel: any) {
+    this.authService.login(loginModel).subscribe(response => {
+      this.alertify.success('Logged in successfully');
+    }, error => {
+      this.alertify.error(error);
+    }, () => {
+      this.router.navigate(['/dashboard']);
+    });
+  }
   cancel() {
     this.cancelRegister.emit(false);
   }
