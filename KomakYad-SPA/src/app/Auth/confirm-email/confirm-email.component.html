@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="text-center" *ngIf="!sent">
+  <div class="text-center" *ngIf="!sent && !loading">
     <p class="alert alert-info">
       You need to confirm your email address({{ email }}).
     </p>
@@ -7,10 +7,13 @@
       Send me a confirmation email
     </button>
   </div>
-  <div *ngIf="sent">
+  <div *ngIf="sent && !loading">
     <p class="text-center alert alert-success">
       A confirmation email is sent to your email address, please check Spam/Junk
       if you didn't get an email from us.
     </p>
+  </div>
+  <div class="text-center" *ngIf="loading">
+    <app-loading-spinner></app-loading-spinner>
   </div>
 </div>

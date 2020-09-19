@@ -15,7 +15,11 @@
   >
     <div class="col-md-4 col-sm-6 mb-2" *ngFor="let deck of showDecks">
       <div class="deck" (click)="startReading(deck)">
-        <div class="text-center" *ngIf="!decks[deck].overview" style="height: 52px;">
+        <div
+          class="text-center"
+          *ngIf="!decks[deck].overview"
+          style="height: 52px"
+        >
           <app-loading-spinner></app-loading-spinner>
         </div>
         <div class="row" *ngIf="decks[deck].overview">
@@ -41,7 +45,7 @@
           </div>
         </div>
         <div
-          style="font-size: 3.5em; font-weight: bold;"
+          style="font-size: 3em; font-weight: bold"
           class="text-center text-light"
         >
           DECK {{ deck }}
@@ -50,22 +54,16 @@
     </div>
   </div>
   <div class="row" *ngIf="readModeActive">
-    <div style="font-size: 1.5em; font-weight: bold;" class="col-4">
-      Deck {{ currentDeck }}
-    </div>
-    <div class="col-8 text-right">
-      <button (click)="readModeActive = false" class="btn btn-light mb-2 mr-1">
-        Back to Details
-      </button>
+    <div style="font-size: 1.5em; font-weight: bold" class="col-4">
       <div class="btn-group mb-2" dropdown>
         <button
           id="button-basic"
           dropdownToggle
           type="button"
-          class="btn btn-primary dropdown-toggle"
+          class="btn btn-outline-dark dropdown-toggle"
           aria-controls="dropdown-basic"
         >
-          Change Deck <span class="caret"></span>
+          Deck {{ currentDeck }} <span class="caret"></span>
         </button>
         <ul
           id="dropdown-basic"
@@ -95,6 +93,11 @@
           </li>
         </ul>
       </div>
+    </div>
+    <div class="col-8 text-right">
+      <button (click)="readModeActive = false" class="btn btn-light mb-2 mr-1">
+        Back to Details
+      </button>
     </div>
   </div>
   <app-read

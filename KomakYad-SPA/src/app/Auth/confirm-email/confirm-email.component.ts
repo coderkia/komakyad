@@ -29,6 +29,7 @@ export class ConfirmEmailComponent implements OnInit {
       this.loading = false;
       this.sent = true;
     }, error => {
+      this.loading = false;
       this.alertify.error(error);
     });
   }
