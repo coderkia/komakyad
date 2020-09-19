@@ -48,8 +48,8 @@ export class RegisterComponent implements OnInit {
 
     }
     this.authService.register(registerModel).subscribe(() => {
-      this.login(registerModel);
       this.alertify.success('registeration successfull');
+      this.login(registerModel);
       this.loading = false;
     }, error => {
       this.alertify.error(error);
