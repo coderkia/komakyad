@@ -17,7 +17,6 @@ using Kia.KomakYad.Api.Models;
 using Kia.KomakYad.Common.Services;
 using Kia.KomakYad.Api.Helpers;
 using Microsoft.AspNetCore.WebUtilities;
-using System.IO;
 
 namespace Kia.KomakYad.Api.Controllers
 {
