@@ -32,9 +32,10 @@ namespace Kia.KomakYad.Api.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly EmailService _emailService;
         private readonly IReCaptchaService _reCaptchaHelper;
+        private readonly IAdminRepository _adminRepository;
 
         public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService,
-            IReCaptchaService reCaptchaHelper)
+            IReCaptchaService reCaptchaHelper, IAdminRepository adminRepository)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -42,6 +43,7 @@ namespace Kia.KomakYad.Api.Controllers
             _emailService = emailService;
             _reCaptchaHelper = reCaptchaHelper;
             _config = config;
+            _adminRepository = adminRepository;
         }
 
         [HttpPost("Register")]
@@ -83,6 +85,8 @@ namespace Kia.KomakYad.Api.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, AuthHelper.MemberRole);
+                await _adminRepository.SetCardLimit(user, 200);
+                await _adminRepository.SetCollectionLimit(user, 2);
                 return NoContent();
             }
 
