@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kia.KomakYad.DataAccess.Models
 {
+    [Table("Cards", Schema = "dbo")]
     public class Card
     {
         public int Id { get; set; }

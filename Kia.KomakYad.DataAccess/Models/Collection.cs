@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kia.KomakYad.DataAccess.Models
 {
+    [Table("Collections", Schema = "dbo")]
     public class Collection
     {
         public int Id { get; set; }

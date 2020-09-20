@@ -15,7 +15,8 @@ namespace Kia.KomakYad.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasDefaultSchema("dbo")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -59,7 +60,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("CollectionId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Collection", b =>
@@ -98,7 +99,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCard", b =>
@@ -140,7 +141,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("ReadCollectionId");
 
-                    b.ToTable("ReadCards");
+                    b.ToTable("ReadCards","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCollection", b =>
@@ -177,7 +178,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("ReadCollections");
+                    b.ToTable("ReadCollections","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Role", b =>
@@ -206,7 +207,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.User", b =>
@@ -302,7 +303,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.UserRole", b =>
@@ -317,7 +318,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles","dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

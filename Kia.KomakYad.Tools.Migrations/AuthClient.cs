@@ -18,7 +18,7 @@ namespace Kia.KomakYad.Tools.Migrations
                 };
             }
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5000/api/");
+            httpClient.BaseAddress = new Uri("http://int.komakyad.com/api/");
             var body = JsonConvert.SerializeObject(user);
             var response = httpClient.PostAsync("Auth/Register", new StringContent(body, Encoding.UTF8,"application/json")).GetAwaiter().GetResult();
             if (!response.IsSuccessStatusCode)

@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kia.KomakYad.DataAccess.Models
 {
+    [Table("Users", Schema = "dbo")]
     public class User : IdentityUser<int>
     {
         public Guid UniqueId { get; set; } = Guid.NewGuid();

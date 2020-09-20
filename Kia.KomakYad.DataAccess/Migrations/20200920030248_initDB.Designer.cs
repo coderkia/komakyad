@@ -10,14 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kia.KomakYad.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200411064320_initialDb")]
-    partial class initialDb
+    [Migration("20200920030248_initDB")]
+    partial class initDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasDefaultSchema("dbo")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -43,7 +44,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
-                    b.Property<string>("ExtraData")
+                    b.Property<string>("JsonData")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -61,7 +62,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("CollectionId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Collection", b =>
@@ -100,7 +101,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCard", b =>
@@ -113,8 +114,8 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<int>("CardId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrentDeck")
-                        .HasColumnType("int");
+                    b.Property<byte>("CurrentDeck")
+                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("Due")
                         .HasColumnType("datetime2");
@@ -128,8 +129,8 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PreviousDeck")
-                        .HasColumnType("int");
+                    b.Property<byte>("PreviousDeck")
+                        .HasColumnType("tinyint");
 
                     b.Property<int>("ReadCollectionId")
                         .HasColumnType("int");
@@ -142,7 +143,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("ReadCollectionId");
 
-                    b.ToTable("ReadCards");
+                    b.ToTable("ReadCards","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.ReadCollection", b =>
@@ -161,6 +162,9 @@ namespace Kia.KomakYad.DataAccess.Migrations
                     b.Property<bool>("IsReversed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("LastUpdateCheck")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
@@ -176,7 +180,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("ReadCollections");
+                    b.ToTable("ReadCollections","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.Role", b =>
@@ -205,7 +209,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.User", b =>
@@ -216,6 +220,12 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CardLimit")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CollectionLimit")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -295,7 +305,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers","dbo");
                 });
 
             modelBuilder.Entity("Kia.KomakYad.DataAccess.Models.UserRole", b =>
@@ -310,7 +320,7 @@ namespace Kia.KomakYad.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles","dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

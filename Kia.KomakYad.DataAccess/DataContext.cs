@@ -24,6 +24,8 @@ namespace Kia.KomakYad.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.HasDefaultSchema("dbo");
+
             modelBuilder.Entity<UserRole>(userRole =>
             {
                 userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
