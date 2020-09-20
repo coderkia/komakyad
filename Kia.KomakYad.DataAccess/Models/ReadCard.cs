@@ -7,11 +7,11 @@ namespace Kia.KomakYad.DataAccess.Models
     {
         public int Id { get; set; }
         public int OwnerId { get; set; }
-        public User Owner { get; set; }
+        public virtual User Owner { get; set; }
         public int CardId { get; set; }
-        public Card Card { get; set; }
+        public virtual Card Card { get; set; }
         public int ReadCollectionId { get; set; }
-        public ReadCollection ReadCollection { get; set; }
+        public virtual ReadCollection ReadCollection { get; set; }
         public string JsonData { get; set; }
         public DateTime Due { get; set; } = DateTime.Now;
 

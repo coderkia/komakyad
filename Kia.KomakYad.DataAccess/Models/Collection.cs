@@ -9,7 +9,7 @@ namespace Kia.KomakYad.DataAccess.Models
         public int Id { get; set; }
         public Guid UniqueId { get; set; } = Guid.NewGuid();
         public int AuthorId { get; set; }
-        public User Author { get; set; }
+        public virtual User Author { get; set; }
 
         [Required]
         [StringLength(450)]
@@ -20,7 +20,7 @@ namespace Kia.KomakYad.DataAccess.Models
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime? ModifiedOn { get; set; }
-        public ICollection<Card> Cards { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
         public bool IsPrivate { get; set; }
 
     }

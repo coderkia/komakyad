@@ -36,15 +36,14 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<PagedList<Collection>> GetUserCollections(int ownerId, CollectionParams filters)
         {
-            var collections = _context.ReadCollections.Where(c => c.OwnerId == ownerId)
-                .Include(m => m.Collection).Select(c => c.Collection);
+            var collections = _context.ReadCollections.Where(c => c.OwnerId == ownerId).Select(c => c.Collection);
 
             return await PagedList<Collection>.CreateAsync(collections, filters);
         }
 
         public async Task<PagedList<Collection>> GetCollections(CollectionParams filters)
         {
-            var collections = _context.Collections.Include(c => c.Author).AsQueryable();
+            var collections = _context.Collections.AsQueryable();
 
             if (filters.AuthorId.HasValue)
                 collections = collections.Where(c => c.AuthorId == filters.AuthorId);
@@ -109,7 +108,7 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<Collection> GetCollection(int collectionId)
         {
-            return await _context.Collections.Include(c => c.Author).FirstOrDefaultAsync(c => c.Id == collectionId);
+            return await _context.Collections.FirstOrDefaultAsync(c => c.Id == collectionId);
         }
         public async Task<User> GetUser(int id)
         {
@@ -170,7 +169,6 @@ namespace Kia.KomakYad.Domain.Repositories
         private IQueryable<ReadCard> GetReadCardsQuery(int readCollectionId, ReadCardParams filters)
         {
             var query = _context.ReadCards.Where(c => c.ReadCollectionId == readCollectionId).AsQueryable();
-            query = query.Include(c => c.Card);
             if (filters.Deck.HasValue)
             {
                 query = query.Where(c => c.CurrentDeck == filters.Deck);
@@ -218,7 +216,7 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<PagedList<ReadCollection>> GetReadCollections(ReadCollectionParams filters)
         {
-            var query = _context.ReadCollections.Include(c => c.Collection).AsQueryable();
+            var query = _context.ReadCollections.AsQueryable();
             if (!filters.IncludingDeleted)
             {
                 query = query.Where(c => c.Deleted != true);

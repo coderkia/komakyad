@@ -74,7 +74,12 @@ namespace Kia.KomakYad.Api
             services.Configure<ReCaptchaConfig>(Configuration.GetSection("ReCaptcha"));
             services.AddCors();
             services.AddHttpClient<IReCaptchaService, ReCaptchaService>();
-            services.AddDbContext<DataContext>(c => c.UseSqlServer(Configuration.GetConnectionString("DefaultConnections")));
+
+            services.AddDbContext<DataContext>(c => {
+                c.UseLazyLoadingProxies();
+                c.UseSqlServer(Configuration.GetConnectionString("DefaultConnections")); }
+            );
+
             services.AddAutoMapper(typeof(LeitnerRepository).Assembly, typeof(Program).Assembly, typeof(User).Assembly);
             services.AddTransient<ILeitnerRepository, LeitnerRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
@@ -88,7 +93,7 @@ namespace Kia.KomakYad.Api
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,16 +119,20 @@ namespace Kia.KomakYad.Api
 
             //app.UseHttpsRedirection();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseAuthentication();
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
