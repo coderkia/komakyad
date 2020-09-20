@@ -9,10 +9,11 @@
       aria-controls="navbarCollapse"
       aria-expanded="false"
       aria-label="Toggle navigation"
+      (click)="showMenu = !showMenu"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="collapse navbar-collapse {{showMenu ? 'show':''}}" id="navbarCollapse" >
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/dashboard']"
