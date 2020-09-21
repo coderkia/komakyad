@@ -234,7 +234,8 @@ namespace Kia.KomakYad.Api.Controllers
             }
             var filters = new ReadCardParams
             {
-                Deck = (byte?)model.TargetDeck
+                Deck = (byte?)model.TargetDeck,
+                OnlyDued = false,
             };
             filters.BypassMaxPageSize(int.MaxValue);
             var cards = await _repo.GetReadCards(readCollectionId, filters);
