@@ -135,7 +135,7 @@ namespace Kia.KomakYad.Api.Controllers
 
             if (!result.Succeeded)
             {
-                return Unauthorized();
+                return Unauthorized("Username or Password is wrong.");
             }
 
             var userDto = _mapper.Map<UserListDto>(user);
