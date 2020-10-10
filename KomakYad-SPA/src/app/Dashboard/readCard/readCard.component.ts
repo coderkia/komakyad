@@ -6,7 +6,6 @@ import { ReadService } from 'src/app/_services/read.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { ReadResult } from 'src/app/_models/enums/readResult';
-import { TextStyle } from 'src/app/_models/textStyle';
 
 @Component({
   selector: 'app-read-card',
@@ -32,6 +31,9 @@ export class ReadCardComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnChanges(changes: ReadCard) {
+    if (this.staticTabs) {
+      this.staticTabs.tabs[0].active = true;
+    }
     if (!this.readCard.jsonData) {
       this.readCard.jsonData = {};
     }

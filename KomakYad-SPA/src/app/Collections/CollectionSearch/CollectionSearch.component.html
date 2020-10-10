@@ -24,6 +24,7 @@
     <pagination
       style="float: right;"
       [disabled]="isLoading"
+      [maxSize]="5"
       [totalItems]="pagination.totalItems"
       [(ngModel)]="pagination.currentPage"
       [itemsPerPage]="pagination.itemsPerPage"
