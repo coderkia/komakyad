@@ -128,7 +128,11 @@ namespace Kia.KomakYad.Api.Controllers
 
             if (user == null)
             {
-                return Unauthorized("Username or Password is wrong.");
+                user = await _userManager.FindByEmailAsync(userForLogin.Username);
+                if (user == null)
+                {
+                    return Unauthorized("Username or Password is wrong.");
+                }
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLogin.Password, true);
