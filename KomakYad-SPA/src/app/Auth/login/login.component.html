@@ -69,7 +69,7 @@
         <div class="text-center">
           <app-loading-spinner *ngIf="loading"></app-loading-spinner>
         </div>
-        <div class="text-center" (click)="showForgotPass = true">
+        <div class="text-center" (click)="showForgotPass = true" *ngIf="!loading">
           <button class="btn btn-link">Forgot Password?</button>
         </div>
       </form>
