@@ -22,6 +22,9 @@
       ></pagination>
     </div>
   </div>
+  <div class="text-center">
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  </div>
   <div class="row">
     <div
       class="col col-lg-4 col-md-6 col-12 mb-1"
@@ -36,9 +39,6 @@
       >
       </app-read-collection-item>
     </div>
-  </div>
-  <div class="text-center">
-    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
   </div>
   <app-error *ngIf="failedToLoadData"></app-error>
 </div>
