@@ -60,13 +60,14 @@ import { EmailConfirmationComponent } from './Auth/email-confirmation/email-conf
 import { MoveCardsComponent } from './Dashboard/move-cards/move-cards.component';
 import { ForgotPasswordComponent } from './Auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './Auth/reset-password/reset-password.component';
+import { PoliciesComponent } from './policies/policies.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
 }
 
 @NgModule({
-   declarations: [
+   declarations: [	
       AppComponent,
       LoginComponent,
       DashboardComponent,
@@ -111,6 +112,7 @@ export function tokenGetter() {
       MoveCardsComponent,
       ForgotPasswordComponent,
       ResetPasswordComponent,
+      PoliciesComponent
    ],
    imports: [
       BrowserModule,
