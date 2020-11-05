@@ -32,7 +32,8 @@ export class DashboardComponent implements OnInit {
 
   getFollowedCollections(currentPage: number) {
     this.loading = true;
-    this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, this.pagination.itemsPerPage, this.showDeletedItems)
+    this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, this.pagination.itemsPerPage,
+       this.showDeletedItems)
       .subscribe(response => {
         this.followedCollections = response.result;
         this.pagination = response.pagination;

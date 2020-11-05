@@ -23,7 +23,7 @@ export class CollectionsComponent implements OnInit {
 
   getFollowedCollections(currentPage: number) {
     this.failedToLoadData = false;
-    this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, 50)
+    this.readService.getAllFollowedCollections(this.authService.currentUser.id, currentPage, 50, true)
       .subscribe(response => {
         if (response.pagination.totalPages > currentPage) {
           currentPage++;
