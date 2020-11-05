@@ -6,7 +6,7 @@
         public virtual string OrderBy { get; set; }
         public virtual string OrderByDesc { get; set; }
 
-        protected int _pageSize = 10;
+        protected int _pageSize = 12;
         private int _pageNumber = 1;
 
         public virtual int PageNumber { get => _pageNumber; set => _pageNumber = value > 0 ? value : 1; }
