@@ -4,15 +4,35 @@
     <a href="/collections/create"> create your own collections</a> or
     <a href="/collections">follow existing ones</a>.
   </div>
-
+  <div class="row">
+    <div class="col-md-8 mt-3">
+      <button class="btn btn-primary" (click)="toggleDeletedItems()">
+        {{showDeletedItems? 'Hide deleted items':'Show deleted items'}}
+      </button>
+    </div>
+    <div class="col-md-4 mt-3">
+      <pagination
+        style="float: right"
+        [disabled]="loading"
+        [maxSize]="5"
+        [totalItems]="pagination.totalItems"
+        [(ngModel)]="pagination.currentPage"
+        [itemsPerPage]="pagination.itemsPerPage"
+        (pageChanged)="pageChanged($event)"
+      ></pagination>
+    </div>
+  </div>
   <div class="row">
     <div
       class="col col-lg-4 col-md-6 col-12 mb-1"
-      *ngFor="let item of followedCollections"
+      *ngFor="let item of followedCollections; let i = index"
     >
       <app-read-collection-item
+        *ngIf="showDeletedItems || !item.deleted"
         [readCollection]="item"
         (read)="showDetails($event)"
+        (remove)="remove(item)"
+        (restoreDeleted)="restoreDeletedItem(item)"
       >
       </app-read-collection-item>
     </div>

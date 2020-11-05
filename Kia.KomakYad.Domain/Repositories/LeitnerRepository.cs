@@ -217,7 +217,7 @@ namespace Kia.KomakYad.Domain.Repositories
         public async Task<PagedList<ReadCollection>> GetReadCollections(ReadCollectionParams filters)
         {
             var query = _context.ReadCollections.AsQueryable();
-            if (!filters.IncludingDeleted)
+            if (!filters.IncludeDeleted)
             {
                 query = query.Where(c => c.Deleted != true);
             }

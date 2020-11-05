@@ -3,6 +3,6 @@
     public class ReadCollectionParams: SearchBaseParams
     {
         public int? OwnerId { get; set; }
-        public bool IncludingDeleted { get; set; }
+        public bool IncludeDeleted { get; set; }
     }
 }

@@ -16,3 +16,6 @@
   .card-body {
     height: 338px;;
   }
+  .card-deleted {
+    background-color:#ffb3b3;
+  }

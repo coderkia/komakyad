@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card {{ readCollection.deleted ? 'card-deleted' : '' }}">
   <div class="card-body">
     <h4>{{ readCollection.collection.title }}</h4>
     <p *ngIf="!showMoveCards">{{ readCollection.collection.description }}</p>
@@ -45,7 +45,25 @@
       <button class="btn btn-dark mr-1" (click)="showMoveCards = true">
         Move Cards
       </button>
+      <button
+        class="btn btn-danger mr-1"
+        *ngIf="!readCollection.deleted"
+        (click)="remove.emit()"
+      >
+        Delete
+      </button>
+      <button
+        class="btn btn-secondary mr-1"
+        *ngIf="readCollection.deleted"
+        (click)="restoreDeleted.emit()"
+      >
+        Undelete
+      </button>
     </div>
-    <app-move-cards *ngIf="showMoveCards" (done)="showMoveCards = false" [readCollectionId]="readCollection.id"></app-move-cards>
+    <app-move-cards
+      *ngIf="showMoveCards"
+      (done)="showMoveCards = false"
+      [readCollectionId]="readCollection.id"
+    ></app-move-cards>
   </div>
 </div>

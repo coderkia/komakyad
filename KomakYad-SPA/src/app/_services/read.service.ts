@@ -26,7 +26,7 @@ export class ReadService {
     return this.http.post(this.baseUrl + 'collection(' + collectionId + ')/user(' + userId + ')', body);
   }
 
-  getAllFollowedCollections(userId: number, currentPage: number, itemPerPage: number) {
+  getAllFollowedCollections(userId: number, currentPage: number, itemPerPage: number, includeDeleted: boolean) {
     const paginatedResult: PaginatedResult<ReadCollectionResponse[]> = new PaginatedResult<ReadCollectionResponse[]>();
     let params = new HttpParams();
 
@@ -35,6 +35,9 @@ export class ReadService {
     }
     if (itemPerPage != null) {
       params = params.append('pageSize', itemPerPage.toString());
+    }
+    if (includeDeleted != null) {
+      params = params.append('includeDeleted', includeDeleted.toString());
     }
 
     return this.http.get<ReadCollectionResponse[]>(this.baseUrl + 'All', { observe: 'response', params })
@@ -82,5 +85,15 @@ export class ReadService {
   saveJsonData(readCardId: number, userId: number, readCardJsonData: ReadCardJsonData) {
     const url = environment.apiUrl + 'read/card/' + readCardId + '/user/' + userId + '/saveAdditionalData';
     return this.http.patch(url, readCardJsonData);
+  }
+
+  remove(readCollectionId: number) {
+    const url = this.baseUrl + 'remove(' + readCollectionId + ')';
+    return this.http.patch(url, {});
+  }
+
+  restore(readCollectionId: number) {
+    const url = this.baseUrl + 'restore(' + readCollectionId + ')';
+    return this.http.patch(url, {});
   }
 }

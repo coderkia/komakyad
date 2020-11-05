@@ -10,6 +10,8 @@ import { ReadCollectionResponse } from 'src/app/_models/readCollectionResponse';
 export class ReadCollectionItemComponent implements OnInit {
   @Input() readCollection: ReadCollectionResponse;
   @Output() read = new EventEmitter();
+  @Output() remove = new EventEmitter();
+  @Output() restoreDeleted = new EventEmitter();
   showMoveCards = false;
   constructor() { }
 
@@ -28,4 +30,5 @@ export class ReadCollectionItemComponent implements OnInit {
       return 'Loading...';
     }
   }
+
 }
