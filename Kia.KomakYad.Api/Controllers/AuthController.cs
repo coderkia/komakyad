@@ -186,7 +186,11 @@ namespace Kia.KomakYad.Api.Controllers
                 if (!user.EmailConfirmed)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    await _userManager.ConfirmEmailAsync(user, token);
+                    await ConfirmEmail(new EmailConfirmModel
+                    {
+                        Token = token,
+                        Username = user.UserName
+                    });
                 }
                 return NoContent();
             }
