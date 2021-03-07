@@ -1,5 +1,6 @@
 .card-text{
-    height: 100px;
+    height: 150px;
+    overflow: auto;
 }
 .card{
     margin-bottom: 15px;

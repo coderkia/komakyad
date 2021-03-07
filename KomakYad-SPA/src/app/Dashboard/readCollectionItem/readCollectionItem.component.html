@@ -1,18 +1,14 @@
 <div class="card {{ readCollection.deleted ? 'card-deleted' : '' }}">
   <div class="card-body">
-    <h4>{{ readCollection.collection.title }}</h4>
-    <p *ngIf="!showMoveCards">{{ readCollection.collection.description }}</p>
-    <div
-      *ngIf="!readCollection.overview"
-      class="text-center"
-      style="height: 53px"
-    >
+    <div class="collection-details">
+      <h5>{{ readCollection.collection.title }}</h5>
+      <hr>
+      <p *ngIf="!showMoveCards">{{ readCollection.collection.description }}</p>
+    </div>
+    <div *ngIf="!readCollection.overview" class="text-center" style="height: 53px">
       <app-loading-spinner></app-loading-spinner>
     </div>
-    <div
-      class="row read-details"
-      *ngIf="readCollection.overview && !showMoveCards"
-    >
+    <div class="row read-details" *ngIf="readCollection.overview && !showMoveCards">
       <div class="col-3">
         <div class="alert alert-secondary">
           <h6>Backlog</h6>
@@ -45,25 +41,14 @@
       <button class="btn btn-dark mr-1" (click)="showMoveCards = true">
         Move Cards
       </button>
-      <button
-        class="btn btn-danger mr-1"
-        *ngIf="!readCollection.deleted"
-        (click)="remove.emit()"
-      >
+      <button class="btn btn-danger mr-1" *ngIf="!readCollection.deleted" (click)="remove.emit()">
         Delete
       </button>
-      <button
-        class="btn btn-secondary mr-1"
-        *ngIf="readCollection.deleted"
-        (click)="restoreDeleted.emit()"
-      >
+      <button class="btn btn-secondary mr-1" *ngIf="readCollection.deleted" (click)="restoreDeleted.emit()">
         Undelete
       </button>
     </div>
-    <app-move-cards
-      *ngIf="showMoveCards"
-      (done)="showMoveCards = false"
-      [readCollectionId]="readCollection.id"
-    ></app-move-cards>
+    <app-move-cards *ngIf="showMoveCards" (done)="showMoveCards = false" [readCollectionId]="readCollection.id">
+    </app-move-cards>
   </div>
 </div>
