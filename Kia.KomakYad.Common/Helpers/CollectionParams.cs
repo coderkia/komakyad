@@ -2,6 +2,10 @@
 {
     public class CollectionParams : SearchBaseParams
     {
+        public CollectionParams()
+        {
+            OrderByDesc = "Id";
+        }
         public override int PageSize
         {
             get => base.PageSize;
