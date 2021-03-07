@@ -16,6 +16,7 @@ export class CollectionCreateComponent implements OnInit {
   collection: CollectionResponse;
   collectionForm: FormGroup;
   isPrivate: boolean;
+  isSaving: boolean;
 
   constructor(private alertify: AlertifyService, private formbuilder: FormBuilder,
     private router: Router, private collectionService: CollectionService, private authService: AuthService) { }
@@ -32,6 +33,10 @@ export class CollectionCreateComponent implements OnInit {
   }
 
   save() {
+    if(this.isSaving){
+      return;
+    }
+    this.isSaving = true;
     const collectionRequest: CollectionRequest = {
       authorId: this.authService.currentUser.id,
       description: this.collectionForm.value.description,
