@@ -46,7 +46,7 @@ export class CardCreateComponent implements OnInit {
       question: this.cardForm.value.question,
       example: this.cardForm.value.example,
       collectionId: this.collection.id,
-      jsonDate: this.textStyles
+      jsonData: { textStyles: this.textStyles }
     };
     this.cardService.create(card).subscribe(response => {
       this.alertify.success('Card created successfuly.');

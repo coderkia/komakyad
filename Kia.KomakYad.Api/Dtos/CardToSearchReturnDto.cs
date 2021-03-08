@@ -1,4 +1,6 @@
 ﻿using System;
+using Kia.KomakYad.Api.Models;
+
 namespace Kia.KomakYad.Api.Dtos
 {
     public class CardToSearchReturnDto
@@ -13,6 +15,6 @@ namespace Kia.KomakYad.Api.Dtos
 
         public string Example { get; set; }
 
-        public string JsonData { get; set; }
+        public ReadCardJsonData JsonData { get; set; }
     }
 }
