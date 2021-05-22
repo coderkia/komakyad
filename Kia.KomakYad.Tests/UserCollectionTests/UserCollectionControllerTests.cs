@@ -54,7 +54,6 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
             var result = sut.AddUserCollection(collectionId, ownerId + 1, userCollectionToCreate).GetAwaiter().GetResult();
 
             Assert.AreEqual(typeof(UnauthorizedResult), result.GetType());
-            Assert.IsTrue(false);
         }
 
         [Test]
