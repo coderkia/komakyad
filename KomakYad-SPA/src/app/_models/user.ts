@@ -8,4 +8,5 @@ export interface User {
     locked: boolean;
     cardLimit?: number;
     collectionLimit?: number;
+    emailConfirmed?: boolean;
 }

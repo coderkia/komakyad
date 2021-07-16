@@ -4,7 +4,7 @@
     <p><label>Username:</label> {{ user.username }}</p>
     <p><label>First Name:</label> {{ user.firstName }}</p>
     <p><label>Last Name:</label> {{ user.lastName }}</p>
-    <p><label>Email:</label> {{ user.email }}</p>
+    <p><label>Email:</label> {{ user.email }} ({{ user.emailConfirmed ? 'Confirmed':'Not Confirmed' }})</p>
     <p>
       <label>Member since:</label> {{ user.createdOn | date: "mediumDate" }}
     </p>
