@@ -1,7 +1,10 @@
 <div class="card">
   <div class="card-body" style="height: 250px;">
     <p>{{ (user.firstName || "") + ' ' + (user.lastName || "") }}</p>
-    <p>{{ user.email }}</p>
+    <p>{{ user.email }}({{ user.emailConfirmed ? 'Confirmed':'Not Confirmed' }})</p>
     <p>@{{ user.username }}</p>
+    <p>
+      <label>Member since</label> {{ user.createdOn | date: "mediumDate" }}
+    </p>
   </div>
 </div>
