@@ -14,6 +14,7 @@ import { LoginComponent } from './Auth/login/login.component';
 import { ConfirmEmailComponent } from './Auth/confirm-email/confirm-email.component';
 import { EmailConfirmationComponent } from './Auth/email-confirmation/email-confirmation.component';
 import { ResetPasswordComponent } from './Auth/reset-password/reset-password.component';
+import { PoliciesComponent } from './policies/policies.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ export const appRoutes: Routes = [
     { path: 'confirmEmail', component: ConfirmEmailComponent },
     { path: 'emailConfirmation', component: EmailConfirmationComponent },
     { path: 'resetPass', component: ResetPasswordComponent },
+    { path: 'policies', component: PoliciesComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',

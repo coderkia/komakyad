@@ -13,24 +13,27 @@ export class ConfirmEmailComponent implements OnInit {
 
   sent: boolean;
   email: string;
-  loading: boolean;
+  errorMessage: string;
+  loading = true;
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
   ngOnInit() {
     if (this.authService.loggedIn() === false) {
       this.router.navigate(['/home']);
+      return;
     }
     this.email = this.authService.currentUser.email;
+    this.sendConfirmationEmail();
   }
 
   sendConfirmationEmail() {
-    this.loading = true;
     this.authService.sendConfirmationEmail(this.email).subscribe(response => {
-      this.loading = false;
       this.sent = true;
+      this.loading = false;
     }, error => {
       this.loading = false;
-      this.alertify.error(error);
+      this.sent = false;
+      this.errorMessage = error;
     });
   }
 }

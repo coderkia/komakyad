@@ -1,16 +1,15 @@
 <div class="container">
-  <div class="text-center" *ngIf="!sent && !loading">
-    <p class="alert alert-info">
-      You need to confirm your email address({{ email }}).
-    </p>
-    <button class="btn btn-primary mt-2" (click)="sendConfirmationEmail()">
-      Send me a confirmation email
-    </button>
-  </div>
-  <div *ngIf="sent && !loading">
+  <div *ngIf="!loading && sent">
     <p class="text-center alert alert-success">
-      A confirmation email is sent to your email address, please check Spam/Junk
+      A confirmation email is sent to your email address, please check <strong>Spam/Junk</strong>
       if you didn't get an email from us.
+    </p>
+  </div>
+  <div *ngIf="!loading && !sent">
+    <p class=" alert alert-danger">
+      The confirmation email was not sent, Due to the following error(s):
+      <br/>
+      {{this.errorMessage}}
     </p>
   </div>
   <div class="text-center" *ngIf="loading">

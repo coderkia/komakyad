@@ -2,127 +2,88 @@
   <h2 class="text-center text-primary">Sign Up</h2>
   <hr />
   <div class="form-group">
-    <input
-      type="email"
-      [ngClass]="{
+    <input type="email" [ngClass]="{
         'is-invalid':
           registerForm.get('email').errors && registerForm.get('email').touched
-      }"
-      class="form-control"
-      formControlName="email"
-      placeholder="Email"
-    />
+      }" class="form-control" formControlName="email" placeholder="Email" />
     <div class="invalid-feedback">The Email field is required.</div>
   </div>
 
   <div class="form-group">
-    <input
-      type="text"
-      [ngClass]="{
+    <input type="text" [ngClass]="{
         'is-invalid':
           registerForm.get('username').errors &&
           registerForm.get('username').touched
-      }"
-      class="form-control"
-      formControlName="username"
-      placeholder="Username"
-    />
+      }" class="form-control" formControlName="username" placeholder="Username" />
     <div class="invalid-feedback">The Username field is required.</div>
   </div>
 
   <div class="form-group">
-    <input
-      type="password"
-      [ngClass]="{
+    <input type="password" [ngClass]="{
         'is-invalid':
           registerForm.get('password').errors &&
           registerForm.get('password').touched
-      }"
-      class="form-control"
-      formControlName="password"
-      placeholder="Password"
-    />
-    <div
-      class="invalid-feedback"
-      *ngIf="
+      }" class="form-control" formControlName="password" placeholder="Password" />
+    <div class="invalid-feedback" *ngIf="
         registerForm.get('password').hasError('required') &&
         registerForm.get('password').touched
-      "
-    >
+      ">
       The Password field is required.
     </div>
-    <div
-      class="invalid-feedback"
-      *ngIf="
+    <div class="invalid-feedback" *ngIf="
         registerForm.get('password').hasError('minlength') &&
         registerForm.get('password').touched
-      "
-    >
+      ">
       Password must be at least 6 characters
     </div>
   </div>
 
   <div class="form-group">
-    <input
-      type="password"
-      [ngClass]="{
+    <input type="password" [ngClass]="{
         'is-invalid':
           (registerForm.get('confirmPassword').errors &&
             registerForm.get('confirmPassword').touched) ||
           (registerForm.get('confirmPassword').touched &&
             registerForm.hasError('mismatch'))
-      }"
-      class="form-control"
-      formControlName="confirmPassword"
-      placeholder="Confirm Password"
-    />
+      }" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password" />
 
-    <div
-      class="invalid-feedback"
-      *ngIf="
+    <div class="invalid-feedback" *ngIf="
         registerForm.get('confirmPassword').hasError('required') &&
         registerForm.get('confirmPassword').touched
-      "
-    >
+      ">
       Password is required
     </div>
-    <div
-      class="invalid-feedback"
-      *ngIf="
+    <div class="invalid-feedback" *ngIf="
         !registerForm.get('confirmPassword').hasError('required') &&
         registerForm.hasError('mismatch') &&
         registerForm.get('confirmPassword').touched
-      "
-    >
+      ">
       Password must match
     </div>
   </div>
 
   <div class="form-group">
-    <input
-      type="text"
-      class="form-control"
-      formControlName="firstName"
-      placeholder="First Name"
-    />
+    <input type="text" class="form-control" formControlName="firstName" placeholder="First Name(Optional)" />
   </div>
 
   <div class="form-group">
-    <input
-      type="text"
-      class="form-control"
-      formControlName="lastName"
-      placeholder="Last Name"
-    />
+    <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name(Optional)" />
+  </div>
+  <div class="form-group">
+    <input type="checkbox" formControlName="agreement" [ngClass]="{
+      'is-invalid':
+        registerForm.get('agreement').errors
+    }">
+    <span for="agreement" class="">Creating an account means you’re okay with our <a href="/policies">Terms of Service
+        and
+        Privacy Policy.</a></span>
+    <div class="invalid-feedback">Please accept our Terms of Service and
+      Privacy Policy.</div>
   </div>
   <app-re-captcha (token)="reCaptchaToken = $event"></app-re-captcha>
 
   <div class="form-group text-center mt-2" *ngIf="!loading">
-    <button
-      class="btn btn-success"
-      [disabled]="!registerForm.valid"
-      type="submit"
-    >
+    <button class="btn btn-success" [disabled]="!registerForm.valid" type="submit">
       Register
     </button>
     <button class="btn btn-default" type="button" (click)="cancel()">
