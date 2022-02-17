@@ -13,5 +13,6 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<IEnumerable<T>> All();
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
         Task SaveChangesAsync();
+        Task<T> Get(int id);
     }
 }

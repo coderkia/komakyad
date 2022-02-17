@@ -48,5 +48,10 @@ namespace Kia.KomakYad.Domain.Repositories
         {
             await context.SaveChangesAsync();
         }
+
+        public async Task<T> Get(int id)
+        {
+            return await context.FindAsync<T>(id);
+        }
     }
 }
