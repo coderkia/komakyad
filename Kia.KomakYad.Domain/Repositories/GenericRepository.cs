@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Domain.Repositories
 {
-    public class GenericRepository<T> : IRepository<T> where T : class
+    public abstract class GenericRepository<T> : IRepository<T> where T : class
     {
         protected DataContext context;
         public GenericRepository(DataContext context)
@@ -16,22 +16,22 @@ namespace Kia.KomakYad.Domain.Repositories
             this.context = context;
         }
 
-        public T Add(T entity)
+        public virtual T Add(T entity)
         {
             return context.Add(entity).Entity;
         }
 
-        public async Task<IEnumerable<T>> All()
+        public virtual async Task<IEnumerable<T>> All()
         {
             return await context.Set<T>().ToListAsync();
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             context.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
             return await context.Set<T>()
                 .AsQueryable()
@@ -39,17 +39,17 @@ namespace Kia.KomakYad.Domain.Repositories
                 .ToListAsync();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             context.Update(entity);
         }
 
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
             await context.SaveChangesAsync();
         }
 
-        public async Task<T> Get(int id)
+        public virtual async Task<T> Get(int id)
         {
             return await context.FindAsync<T>(id);
         }
