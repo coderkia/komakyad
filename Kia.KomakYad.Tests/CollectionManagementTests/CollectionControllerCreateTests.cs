@@ -19,7 +19,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         [Test]
         public void ShouldReturnUnauthorizedIfUserIdIsDifferentFromAuthorIdInCollection()
         {
-            var repo = new Mock<ILeitnerRepository>();
+            var repo = new Mock<ICollectionRespository>();
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
@@ -59,7 +59,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         [Test]
         public void ShouldReturnCreatedAtRoute()
         {
-            var repo = new Mock<ILeitnerRepository>();
+            var repo = new Mock<ICollectionRespository>();
             var mapper = new Mock<IMapper>(); 
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
@@ -87,8 +87,6 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
                     User = claimsPrincipal
                 }
             };
-
-            repo.Setup(t => t.SaveAll()).Returns(Task.FromResult(true));
 
             var collectionToCreateDto = new CollectionCreateDto { Id = collectionId, AuthorId = userId };
             mapper.Setup(m => m.Map<Collection>(collectionToCreateDto)).Returns(new Collection { Id = collectionId, AuthorId = userId });

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Common.Helpers
 {
@@ -29,9 +30,8 @@ namespace Kia.KomakYad.Common.Helpers
 
         public static void AddPagination<T>(this HttpResponse response, PagedList<T> pagedList) where T : class
         {
-            AddPagination(response,pagedList.CurrentPage, pagedList.PageSize, pagedList.TotalCount, pagedList.TotalPages);
+            AddPagination(response, pagedList.CurrentPage, pagedList.PageSize, pagedList.TotalCount, pagedList.TotalPages);
         }
-
 
         public static void AddPagination(this HttpResponse response, int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {

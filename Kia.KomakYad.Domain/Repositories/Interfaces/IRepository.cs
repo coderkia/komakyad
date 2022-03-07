@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -10,8 +10,8 @@ namespace Kia.KomakYad.Domain.Repositories
         T Add(T entity);
         void Update(T entity);
         void Delete(T entity);
-        Task<IEnumerable<T>> All();
-        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
+        IQueryable<T> All();
+        IQueryable<T> Find(Expression<Func<T, bool>> predicate);
         Task SaveChangesAsync();
         Task<T> Get(int id);
     }

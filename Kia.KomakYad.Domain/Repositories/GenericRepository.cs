@@ -21,9 +21,9 @@ namespace Kia.KomakYad.Domain.Repositories
             return context.Add(entity).Entity;
         }
 
-        public virtual async Task<IEnumerable<T>> All()
+        public virtual IQueryable<T> All()
         {
-            return await context.Set<T>().ToListAsync();
+            return context.Set<T>().AsQueryable();
         }
 
         public virtual void Delete(T entity)
@@ -31,12 +31,12 @@ namespace Kia.KomakYad.Domain.Repositories
             context.Remove(entity);
         }
 
-        public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        public virtual IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            return await context.Set<T>()
+            return context.Set<T>()
                 .AsQueryable()
                 .Where(predicate)
-                .ToListAsync();
+                .AsQueryable();
         }
 
         public virtual void Update(T entity)

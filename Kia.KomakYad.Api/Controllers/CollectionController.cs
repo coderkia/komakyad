@@ -7,7 +7,10 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,15 +19,15 @@ namespace Kia.KomakYad.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(Policy = AuthHelper.ReadPolicy)]
-    public class CollectionController : ControllerBase
+    public class CollectionController : KomakYadBaseController
     {
-        private readonly ILeitnerRepository _repo;
+        private readonly ICollectionRespository _repository;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public CollectionController(ILeitnerRepository repo, IMapper mapper, UserManager<User> userManager)
+        public CollectionController(ICollectionRespository repo, IMapper mapper, UserManager<User> userManager)
         {
-            _repo = repo;
+            _repository = repo;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -40,9 +43,11 @@ namespace Kia.KomakYad.Api.Controllers
             {
                 return StatusCode(403, "Confirm your eamil first");
             }
+
             if (user.CollectionLimit.HasValue)
             {
-                if (await _repo.GetCollectionsCount(collectionToCreate.AuthorId) > user.CollectionLimit)
+                var usersTotalCollectionCount = await _repository.GetUsersCollectionsCount(user.Id);
+                if (usersTotalCollectionCount > user.CollectionLimit)
                 {
                     return BadRequest($"You cannot add more than {user.CollectionLimit} collections.");
                 }
@@ -50,36 +55,34 @@ namespace Kia.KomakYad.Api.Controllers
 
             var collection = _mapper.Map<Collection>(collectionToCreate);
 
-            _repo.Add(collection);
+            _repository.Add(collection);
 
-            if (await _repo.SaveAll())
-                return CreatedAtRoute("GetCollection", new { collectionId = collection.Id }, collection);
+            await _repository.SaveChangesAsync();
 
-            throw new System.Exception("Creation the collection failed on save");
+            return CreatedAtRoute("GetCollection", new { collectionId = collection.Id }, collection);
         }
 
         [HttpPut("{collectionId}")]
         public async Task<IActionResult> Update(int collectionId, CollectionToUpdateDto collectionToUpdate)
         {
-            var collection = await _repo.GetCollection(collectionId);
+            var collection = await _repository.Get(collectionId);
 
             if (collection.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
             collectionToUpdate.Map(collection);
 
-            _repo.Update(collection);
+            _repository.Update(collection);
 
-            if (await _repo.SaveAll())
-                return NoContent();
+            await _repository.SaveChangesAsync();
 
-            throw new System.Exception($"Updating the collection {collection.Id}  failed on save");
+            return NoContent();
         }
 
         [HttpPatch("{collectionId}/policy/{policy}")]
         public async Task<IActionResult> ChangeAccessPolicy(int collectionId, string policy)
         {
-            var collection = await _repo.GetCollection(collectionId);
+            var collection = await _repository.Get(collectionId);
             if (collection == null)
                 return NotFound();
 
@@ -98,44 +101,53 @@ namespace Kia.KomakYad.Api.Controllers
                     return BadRequest("Unkown Policy");
             }
 
-            if (await _repo.SaveAll())
-                return NoContent();
+            await _repository.SaveChangesAsync();
 
-            throw new System.Exception($"Changing policy of the collection {collection.Id} failed on save");
+            return NoContent();
         }
 
         [HttpGet("{collectionId}", Name = "GetCollection")]
         public async Task<IActionResult> GetCollection(int collectionId)
         {
-            var collection = await _repo.GetCollection(collectionId);
+            var collection = await _repository.Get(collectionId);
             if (collection == null)
             {
                 return BadRequest();
             }
             var collectionToReturn = _mapper.Map<CollectionToReturnDto>(collection);
-            collectionToReturn.CardsCount = await _repo.GetCardsCount(collection.Id);
-            collectionToReturn.FollowersCount = await _repo.GetFollowersCount(collection.Id);
+            collectionToReturn.CardsCount = await _repository.Find(c => c.Id == collectionId).Select(c => c.Cards).CountAsync();
+            collectionToReturn.FollowersCount = await _repository.GetFollowersCount(collection.Id);
             return Ok(collectionToReturn);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCollections([FromQuery] CollectionParams collectionParams)
+        public async Task<IActionResult> GetCollections([FromQuery] CollectionParams filters)
         {
-            collectionParams.IncludePrivateCollections = true;
+            filters.IncludePrivateCollections = true;
             if (!User.IsInRole(AuthHelper.AdminRole))
             {
-                if (collectionParams.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                    collectionParams.IncludePrivateCollections = false;
+                if (filters.AuthorId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                    filters.IncludePrivateCollections = false;
+            }
+            var query = _repository.All();
+
+            if (filters.AuthorId.HasValue)
+            {
+                query = query.Where(c => c.AuthorId == filters.AuthorId);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Title))
+            {
+                query = query.Where(c => c.Title.Contains(filters.Title));
             }
 
-            var collections = await _repo.GetCollections(collectionParams);
+            var collections = await PagedList<Collection>.CreateAsync(query, filters);
 
             var collectionToReturns = _mapper.Map<IEnumerable<CollectionToReturnDto>>(collections);
 
             foreach (var collection in collectionToReturns)
             {
-                collection.CardsCount = await _repo.GetCardsCount(collection.Id);
-                collection.FollowersCount = await _repo.GetFollowersCount(collection.Id);
+                collection.CardsCount = await _repository.GetCollectionsCardsCount(collection.Id);
+                collection.FollowersCount = await _repository.GetFollowersCount(collection.Id);
             }
             Response.AddPagination(collections);
 

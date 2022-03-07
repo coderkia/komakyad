@@ -17,7 +17,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         [Test]
         public void ShouldReturnCollectionWhenCallingGetCollection()
         {
-            var repo = new Mock<ILeitnerRepository>();
+            var repo = new Mock<ICollectionRespository>();
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
@@ -31,7 +31,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             };
             var sut = new CollectionController(repo.Object, mapper.Object, userManager.Object);
 
-            repo.Setup(t => t.GetCollection(collectionId))
+            repo.Setup(t => t.Get(collectionId))
                 .Returns(Task.FromResult(expectedCollection));
 
             mapper.Setup(t => t.Map<CollectionToReturnDto>(expectedCollection)).Returns(new CollectionToReturnDto
@@ -47,7 +47,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         [Test]
         public void ShouldReturnBadRequestWhenCallingGetCollectionIfCollectionIdIsNotExists()
         {
-            var repo = new Mock<ILeitnerRepository>();
+            var repo = new Mock<ICollectionRespository>();
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
@@ -61,7 +61,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             };
             var sut = new CollectionController(repo.Object, mapper.Object, userManager.Object);
 
-            repo.Setup(t => t.GetCollection(collectionId)).Returns(Task.FromResult((Collection)null));
+            repo.Setup(t => t.Get(collectionId)).Returns(Task.FromResult((Collection)null));
 
             mapper.Setup(t => t.Map<CollectionToReturnDto>(expectedCollection)).Returns(new CollectionToReturnDto
             {

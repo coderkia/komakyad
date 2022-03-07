@@ -19,7 +19,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         [Test]
         public void ShouldReturnUnauthorizedIfUserIdIsDifferentFromAuthorIdInCollection()
         {
-            var repo = new Mock<ILeitnerRepository>();
+            var repo = new Mock<ICollectionRespository>();
             var mapper = new Mock<IMapper>(); 
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
@@ -51,7 +51,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             var expectedDescription = "Updated Description";
             var collectionToUpdateDto = new CollectionToUpdateDto { Title = expectedTitle, Description = expectedDescription };
 
-            repo.Setup(t => t.GetCollection(collectionId)).Returns(Task.FromResult(new Collection { AuthorId = userId + 1 }));
+            repo.Setup(t => t.Get(collectionId)).Returns(Task.FromResult(new Collection { AuthorId = userId + 1 }));
 
             var result = sut.Update(collectionId, collectionToUpdateDto).GetAwaiter().GetResult();
 
@@ -61,7 +61,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
         [Test]
         public void ShouldReturnCreatedAtRoute()
         {
-            var repo = new Mock<ILeitnerRepository>();
+            var repo = new Mock<ICollectionRespository>();
             var mapper = new Mock<IMapper>();
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
             {
@@ -94,8 +94,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
             var collectionToUpdateDto = new CollectionToUpdateDto { Title = expectedTitle, Description = expectedDescription };
             var inDbCollection = new Collection { AuthorId = userId, Id = collectionId };
 
-            repo.Setup(t => t.GetCollection(collectionId)).Returns(Task.FromResult(inDbCollection));
-            repo.Setup(t => t.SaveAll()).Returns(Task.FromResult(true));
+            repo.Setup(t => t.Get(collectionId)).Returns(Task.FromResult(inDbCollection));
 
             var result = sut.Update(collectionId, collectionToUpdateDto).GetAwaiter().GetResult();
 
