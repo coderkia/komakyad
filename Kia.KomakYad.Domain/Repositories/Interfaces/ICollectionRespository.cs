@@ -8,5 +8,6 @@ namespace Kia.KomakYad.Domain.Repositories
         Task<int> GetUsersCollectionsCount(int userId);
         Task<int> GetCollectionsCardsCount(int collectionId);
         Task<int> GetFollowersCount(int collectionId);
+        Task<int> GetCardsCount(int id);
     }
 }

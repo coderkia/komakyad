@@ -12,6 +12,9 @@ namespace Kia.KomakYad.Domain.Repositories
         {
         }
 
+        public async Task<int> GetCardsCount(int collectionId) =>
+            await Find(c => c.Id == collectionId).Select(c => c.Cards).CountAsync();
+
         public async Task<int> GetCollectionsCardsCount(int collectionId) =>
             await Find(c => c.Id == collectionId).Select(c => c.Cards).CountAsync();
 

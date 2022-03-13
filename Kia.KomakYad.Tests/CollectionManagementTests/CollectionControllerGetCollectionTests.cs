@@ -9,6 +9,9 @@ using Moq;
 using Xunit;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System;
+using System.Linq;
 
 namespace Kia.KomakYad.Tests.CollectionManagementTests
 {
@@ -24,6 +27,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
                 new User { Id = 10, EmailConfirmed = true, UserName = "user 10"},
                 new User { Id = 2, EmailConfirmed = true, UserName = "user 2" }
             });
+
             var collectionId = 12;
             var expectedCollection = new Collection
             {
@@ -33,6 +37,10 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             repo.Setup(t => t.Get(collectionId))
                 .Returns(Task.FromResult(expectedCollection));
+
+            repo.Setup(t => t.GetCardsCount(It.IsAny<int>())).Returns(Task.FromResult(10));
+
+            repo.Setup(t => t.GetFollowersCount(It.IsAny<int>())).Returns(Task.FromResult(1));
 
             mapper.Setup(t => t.Map<CollectionToReturnDto>(expectedCollection)).Returns(new CollectionToReturnDto
             {

@@ -7,19 +7,19 @@ using Moq;
 using Xunit;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Kia.KomakYad.Tests.RepoTests
 {
     public class CardRepoTests
     {
-        private int _dbCount = 0;
         private ILeitnerRepository sut;
         //private DbContextOptions<DataContext> _options;
 
         public CardRepoTests()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: "CardRepoTests" + ++_dbCount)
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
             var dbContext = new DataContext(options);
 
@@ -138,7 +138,7 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.True(actual.First().Id > actual.Last().Id);
+            Assert.True(actual.First().Id < actual.Last().Id);
         }
 
         [Fact]

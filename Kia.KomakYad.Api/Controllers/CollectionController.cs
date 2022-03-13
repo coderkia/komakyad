@@ -115,7 +115,7 @@ namespace Kia.KomakYad.Api.Controllers
                 return BadRequest();
             }
             var collectionToReturn = _mapper.Map<CollectionToReturnDto>(collection);
-            collectionToReturn.CardsCount = await _repository.Find(c => c.Id == collectionId).Select(c => c.Cards).CountAsync();
+            collectionToReturn.CardsCount = await _repository.GetCardsCount(collection.Id);
             collectionToReturn.FollowersCount = await _repository.GetFollowersCount(collection.Id);
             return Ok(collectionToReturn);
         }
