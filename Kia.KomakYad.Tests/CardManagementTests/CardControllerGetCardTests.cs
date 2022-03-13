@@ -3,18 +3,17 @@ using Kia.KomakYad.Api.Controllers;
 using Kia.KomakYad.Api.Dtos;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Kia.KomakYad.Tests.CardManagementTests
 {
-    class CardControllerGetCardTests
+    public class CardControllerGetCardTests
     {
-        [Test]
+        [Fact]
         public void ShouldReturnCardWhenCallingGetCard()
         {
             var repo = new Mock<ILeitnerRepository>();
@@ -41,10 +40,10 @@ namespace Kia.KomakYad.Tests.CardManagementTests
 
             var result = sut.GetCard(cardId).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(OkObjectResult), result.GetType());
+            Assert.Equal(typeof(OkObjectResult), result.GetType());
         }
 
-        [Test]
+        [Fact]
         public void ShouldReturnBadRequestWhenCallingGetCardIfCardIdIsNotExists()
         {
             var repo = new Mock<ILeitnerRepository>();
@@ -65,7 +64,7 @@ namespace Kia.KomakYad.Tests.CardManagementTests
             
             var result = sut.GetCard(cardId).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(BadRequestResult), result.GetType());
+            Assert.Equal(typeof(BadRequestResult), result.GetType());
         }
     }
 }

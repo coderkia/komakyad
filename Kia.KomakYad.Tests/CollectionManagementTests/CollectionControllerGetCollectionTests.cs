@@ -6,15 +6,15 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Tests.CollectionManagementTests
 {
-    class CollectionControllerGetCollectionTests
+    public class CollectionControllerGetCollectionTests
     {
-        [Test]
+        [Fact]
         public void ShouldReturnCollectionWhenCallingGetCollection()
         {
             var repo = new Mock<ICollectionRespository>();
@@ -41,10 +41,10 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             var result = sut.GetCollection(collectionId).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(OkObjectResult), result.GetType());
+            Assert.Equal(typeof(OkObjectResult), result.GetType());
         }
 
-        [Test]
+        [Fact]
         public void ShouldReturnBadRequestWhenCallingGetCollectionIfCollectionIdIsNotExists()
         {
             var repo = new Mock<ICollectionRespository>();
@@ -70,7 +70,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             var result = sut.GetCollection(collectionId).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(BadRequestResult), result.GetType());
+            Assert.Equal(typeof(BadRequestResult), result.GetType());
         }
     }
 }

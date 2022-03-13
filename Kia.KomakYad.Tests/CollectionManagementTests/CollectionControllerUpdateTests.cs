@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Tests.CollectionManagementTests
 {
-    class CollectionControllerUpdateTests
+    public class CollectionControllerUpdateTests
     {
-        [Test]
+        [Fact]
         public void ShouldReturnUnauthorizedIfUserIdIsDifferentFromAuthorIdInCollection()
         {
             var repo = new Mock<ICollectionRespository>();
@@ -55,10 +55,10 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             var result = sut.Update(collectionId, collectionToUpdateDto).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(UnauthorizedResult), result.GetType());
+            Assert.Equal(typeof(UnauthorizedResult), result.GetType());
         }
 
-        [Test]
+        [Fact]
         public void ShouldReturnCreatedAtRoute()
         {
             var repo = new Mock<ICollectionRespository>();
@@ -98,9 +98,9 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             var result = sut.Update(collectionId, collectionToUpdateDto).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(NoContentResult), result.GetType());
-            Assert.AreEqual(expectedTitle, inDbCollection.Title);
-            Assert.AreEqual(expectedDescription, inDbCollection.Description);
+            Assert.Equal(typeof(NoContentResult), result.GetType());
+            Assert.Equal(expectedTitle, inDbCollection.Title);
+            Assert.Equal(expectedDescription, inDbCollection.Description);
         }
     }
 }

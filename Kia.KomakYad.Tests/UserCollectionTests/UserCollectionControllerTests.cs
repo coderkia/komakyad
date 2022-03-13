@@ -6,7 +6,7 @@ using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -16,7 +16,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
 {
     public class UserCollectionControllerTests
     {
-        [Test]
+        [Fact]
         public void ShouldReturnUnauthorizedIfOwnerIdIsDifferentFromUserId()
         {
             var repo = new Mock<ILeitnerRepository>();
@@ -53,10 +53,10 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
 
             var result = sut.AddUserCollection(collectionId, ownerId + 1, userCollectionToCreate).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(UnauthorizedResult), result.GetType());
+            Assert.Equal(typeof(UnauthorizedResult), result.GetType());
         }
 
-        [Test]
+        [Fact]
         public void ShouldReturnBadRequestIfItAlreadyExists()
         {
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
@@ -94,11 +94,11 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
 
             var result = sut.AddUserCollection(collectionId, ownerId, userCollectionToCreate).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(BadRequestObjectResult), result.GetType());
+            Assert.Equal(typeof(BadRequestObjectResult), result.GetType());
         }
 
 
-        [Test]
+        [Fact]
         public void ShouldAddOwnerIdToAllReadCardsEntities()
         {
             var userManager = UserManagerMock.MockUserManager<User>(new List<User>
@@ -165,7 +165,7 @@ namespace Kia.KomakYad.Tests.UserCollectionTests
 
             var result = sut.AddUserCollection(collectionId, ownerId, userCollectionToCreate).GetAwaiter().GetResult();
 
-            Assert.AreEqual(readCards.Count, readCards.Count(c => c.OwnerId == ownerId && c.ReadCollectionId == readCollectionId));
+            Assert.Equal(readCards.Count, readCards.Count(c => c.OwnerId == ownerId && c.ReadCollectionId == readCollectionId));
         }
     }
 }

@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Kia.KomakYad.Tests.CollectionManagementTests
 {
-    class CollectionControllerCreateTests
+    public class CollectionControllerCreateTests
     {
-        [Test]
+        [Fact]
         public void ShouldReturnUnauthorizedIfUserIdIsDifferentFromAuthorIdInCollection()
         {
             var repo = new Mock<ICollectionRespository>();
@@ -53,10 +53,10 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             var result = sut.Create(collectionToCreateDto).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(UnauthorizedResult), result.GetType());
+            Assert.Equal(typeof(UnauthorizedResult), result.GetType());
         }
 
-        [Test]
+        [Fact]
         public void ShouldReturnCreatedAtRoute()
         {
             var repo = new Mock<ICollectionRespository>();
@@ -93,7 +93,7 @@ namespace Kia.KomakYad.Tests.CollectionManagementTests
 
             var result = sut.Create(collectionToCreateDto).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(CreatedAtRouteResult), result.GetType());
+            Assert.Equal(typeof(CreatedAtRouteResult), result.GetType());
         }
     }
 }

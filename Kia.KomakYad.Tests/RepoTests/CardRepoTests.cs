@@ -4,7 +4,7 @@ using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,8 +15,8 @@ namespace Kia.KomakYad.Tests.RepoTests
         private int _dbCount = 0;
         private ILeitnerRepository sut;
         //private DbContextOptions<DataContext> _options;
-        [SetUp]
-        public void Setup()
+
+        public CardRepoTests()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(databaseName: "CardRepoTests" + ++_dbCount)
@@ -73,7 +73,7 @@ namespace Kia.KomakYad.Tests.RepoTests
             sut = new LeitnerRepository(dbContext);
         }
 
-        [Test]
+        [Fact]
         public void GetCards_FilterCardsByCollectionId()
         {
             var cardParams = new CardParams
@@ -83,10 +83,10 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.IsTrue(actual.Any(c => c.CollectionId == cardParams.CollectionId));
+            Assert.Contains(actual, c => c.CollectionId == cardParams.CollectionId);
         }
 
-        [Test]
+        [Fact]
         public void GetCards_FilterCardsByAnswer()
         {
             var cardParams = new CardParams
@@ -97,10 +97,10 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.IsTrue(actual.Any(c => c.Answer.Contains(cardParams.Answer)));
+            Assert.Contains(actual, c => c.Answer.Contains(cardParams.Answer));
         }
 
-        [Test]
+        [Fact]
         public void GetCards_FilterCardsByQuestion()
         {
             var cardParams = new CardParams
@@ -111,10 +111,10 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.IsTrue(actual.Any(c => c.Question.Contains(cardParams.Question)));
+            Assert.Contains(actual, c => c.Question.Contains(cardParams.Question));
         }
 
-        [Test]
+        [Fact]
         public void GetCards_FilterCardsByExample()
         {
             var cardParams = new CardParams
@@ -125,9 +125,9 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.IsTrue(actual.Any(c => c.Example.Contains(cardParams.Example)));
+            Assert.Contains(actual, c => c.Example.Contains(cardParams.Example));
         }
-        [Test]
+        [Fact]
         public void GetCards_OrderByIdIsWorking()
         {
             var cardParams = new CardParams
@@ -138,10 +138,10 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.Less(actual.First().Id, actual.Last().Id);
+            Assert.True(actual.First().Id > actual.Last().Id);
         }
 
-        [Test]
+        [Fact]
         public void GetCards_FilterCardsConditionsIsAnd()
         {
             var cardParams = new CardParams
@@ -152,7 +152,7 @@ namespace Kia.KomakYad.Tests.RepoTests
 
             var actual = sut.GetCards(cardParams).GetAwaiter().GetResult();
 
-            Assert.IsFalse(actual.Any());
+            Assert.False(actual.Any());
         }
     }
 }

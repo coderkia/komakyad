@@ -3,20 +3,19 @@ using Kia.KomakYad.Api.Controllers;
 using Kia.KomakYad.DataAccess.Models;
 using Kia.KomakYad.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Kia.KomakYad.Tests.CardManagementTests
 {
-    class CardControllerCreateTests
+    public class CardControllerCreateTests
     {
 
-        [Test]
+        [Fact]
         public void ShouldReturnUnauthorizedIfUserIdIsDifferentFromUserInCollection()
         {
             var repo = new Mock<ILeitnerRepository>();
@@ -53,11 +52,10 @@ namespace Kia.KomakYad.Tests.CardManagementTests
 
             var result = sut.CreateCard(new Api.Dtos.CardCreateDto { CollectionId = collectionId }).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(UnauthorizedResult), result.GetType());
+            Assert.Equal(typeof(UnauthorizedResult), result.GetType());
         }
 
-
-        [Test]
+        [Fact]
         public void ShouldReturnCardDetailsAfterSuccessfullySaved()
         {
             var repo = new Mock<ILeitnerRepository>();
@@ -100,7 +98,7 @@ namespace Kia.KomakYad.Tests.CardManagementTests
 
             var result = sut.CreateCard(cardDto).GetAwaiter().GetResult();
 
-            Assert.AreEqual(typeof(CreatedAtRouteResult), result.GetType());
+            Assert.Equal(typeof(CreatedAtRouteResult), result.GetType());
         }
     }
 }
