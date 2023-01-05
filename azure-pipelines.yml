@@ -22,7 +22,7 @@ steps:
     projects: '**/Kia.KomakYad.Api.csproj'
 
 - task: DotNetCoreCLI@2
-    displayName: Test
+  displayName: Test
   inputs:
     command: 'test'
     projects: '**/*.Tests.csproj'
