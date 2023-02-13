@@ -69,12 +69,12 @@ namespace Kia.KomakYad.Api.Controllers
             var cards = await _repo.GetCards(collectionId);
             var readCards = _mapper.Map<IEnumerable<ReadCard>>(cards);
 
-            readCards.Map(c =>
+            _ = readCards.Map(c =>
             {
                 c.Id = 0;
                 c.OwnerId = userId;
                 c.ReadCollectionId = readCollection.Id;
-            });
+            }).ToList();
 
             _repo.AddRange(readCards);
 
