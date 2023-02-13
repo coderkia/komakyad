@@ -74,7 +74,7 @@ namespace Kia.KomakYad.Api.Controllers
                 c.Id = 0;
                 c.OwnerId = userId;
                 c.ReadCollectionId = readCollection.Id;
-            }).ToList();
+            });
 
             _repo.AddRange(readCards);
 
