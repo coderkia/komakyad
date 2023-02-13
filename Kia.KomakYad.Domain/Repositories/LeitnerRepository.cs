@@ -190,7 +190,7 @@ namespace Kia.KomakYad.Domain.Repositories
                 query = query.Where(c => c.Due < DateTime.Now);
             }
 
-            return query;
+            return query.OrderBy(c => c.CardId);
         }
 
         public async Task<PagedList<ReadCard>> GetReadCards(int readCollectionId, ReadCardParams filters)
