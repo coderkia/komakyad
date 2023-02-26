@@ -13,7 +13,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  version: 1.2.x
+  version: 1.2.X
 
 steps:
 - task: DotNetCoreCLI@2  
