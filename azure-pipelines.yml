@@ -21,8 +21,8 @@ steps:
     rootFolder: '$(Build.SourcesDirectory)'
     filePattern: 'AssemblyInfo.cs'
     assemblyCompany: 'Kia'
-    assemblyVersion: '1.5.1.$(Rev.r)'
-    assemblyFileVersion: '1.5.1.$(Rev.r)'
+    assemblyVersion: '1.5.1.6'
+    assemblyFileVersion: '1.5.1.6'
 - task: DotNetCoreCLI@2  
   displayName: Build
   inputs:
