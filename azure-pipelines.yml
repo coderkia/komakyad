@@ -32,6 +32,8 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
+    majorVersion: 2
+    minorVersion: 1
     command: publish
     publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
