@@ -13,16 +13,19 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  version.major: 2
+  version.minor: 1
+  version.patch: 3
 
-name: '1.5.1.$(Rev:r)'
+name: '$(SourceBranchName)_v$(version.major).$(version.minor).$(version.patch).$(Rev:r)'
 steps:
 - task: Update AssemblyInfo@1
   inputs:
     rootFolder: '$(Build.SourcesDirectory)'
-    filePattern: 'AssemblyInfo.cs'
+    filePattern: '**/AssemblyInfo.cs'
     assemblyCompany: 'Kia'
-    assemblyVersion: '1.5.1.6'
-    assemblyFileVersion: '1.5.1.6'
+    assemblyVersion: '$(version.minor).$(version.patch).$(Rev:r)'
+    assemblyFileVersion: '$(version.minor).$(version.patch).$(Rev:r)'
 - task: DotNetCoreCLI@2  
   displayName: Build
   inputs:
