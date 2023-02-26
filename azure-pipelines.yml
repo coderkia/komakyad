@@ -13,14 +13,12 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  version: 2.4.1.$(Rev:r)
 
+name: '1.5.1.$(Rev:r)'
 steps:
 - task: DotNetCoreCLI@2  
   displayName: Build
   inputs:
-    majorVersion: 3
-    minorVersion: 0
     command: build
     projects: '**/Kia.KomakYad.Api.csproj'
 
@@ -33,8 +31,6 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
-    majorVersion: 2
-    minorVersion: 1
     command: publish
     publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
