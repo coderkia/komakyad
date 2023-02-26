@@ -18,6 +18,8 @@ steps:
 - task: DotNetCoreCLI@2  
   displayName: Build
   inputs:
+    majorVersion: 3
+    minorVersion: 0
     command: build
     projects: '**/Kia.KomakYad.Api.csproj'
 
