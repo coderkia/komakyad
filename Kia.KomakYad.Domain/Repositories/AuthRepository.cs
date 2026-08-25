@@ -39,7 +39,7 @@ namespace Kia.KomakYad.Domain.Repositories
 
         public async Task<List<Role>> GetRoles()
         {
-            return await _context.Roles.ToListAsync();
+            return await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync(_context.Roles);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Kia.KomakYad.Api.Helpers
     {
         public static void AddApplicationError(this HttpResponse response, string message)
         {
-            response.Headers.Add("Application-Error", message);
-            response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
-            response.Headers.Add("Access-COntrol-Allow-Origin", "*");
+            response.Headers["Application-Error"] = message;
+            response.Headers["Access-Control-Expose-Headers"] = "Application-Error";
+            response.Headers["Access-Control-Allow-Origin"] = "*";
         }
     }
 }

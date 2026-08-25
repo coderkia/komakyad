@@ -13,18 +13,18 @@ namespace Kia.KomakYad.Domain.Repositories
         }
 
         public async Task<int> GetCardsCount(int collectionId) =>
-            await Find(c => c.Id == collectionId).Select(c => c.Cards).CountAsync();
+            await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.CountAsync(Find(c => c.Id == collectionId).Select(c => c.Cards));
 
         public async Task<int> GetCollectionsCardsCount(int collectionId) =>
-            await Find(c => c.Id == collectionId).Select(c => c.Cards).CountAsync();
+            await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.CountAsync(Find(c => c.Id == collectionId).Select(c => c.Cards));
 
         public async Task<int> GetFollowersCount(int collectionId)
         {
-            return await context.ReadCollections.CountAsync(c => c.CollectionId == collectionId);
+            return await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.CountAsync(context.ReadCollections, c => c.CollectionId == collectionId);
         }
 
         public async Task<int> GetUsersCollectionsCount(int userId) =>
-            await Find(c => c.AuthorId == userId).CountAsync();
+            await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.CountAsync(Find(c => c.AuthorId == userId));
 
     }
 }
