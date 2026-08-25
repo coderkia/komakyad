@@ -80,7 +80,7 @@ namespace Kia.KomakYad.Api
                 c.UseSqlServer(Configuration.GetConnectionString("DefaultConnections")); }
             );
 
-            services.AddAutoMapper(typeof(LeitnerRepository).Assembly, typeof(Program).Assembly, typeof(User).Assembly);
+            services.AddAutoMapper(config => { }, typeof(LeitnerRepository).Assembly, typeof(Program).Assembly, typeof(User).Assembly);
             services.AddTransient<ILeitnerRepository, LeitnerRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<IAdminRepository, AdminRepository>();

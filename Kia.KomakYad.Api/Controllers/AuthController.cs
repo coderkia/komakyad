@@ -22,7 +22,6 @@ namespace Kia.KomakYad.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -46,6 +45,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegister)
         {
             if (!await _reCaptchaHelper.Validate(userForRegister.ReCaptchaToken))
@@ -72,6 +72,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPost("ConfirmEmail", Name = "ConfirmEmail")]
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(EmailConfirmModel model)
         {
 
@@ -122,6 +123,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
         {
             var user = await _userManager.FindByNameAsync(userForLogin.Username);
@@ -151,6 +153,7 @@ namespace Kia.KomakYad.Api.Controllers
         }
 
         [HttpPost("RestorePass")]
+        [AllowAnonymous]
         public async Task<IActionResult> Restore(RestorePasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -175,6 +178,7 @@ namespace Kia.KomakYad.Api.Controllers
 
 
         [HttpPost("ResetPass")]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPass(ResetPasswordModel resetPasswordModel)
         {
             var user = await _userManager.FindByNameAsync(resetPasswordModel.Username);
